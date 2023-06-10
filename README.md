@@ -11,7 +11,6 @@
 </div>
 
 
-## requirements
+[//]: # (## requirements)
 
-1. xclip: `yay -S xclip`
-2. svgexport: `sudo npm install -g svgexport --unsafe-perm=true`
+[//]: # (1. xclip: `yay -S xclip`)
