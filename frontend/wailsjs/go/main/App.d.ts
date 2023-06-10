@@ -7,7 +7,7 @@ export function Hide():Promise<void>;
 
 export function ListApplications():Promise<Array<any>>;
 
-export function RunApplication(arg1:string):Promise<void>;
+export function RunApplication(arg1:string,arg2:boolean):Promise<void>;
 
 export function Show():Promise<void>;
 

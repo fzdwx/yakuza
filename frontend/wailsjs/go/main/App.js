@@ -14,8 +14,8 @@ export function ListApplications() {
   return window['go']['main']['App']['ListApplications']();
 }
 
-export function RunApplication(arg1) {
-  return window['go']['main']['App']['RunApplication'](arg1);
+export function RunApplication(arg1, arg2) {
+  return window['go']['main']['App']['RunApplication'](arg1, arg2);
 }
 
 export function Show() {

@@ -8,6 +8,7 @@ import (
 	"github.com/robotn/gohook"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 	"golang.org/x/sys/execabs"
+	"strings"
 )
 
 // App struct
@@ -78,8 +79,25 @@ func (a *App) ListApplications() ([]*desktop.Entry, error) {
 	return applications.List()
 }
 
-func (a *App) RunApplication(cmd string) {
-	go execabs.Command("sh", "-c", cmd).Run()
+// RunApplication run app, cmd is the command to run, term is whether to run in terminal
+func (a *App) RunApplication(cmd string, term bool) {
+	go func() {
+		a.Hide()
+		cmd = strings.ReplaceAll(cmd, "%u", "") // TODO 支持从 input 获取参数
+		cmd = strings.ReplaceAll(cmd, "%F", "")
+		if term { // TODO 支持自定义终端
+			if _, err := execabs.LookPath("wezterm"); err == nil {
+				command := execabs.Command("wezterm", "start", "sh", "-c", cmd)
+				command.Run()
+				return
+			}
+			if _, err := execabs.LookPath("wezterm"); err == nil {
+				execabs.Command("konsole", "-e", cmd).Run()
+				return
+			}
+		}
+		execabs.Command("sh", "-c", cmd).Run()
+	}()
 }
 
 func (a *App) domReady(ctx context.Context) {
