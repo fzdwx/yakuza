@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html {
-    @apply bg-black/90 text-stone-200
+    @apply bg-black/80 text-stone-200
 }
 
 body {

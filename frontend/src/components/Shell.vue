@@ -4,10 +4,12 @@ import {Command} from "./comman/Command";
 import {useMagicKeys, whenever} from "@vueuse/core";
 import {useViewEvent} from "../composables/useViewEvent";
 import {ref} from "vue";
+import IconShell from "../icon/IconShell.vue";
+import {RunApplication} from "../../wailsjs/go/main/App";
 
 const inputValue = ref('')
 
-const {backspace} = useMagicKeys()
+const {backspace, enter} = useMagicKeys()
 const {emitter} = useViewEvent();
 
 whenever(backspace, () => {
@@ -16,16 +18,25 @@ whenever(backspace, () => {
   }
 })
 
+// execute command
+whenever(enter, () => {
+  const value = inputValue.value.split(' ');
+  value.shift()
+  RunApplication(value.join(' '), true)
+  // TODO: add command history
+})
+
 </script>
 
 <template>
   <Command>
-    <Command.Input placeholder="Search for apps and commands..."
+    <IconShell class="absolute w-12 h-12 pt-1 mr-2 rounded-md"/>
+    <Command.Input class="ml-14 max-w-[93%] border-none bg-none"
+                   placeholder="Run command..."
                    v-model:value="inputValue"
     />
     <Command.List>
-<!--      <Command.Empty>No results found.</Command.Empty>-->
-      123123
+      <Command.Empty>History is empty.</Command.Empty>
     </Command.List>
   </Command>
 </template>
