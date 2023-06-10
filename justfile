@@ -10,6 +10,9 @@ dev:
 build:
     @wails build
 
+install: build
+    @sudo cp ./build/bin/launcher /usr/local/bin/launcher
+
 test1:
     go install github.com/wailsapp/wails/v2/cmd/wails@v2.4.1
 

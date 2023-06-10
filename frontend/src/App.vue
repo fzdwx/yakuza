@@ -10,7 +10,13 @@ import {useCommandEvent} from "./components/comman/Command/useCommandEvent";
 
 window.onkeydown = (e: KeyboardEvent) => {
   if (e.code === "Escape") {
-    Hide()
+    if (currentView.value == 'self') {
+      Hide()
+      return
+    }
+
+    emitter.emit('changeView', 'self') // TODO 一个列表, push/pop
+    event.emitter.emit('setInputValue', '')
   }
 }
 
