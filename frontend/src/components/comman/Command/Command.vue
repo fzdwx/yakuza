@@ -6,13 +6,13 @@
       :command-theme="theme"
   >
     <div command-root>
-      <slot />
+      <slot/>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import {defineComponent} from 'vue'
 
 export default defineComponent({
   name: 'Command'
@@ -20,14 +20,14 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { provide, ref, onMounted, watch, nextTick, computed } from 'vue'
-import { refDebounced, useDebounceFn } from '@vueuse/core'
+import {provide, ref, onMounted, watch, nextTick, computed} from 'vue'
+import {refDebounced, useDebounceFn} from '@vueuse/core'
 import Fuse from 'fuse.js'
 
-import { useCommandState } from './useCommandState'
-import { useCommandEvent } from './useCommandEvent'
-import { findNextSibling, findPreviousSibling } from './utils'
-import type { ItemInfo } from './types'
+import {useCommandState} from './useCommandState'
+import {useCommandEvent} from './useCommandEvent'
+import {findNextSibling, findPreviousSibling} from './utils'
+import type {ItemInfo} from './types'
 
 const ITEM_SELECTOR = '[command-item=""]'
 const ITEM_KEY_SELECTOR = 'command-item-key'
@@ -60,8 +60,8 @@ const emit = defineEmits<{
 }>()
 
 provide('theme', props.theme || 'default')
-const { selectedNode, search, dataValue, filtered } = useCommandState()
-const { emitter } = useCommandEvent()
+const {selectedNode, search, dataValue, filtered} = useCommandState()
+const {emitter} = useCommandEvent()
 
 const commandRef = ref<HTMLDivElement>()
 const commandList = refDebounced(ref(new Map()), 333)
@@ -93,11 +93,11 @@ const scrollSelectedIntoView = () => {
       item
           .closest(GROUP_SELECTOR)
           ?.querySelector(GROUP_HEADING_SELECTOR)
-          ?.scrollIntoView({ block: 'nearest' })
+          ?.scrollIntoView({block: 'nearest'})
     }
 
     // Ensure the item is always in view
-    item.scrollIntoView({ block: 'nearest' })
+    item.scrollIntoView({block: 'nearest'})
   }
 }
 
@@ -279,7 +279,7 @@ const filterItems = () => {
   const list = fuse.value.search(search.value).map((r) => r.item)
 
   // transform list to map
-  for (const { key, label } of list) {
+  for (const {key, label} of list) {
     items.set(key, label)
   }
 
@@ -334,7 +334,7 @@ watch(
         nextTick(scrollSelectedIntoView)
       }
     },
-    { deep: true }
+    {deep: true}
 )
 /**
  * when search's value is changed, trigger filter action
@@ -352,7 +352,10 @@ emitter.on('selectItem', (item) => {
 })
 
 emitter.on('selectCurrentItem', () => {
-  doSelect()
+  const item = getSelectedItem()
+  if (item && item.getAttribute('noHandleSpace') == 'false') {
+    doSelect()
+  }
 })
 
 const debouncedEmit = useDebounceFn((isRerender: Boolean) => {

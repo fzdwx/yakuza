@@ -15,13 +15,17 @@ whenever(space, () => {
   if (inputValue.value === '' || inputValue.value.length === 0) {
     return
   }
+  const value = inputValue.value.trim();
+  if (value === '') {
+    return
+  }
   emitter.emit('selectCurrentItem', true)
 })
 
 </script>
 
 <template>
-  <Command theme="custom">
+  <Command>
     <Command.Input placeholder="Search for apps and commands..."
                    v-model:value="inputValue"
     />

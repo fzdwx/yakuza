@@ -3,6 +3,7 @@
       ref="itemRef"
       command-item=""
       role="option"
+      :noHandleSpace="noHandleSpace"
       :aria-selected="selectedNode === itemId"
       :aria-disabled="!isRender"
       :key="itemId"
@@ -37,6 +38,7 @@ const VALUE_ATTR = `data-value`
 const props = defineProps<{
   shortcut?: string[]
   perform?: Noop
+  noHandleSpace?: boolean
 }>()
 
 const emit = defineEmits<{

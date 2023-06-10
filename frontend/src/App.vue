@@ -30,7 +30,6 @@ const {emitter} = useViewEvent();
 
 emitter.on('changeView', (view: string) => {
   currentView.value = view
-  console.log(currentView.value)
 })
 
 </script>
@@ -38,8 +37,10 @@ emitter.on('changeView', (view: string) => {
 <template>
   <Suspense>
     <div class="m-4" autofocus>
-      <Self v-if="currentView == 'self'"/>
-      <Shell v-if="currentView == 'builtIn-shell'"/>
+      <Transition name="fade" mode="out-in">
+        <Self v-if="currentView == 'self'"/>
+        <Shell v-else-if="currentView == 'builtIn-shell'"/>
+      </Transition>
     </div>
   </Suspense>
 </template>

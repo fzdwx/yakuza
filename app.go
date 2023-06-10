@@ -61,7 +61,7 @@ func (a *App) Hide() {
 
 func (a *App) Show() {
 	runtime.WindowShow(a.ctx)
-	runtime.WindowSetSize(a.ctx, 800, 600)
+	runtime.WindowSetSize(a.ctx, 800, 540)
 	runtime.WindowCenter(a.ctx)
 	a.show = true
 	runtime.EventsEmit(a.ctx, "show")

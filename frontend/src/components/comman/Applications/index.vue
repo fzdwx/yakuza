@@ -34,6 +34,7 @@ const handleSelectItem = (item: Application) => {
   <Command.Group heading="Applications">
     <Command.Item v-for="application in applications"
                   @select="handleSelectItem(application)"
+                  noHandleSpace
                   :data-value="application.Name">
       <img :src="'/favicon.ico?/'+application.Icon" alt="icon" class="w-6 h-6 mr-2"/>
       {{ application.Name }}
