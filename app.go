@@ -30,7 +30,7 @@ func (a *App) startup(ctx context.Context) {
 	a.show = true
 
 	go func() {
-		hook.Register(hook.KeyDown, []string{"q", "ctrl", "shift"}, func(e hook.Event) {
+		hook.Register(hook.KeyDown, []string{"space", "alt"}, func(e hook.Event) {
 			if a.show {
 				a.Hide()
 			} else {

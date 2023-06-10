@@ -5,6 +5,7 @@ type Events = {
     selectItem: ItemInfo
     rerenderList: Boolean
     selectCurrentItem: Boolean
+    setInputValue: string
 }
 
 const emitter: Emitter<Events> = mitt<Events>()

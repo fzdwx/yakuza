@@ -3,7 +3,9 @@
 @tailwind utilities;
 
 html {
-    @apply bg-black/80 text-stone-200
+    background-color: rgb(0 0 0 / 0.83);
+    --tw-text-opacity: 1;
+    color: rgb(231 229 228 / var(--tw-text-opacity));
 }
 
 body {

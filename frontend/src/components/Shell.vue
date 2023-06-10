@@ -3,9 +3,10 @@
 import {Command} from "./comman/Command";
 import {useMagicKeys, whenever} from "@vueuse/core";
 import {useViewEvent} from "../composables/useViewEvent";
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import IconShell from "../icon/IconShell.vue";
 import {RunApplication} from "../../wailsjs/go/main/App";
+import {useCommandEvent} from "./comman/Command/useCommandEvent";
 
 const inputValue = ref('')
 
@@ -18,10 +19,17 @@ whenever(backspace, () => {
   }
 })
 
+const event = useCommandEvent();
+onMounted(() => {
+  // use `enter` go to shell view
+  event.emitter.emit('setInputValue', 'sh ')
+})
+
+
 // execute command
 whenever(enter, () => {
   const value = inputValue.value.split(' ');
-  value.shift()
+  value.shift();
   RunApplication(value.join(' '), true)
   // TODO: add command history
 })

@@ -27,6 +27,7 @@ export default defineComponent({
 import {computed} from 'vue'
 import {useCommandState} from './useCommandState'
 import {EventsOn} from "../../../../wailsjs/runtime";
+import {useCommandEvent} from "./useCommandEvent";
 
 defineProps<{
   placeholder: string
@@ -49,6 +50,13 @@ const handleInput = (e: Event) => {
   emit('input', event)
   emit('update:value', search.value)
 }
+
+const {emitter} = useCommandEvent();
+
+emitter.on('setInputValue', (value: string) => {
+  search.value = value;
+  emit('update:value', search.value)
+})
 
 watchEffect(() => {
   inputRef.value?.focus()

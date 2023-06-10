@@ -35,14 +35,12 @@ emitter.on('changeView', (view: string) => {
 </script>
 
 <template>
-  <Suspense>
-    <div class="m-4" autofocus>
-      <Transition name="fade" mode="out-in">
-        <Self v-if="currentView == 'self'"/>
-        <Shell v-else-if="currentView == 'builtIn-shell'"/>
-      </Transition>
-    </div>
-  </Suspense>
+  <div class="m-4" autofocus>
+    <Transition name="fade" mode="out-in">
+      <Self v-if="currentView == 'self'"/>
+      <Shell v-else-if="currentView == 'builtIn-shell'"/>
+    </Transition>
+  </div>
 </template>
 
 <style>
