@@ -5,7 +5,7 @@ update:
   go mod tidy -v
 
 dev:
-    @wails dev
+    @wails dev -nosyncgomod
 
 build:
     @wails build

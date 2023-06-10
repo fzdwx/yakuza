@@ -19,7 +19,10 @@ func Handler() *FileLoader {
 
 func (h *FileLoader) ServeHTTP(res http.ResponseWriter, req *http.Request) {
 	if strings.HasPrefix(req.URL.Path, "/favicon.ico") {
-		path := strings.TrimPrefix(req.RequestURI, "/favicon.ico?")
+		var (
+			index = strings.Index(req.RequestURI, "/favicon.ico")
+			path  = strings.TrimPrefix(req.RequestURI[index:], "/favicon.ico?")
+		)
 
 		pattern := []string{
 			path,
