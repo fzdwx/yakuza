@@ -10,6 +10,14 @@ export function Hide() {
   return window['go']['main']['App']['Hide']();
 }
 
+export function ListApplications() {
+  return window['go']['main']['App']['ListApplications']();
+}
+
+export function RunApplication(arg1) {
+  return window['go']['main']['App']['RunApplication'](arg1);
+}
+
 export function Show() {
   return window['go']['main']['App']['Show']();
 }

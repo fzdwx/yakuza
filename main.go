@@ -1,6 +1,7 @@
 package main
 
 import (
+	"changeme/pkg/filehandler"
 	"embed"
 	"github.com/wailsapp/wails/v2/pkg/options/linux"
 
@@ -26,7 +27,8 @@ func main() {
 		DisableResize: true,
 		Frameless:     true,
 		AssetServer: &assetserver.Options{
-			Assets: assets,
+			Assets:  assets,
+			Handler: filehandler.Handler(),
 		},
 		Linux: &linux.Options{
 			WindowIsTranslucent: true,

@@ -3,8 +3,11 @@ module changeme
 go 1.18
 
 require (
+	code.rocketnine.space/tslocum/desktop v0.1.5
+	github.com/fzdwx/iter v0.0.0-20230511075109-0afee9319312
 	github.com/robotn/gohook v0.40.0
 	github.com/wailsapp/wails/v2 v2.4.1
+	golang.org/x/sys v0.5.0
 )
 
 require (
@@ -30,7 +33,6 @@ require (
 	golang.org/x/crypto v0.1.0 // indirect
 	golang.org/x/exp v0.0.0-20220303212507-bbda1eaf7a17 // indirect
 	golang.org/x/net v0.7.0 // indirect
-	golang.org/x/sys v0.5.0 // indirect
 	golang.org/x/text v0.7.0 // indirect
 )
 

@@ -1,10 +1,13 @@
 package main
 
 import (
+	"changeme/pkg/applications"
+	"code.rocketnine.space/tslocum/desktop"
 	"context"
 	"fmt"
 	"github.com/robotn/gohook"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
+	"golang.org/x/sys/execabs"
 )
 
 // App struct
@@ -69,6 +72,14 @@ func (a *App) ToFocus() {
 
 func (a *App) ToBlur() {
 	a.focus = false
+}
+
+func (a *App) ListApplications() ([]*desktop.Entry, error) {
+	return applications.List()
+}
+
+func (a *App) RunApplication(cmd string) {
+	go execabs.Command("sh", "-c", cmd).Run()
 }
 
 func (a *App) domReady(ctx context.Context) {

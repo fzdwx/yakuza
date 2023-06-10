@@ -26,7 +26,7 @@ export default defineComponent({
 <script lang="ts" setup>
 import {computed} from 'vue'
 import {useCommandState} from './useCommandState'
-import {EventsOn} from "../../../wailsjs/runtime";
+import {EventsOn} from "../../../../wailsjs/runtime";
 
 defineProps<{
   placeholder: string

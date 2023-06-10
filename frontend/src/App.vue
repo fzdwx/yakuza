@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 
-import Input from "./components/Input.vue";
+import Self from "./components/Self.vue";
 import {Hide, ToBlur, ToFocus} from "../wailsjs/go/main/App";
+import {EventsOn} from "../wailsjs/runtime";
 
 window.onkeydown = (e: KeyboardEvent) => {
   if (e.code === "Escape") {
@@ -14,15 +15,21 @@ window.onfocus = () => {
 }
 
 window.onblur = () => {
- ToBlur()
+  ToBlur()
 }
+
+EventsOn("show", () => {
+  location.reload()
+})
 
 </script>
 
 <template>
-  <div class="m-4" autofocus>
-    <Input/>
-  </div>
+  <Suspense>
+    <div class="m-4" autofocus>
+      <Self/>
+    </div>
+  </Suspense>
 </template>
 
 <style>
