@@ -50,6 +50,10 @@ body {
     aria-disabled:text-gray-100/80 aria-disabled:cursor-not-allowed
 }
 
+.icon{
+    @apply h-8 w-8
+}
+
 [command-empty]{
     @apply flex items-center justify-center h-16 whitespace-pre-wrap
     text-gray-100/90

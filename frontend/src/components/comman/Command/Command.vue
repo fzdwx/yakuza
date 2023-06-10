@@ -256,11 +256,7 @@ const handleKeyDown = (e: KeyboardEvent) => {
     }
     case 'Enter': {
       // Trigger item handleSelect
-      const item = getSelectedItem()
-      if (item) {
-        const event = new Event(SELECT_EVENT)
-        item.dispatchEvent(event)
-      }
+      doSelect()
     }
   }
 }
@@ -355,6 +351,10 @@ emitter.on('selectItem', (item) => {
   emit('select-item', item)
 })
 
+emitter.on('selectCurrentItem', () => {
+  doSelect()
+})
+
 const debouncedEmit = useDebounceFn((isRerender: Boolean) => {
   if (isRerender) {
     initStore()
@@ -368,4 +368,12 @@ onMounted(() => {
   initStore()
   selectedFirstItem()
 })
+
+function doSelect() {
+  const item = getSelectedItem()
+  if (item) {
+    const event = new Event(SELECT_EVENT)
+    item.dispatchEvent(event)
+  }
+}
 </script>

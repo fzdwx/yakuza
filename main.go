@@ -20,7 +20,6 @@ func main() {
 	// Create application with options
 	err := wails.Run(&options.App{
 		Title:         "launcher",
-		Debug:         options.Debug{OpenInspectorOnStartup: true},
 		DisableResize: true,
 		Frameless:     true,
 		AssetServer: &assetserver.Options{

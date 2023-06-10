@@ -3,7 +3,7 @@
 </script>
 
 <template>
-
+  this is shell
 </template>
 
 <style scoped>
