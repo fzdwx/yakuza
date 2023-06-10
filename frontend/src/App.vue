@@ -6,6 +6,7 @@ import {EventsOn} from "../wailsjs/runtime";
 import {useViewState} from "./composables/useViewState";
 import Shell from "./components/Shell.vue";
 import {useViewEvent} from "./composables/useViewEvent";
+import {useCommandEvent} from "./components/comman/Command/useCommandEvent";
 
 window.onkeydown = (e: KeyboardEvent) => {
   if (e.code === "Escape") {
@@ -21,12 +22,15 @@ window.onblur = () => {
   ToBlur()
 }
 
-EventsOn("show", () => {
-  location.reload()
-})
-
+const event = useCommandEvent();
 const {currentView} = useViewState();
 const {emitter} = useViewEvent();
+
+EventsOn("show", () => {
+  // location.reload()
+  event.emitter.emit('setInputValue', '')
+  emitter.emit('changeView', 'self')
+})
 
 emitter.on('changeView', (view: string) => {
   currentView.value = view

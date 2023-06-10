@@ -38,13 +38,13 @@ body {
     focus:outline-none placeholder-gray-100/50
 }
 
-[command-list]{
-    @apply  overflow-auto overscroll-contain
+[command-list] {
+    @apply overflow-auto overscroll-contain
     transition-height ease-in-out
     /*h-[var(--command-list-height)]*/
 }
 
-[command-item]{
+[command-item] {
     @apply relative cursor-pointer flex items-center h-10 px-4 py-0
     gap-3 mt-2 first:mt-0 select-none will-change-[background,color] transition-all rounded-md
     aria-selected:bg-gray-50/20 hover:bg-gray-50/20
@@ -52,19 +52,19 @@ body {
     aria-disabled:text-gray-100/80 aria-disabled:cursor-not-allowed
 }
 
-.icon{
+.icon {
     @apply h-8 w-8
 }
 
-[command-empty]{
+[command-empty] {
     @apply flex items-center justify-center h-16 whitespace-pre-wrap
     text-gray-100/90
 }
 
-[command-group-heading]{
+[command-group-heading] {
     @apply flex select-none py-0 px-1 text-2xl items-center my-2
 }
 
-[command-separator]{
+[command-separator] {
     @apply my-2 mx-0 h-[1px] bg-gray-100/20
 }
