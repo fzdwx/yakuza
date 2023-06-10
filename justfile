@@ -7,6 +7,9 @@ update:
 dev:
     @wails dev
 
+build:
+    @wails build
+
 test1:
     go install github.com/wailsapp/wails/v2/cmd/wails@v2.4.1
 
