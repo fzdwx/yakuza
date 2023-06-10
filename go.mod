@@ -6,7 +6,7 @@ require (
 	code.rocketnine.space/tslocum/desktop v0.1.5
 	github.com/fzdwx/iter v0.0.0-20230511075109-0afee9319312
 	github.com/robotn/gohook v0.40.0
-	github.com/wailsapp/wails/v2 v2.4.1
+	github.com/wailsapp/wails/v2 v2.5.1
 	golang.org/x/sys v0.5.0
 )
 
@@ -36,4 +36,4 @@ require (
 	golang.org/x/text v0.7.0 // indirect
 )
 
-// replace github.com/wailsapp/wails/v2 v2.4.1 => /home/like/go/pkg/mod
+//replace github.com/wailsapp/wails/v2 v2.5.1 => /home/like/go/pkg/mod

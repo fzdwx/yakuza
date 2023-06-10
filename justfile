@@ -7,3 +7,8 @@ update:
 dev:
     @wails dev
 
+test1:
+    go install github.com/wailsapp/wails/v2/cmd/wails@v2.4.1
+
+test2:
+    go install github.com/wailsapp/wails/v2/cmd/wails@v2.5.1
