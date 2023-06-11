@@ -36,7 +36,6 @@ const handleSelectItem = (item: applications.Application) => {
       {{ application.name }}
     </Command.Item>
   </Command.Group>
-
 </template>
 
 <style scoped>

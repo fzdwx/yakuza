@@ -46,6 +46,10 @@ const props = defineProps({
     type: String,
     default: 'default'
   },
+  autoSelectFirst: {
+    type: Boolean,
+    default: true
+  },
   fuseOptions: {
     type: Object,
     default: () => ({
@@ -343,7 +347,9 @@ watch(
     () => search.value,
     (newVal) => {
       filterItems()
-      nextTick(selectedFirstItem)
+      if (props.autoSelectFirst){
+        nextTick(selectedFirstItem)
+      }
     }
 )
 
@@ -361,7 +367,9 @@ emitter.on('selectCurrentItem', () => {
 const debouncedEmit = useDebounceFn((isRerender: Boolean) => {
   if (isRerender) {
     initStore()
-    nextTick(selectedFirstItem)
+    if (props.autoSelectFirst){
+      nextTick(selectedFirstItem)
+    }
   }
 }, 100)
 
@@ -369,7 +377,9 @@ emitter.on('rerenderList', debouncedEmit)
 
 onMounted(() => {
   initStore()
-  selectedFirstItem()
+  if (props.autoSelectFirst){
+    nextTick(selectedFirstItem)
+  }
 })
 
 function doSelect() {

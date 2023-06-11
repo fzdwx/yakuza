@@ -39,7 +39,8 @@ EventsOn("show", () => {
 })
 
 emitter.on('changeView', (view: string) => {
-  currentView.value = view
+  // 防止空格输入到下一个view
+  setTimeout(() => currentView.value = view, 5)
 })
 
 </script>

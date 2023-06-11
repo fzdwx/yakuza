@@ -11,6 +11,7 @@ import (
 	"github.com/fzdwx/iter/stream"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 	"os"
+	"strings"
 )
 
 // List all applications
@@ -33,13 +34,17 @@ func List(ctx context.Context) ([]*Application, error) {
 	).ToArray(), nil
 }
 
-func AddHistory(ctx context.Context, name string, runType string, cmd string) {
+func AddHistory(ctx context.Context, name string, runType string, cmd string, term bool) {
+	if strings.TrimSpace(cmd) == "" {
+		return
+	}
+
 	history, err := GetHistory(ctx)
 	if err != nil {
 		return
 	}
 
-	history.Add(name, runType, cmd)
+	history.Add(name, runType, cmd, term)
 	bytes, err := json.Marshal(history)
 	if err != nil {
 		runtime.LogErrorf(ctx, "Failed to encode run history: %s", err.Error())

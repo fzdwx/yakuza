@@ -80,6 +80,8 @@ func (a *App) ListApplications() ([]*applications.Application, error) {
 
 // RunApplication run app, cmd is the command to run, term is whether to run in terminal
 func (a *App) RunApplication(name string, runType string, cmd string, term bool) {
+	fmt.Println("RunApplication", name, runType, cmd, term)
+	applications.AddHistory(a.ctx, name, runType, cmd, term)
 	go func() {
 		a.Hide()
 		cmd = strings.ReplaceAll(cmd, "%u", "") // TODO 支持从 input 获取参数
@@ -97,7 +99,10 @@ func (a *App) RunApplication(name string, runType string, cmd string, term bool)
 		}
 		execabs.Command("sh", "-c", cmd).Run()
 	}()
-	applications.AddHistory(a.ctx, name, runType, cmd)
+}
+
+func (a *App) GetRunHistory() (*applications.RunHistory, error) {
+	return applications.GetHistory(a.ctx)
 }
 
 func (a *App) domReady(ctx context.Context) {
