@@ -10,7 +10,7 @@
       role="combobox"
       :aria-expanded="true"
       :placeholder="placeholder"
-      :value="localSearch"
+      :value="modelValue"
       @input="handleInput"
   />
 </template>
@@ -31,31 +31,30 @@ import {useCommandEvent} from "./useCommandEvent";
 
 defineProps<{
   placeholder: string
-  value?: string
+  modelValue?: string
 }>()
 
 const emit = defineEmits<{
   (e: 'input', ie: InputEvent): void
-  (e: 'update:value', val: any): void
+  (e: 'update:modelValue', val: any): void
 }>()
 
 const inputRef = ref()
 const {search} = useCommandState()
-const localSearch = computed(() => search.value)
 
 const handleInput = (e: Event) => {
   const event = e as InputEvent
   const input = e.target as HTMLInputElement
   search.value = input?.value
   emit('input', event)
-  emit('update:value', search.value)
+  emit('update:modelValue', input.value)
 }
 
 const {emitter} = useCommandEvent();
 
 emitter.on('setInputValue', (value: string) => {
   search.value = value;
-  emit('update:value', search.value)
+  emit('update:modelValue', search.value)
 })
 
 watchEffect(() => {

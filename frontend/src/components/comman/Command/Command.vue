@@ -50,6 +50,10 @@ const props = defineProps({
     type: Boolean,
     default: true
   },
+  selectKey: {
+    type: String,
+    default: 'Enter'
+  },
   fuseOptions: {
     type: Object,
     default: () => ({
@@ -64,7 +68,7 @@ const emit = defineEmits<{
 }>()
 
 provide('theme', props.theme || 'default')
-const {selectedNode, search, dataValue, filtered} = useCommandState()
+const {selectedNode, search, dataValue, filtered, allItems} = useCommandState()
 const {emitter} = useCommandEvent()
 
 const commandRef = ref<HTMLDivElement>()
@@ -258,7 +262,7 @@ const handleKeyDown = (e: KeyboardEvent) => {
       last()
       break
     }
-    case 'Enter': {
+    case props.selectKey: {
       // Trigger item handleSelect
       doSelect()
     }
@@ -311,6 +315,7 @@ const initStore = () => {
     const itemLabel = item.getAttribute(VALUE_ATTR) || ''
     allItemIds.value.add(itemKey)
     commandList.value.set(itemKey, itemLabel)
+    allItems.value.set(itemKey, item)
     filtered.value.count = commandList.value.size
   }
 
@@ -347,7 +352,7 @@ watch(
     () => search.value,
     (newVal) => {
       filterItems()
-      if (props.autoSelectFirst){
+      if (props.autoSelectFirst) {
         nextTick(selectedFirstItem)
       }
     }
@@ -367,7 +372,7 @@ emitter.on('selectCurrentItem', () => {
 const debouncedEmit = useDebounceFn((isRerender: Boolean) => {
   if (isRerender) {
     initStore()
-    if (props.autoSelectFirst){
+    if (props.autoSelectFirst) {
       nextTick(selectedFirstItem)
     }
   }
@@ -377,7 +382,7 @@ emitter.on('rerenderList', debouncedEmit)
 
 onMounted(() => {
   initStore()
-  if (props.autoSelectFirst){
+  if (props.autoSelectFirst) {
     nextTick(selectedFirstItem)
   }
 })

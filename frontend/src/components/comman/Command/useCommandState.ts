@@ -1,4 +1,4 @@
-import { reactive, toRefs, computed } from 'vue'
+import {reactive, toRefs, computed} from 'vue'
 
 type FilteredItem = {
     count: number
@@ -14,6 +14,7 @@ type State = {
     search: string
     dataValue: string
     filtered: FilteredItem
+    allItems: Map<string, HTMLElement>
 }
 
 const state = reactive<State>({
@@ -21,6 +22,7 @@ const state = reactive<State>({
     selectedGroup: '',
     search: '',
     dataValue: '',
+    allItems: new Map(),
     filtered: {
         count: 0,
         items: new Map(),
@@ -28,12 +30,19 @@ const state = reactive<State>({
     }
 })
 
+// get current selected node
+const getSelectCurrentItem = () => {
+    const selectedNode = state.selectedNode;
+    return state.allItems.get(selectedNode)
+}
+
 const useCommandState = () => {
     const isSearching = computed(() => state.search !== '')
     return {
         isSearching,
-        ...toRefs(state)
+        ...toRefs(state),
+        getSelectCurrentItem
     }
 }
 
-export { useCommandState }
+export {useCommandState}
