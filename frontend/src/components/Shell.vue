@@ -46,11 +46,11 @@ const {getSelectCurrentItem} = useCommandState();
 // execute command
 whenever(enter, () => {
   const selectCurrentNode = getSelectCurrentItem();
-  if (selectCurrentNode) {
+  if (selectCurrentNode && selectCurrentNode.getAttribute('builtIn') !== 'true') {
     inputValue.value = selectCurrentNode.getAttribute('data-value') ?? '';
   }
 
-  if (inputValue.value == '') {
+  if (inputValue.value === '' || inputValue.value.length === 0) {
     return
   }
   const value = inputValue.value.split(' ');

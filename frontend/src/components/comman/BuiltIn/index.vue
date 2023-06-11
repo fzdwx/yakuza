@@ -8,7 +8,7 @@ const {emitter} = useViewEvent();
 
 <template>
   <Command.Group heading="Built in">
-    <Command.Item data-value="shell"  @select="() => {
+    <Command.Item builtIn="true" data-value="shell"  @select="() => {
       emitter.emit('changeView', 'builtIn-shell')
     }">
       <IconShell class="icon"/>
