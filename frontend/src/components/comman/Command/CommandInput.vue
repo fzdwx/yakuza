@@ -1,18 +1,23 @@
 <template>
-  <input
-      ref="inputRef"
-      command-input=""
-      v-focus
-      auto-complete="off"
-      auto-correct="off"
-      :spell-check="false"
-      aria-autocomplete="list"
-      role="combobox"
-      :aria-expanded="true"
-      :placeholder="placeholder"
-      :value="modelValue"
-      @input="handleInput"
-  />
+  <div class="command-input-container">
+    <slot name="head"></slot>
+    <input
+        ref="inputRef"
+        command-input=""
+        v-focus
+        auto-complete="off"
+        auto-correct="off"
+        :spell-check="false"
+        aria-autocomplete="list"
+        role="combobox"
+        :aria-expanded="true"
+        :placeholder="placeholder"
+        :value="modelValue"
+        @input="handleInput"
+        class="command-input"
+    />
+    <slot name="tail"></slot>
+  </div>
 </template>
 
 <script lang="ts">

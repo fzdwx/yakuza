@@ -69,13 +69,16 @@ whenever(enter, () => {
 </script>
 
 <template>
-  <Command :autoSelectFirst="false">
-    <IconShell class="absolute w-12 h-12 pt-1 mr-2 rounded-md"/>
-    <Command.Input class="ml-14 max-w-[93%] border-none bg-none"
-                   placeholder="Run command..."
-                   v-focus
-                   v-model="inputValue"
-    />
+  <Command :autoSelectFirst="false" theme="build-in-shell">
+    <Command.Input
+        placeholder="Run command..."
+        v-focus
+        v-model="inputValue"
+    >
+      <template #head>
+        <IconShell class="command-input-tag"/>
+      </template>
+    </Command.Input>
     <Command.List>
       <Command.Empty>History is empty</Command.Empty>
       <Command.Group heading="" class="pt-3">
@@ -88,6 +91,8 @@ whenever(enter, () => {
   </Command>
 </template>
 
-<style scoped>
+<style>
 
+.build-in-shell [command-input] {
+}
 </style>

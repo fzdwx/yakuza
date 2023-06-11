@@ -31,11 +31,18 @@ body {
     @apply p-2
 }
 
+.command-input-container{
+    @apply flex bg-black/5 items-center w-full
+}
+
+.command-input-tag{
+    @apply w-12 h-10 whitespace-pre select-none items-center inline-flex
+}
+
 [command-input] {
-    @apply h-[50px] w-full bg-black/20 text-xl
-    caret-emerald-400 p-3
-    border-b-[1px] border-gray-100/20 rounded-md
-    focus:outline-none placeholder-gray-100/50
+    @apply h-[50px] p-3 w-full bg-black/5 text-xl
+    caret-emerald-400 placeholder-gray-100/50
+    shadow-none border-none outline-none flex-1
 }
 
 [command-list] {
