@@ -3,10 +3,11 @@ import App from './App.vue'
 import './style.css'
 
 const app = createApp(App);
-app.mount('#app')
 
 app.directive('focus', {
     mounted(el) {
         el.focus()
     }
 })
+
+app.mount('#app')
