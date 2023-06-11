@@ -16,9 +16,6 @@ window.onkeydown = (e: KeyboardEvent) => {
       Hide()
       return
     }
-
-    emitter.emit('changeView', View.Self) // TODO 一个列表, push/pop
-    event.emitter.emit('setInputValue', '')
   }
 }
 

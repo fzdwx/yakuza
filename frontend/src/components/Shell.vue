@@ -13,13 +13,18 @@ import {View} from "../utils";
 
 const inputValue = ref('')
 
-const {backspace, enter} = useMagicKeys()
+const {backspace, enter,escape} = useMagicKeys()
 const {emitter} = useViewEvent();
 
 whenever(backspace, () => {
   if (inputValue.value.length === 0) {
     emitter.emit('changeView', View.Self)
   }
+})
+
+whenever(escape,()=>{
+  emitter.emit('changeView', View.Self) // TODO 一个列表, push/pop
+  event.emitter.emit('setInputValue', '')
 })
 
 const history = ref<applications.RunHistoryItem[]>([])
