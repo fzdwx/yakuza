@@ -73,6 +73,7 @@ whenever(enter, () => {
     <IconShell class="absolute w-12 h-12 pt-1 mr-2 rounded-md"/>
     <Command.Input class="ml-14 max-w-[93%] border-none bg-none"
                    placeholder="Run command..."
+                   v-focus
                    v-model="inputValue"
     />
     <Command.List>

@@ -2,7 +2,7 @@
   <input
       ref="inputRef"
       command-input=""
-      auto-focus
+      v-focus
       auto-complete="off"
       auto-correct="off"
       :spell-check="false"

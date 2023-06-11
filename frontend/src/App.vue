@@ -46,7 +46,7 @@ emitter.on('changeView', (view: string) => {
 </script>
 
 <template>
-  <div class="m-4" autofocus>
+  <div class="m-4">
     <Transition name="fade" mode="out-in">
       <Self v-if="currentView == 'self'"/>
       <Shell v-else-if="currentView == 'builtIn-shell'"/>

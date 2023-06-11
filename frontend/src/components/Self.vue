@@ -27,6 +27,7 @@ whenever(space, () => {
 <template>
   <Command>
     <Command.Input placeholder="Search for apps and commands..."
+                   v-focus
                    v-model="inputValue"
     />
     <Command.List>
