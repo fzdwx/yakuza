@@ -27,7 +27,7 @@ whenever(space, () => {
 <template>
   <Command>
     <Command.Input placeholder="Search for apps and commands..."
-                   v-model:value="inputValue"
+                   v-model="inputValue"
     />
     <Command.List>
       <Command.Empty>No results found.</Command.Empty>

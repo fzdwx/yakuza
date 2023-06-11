@@ -8,6 +8,7 @@ import IconShell from "../icon/IconShell.vue";
 import {GetRunHistory, RunApplication} from "../../wailsjs/go/main/App";
 import {useCommandEvent} from "./comman/Command/useCommandEvent";
 import {applications} from "../../wailsjs/go/models";
+import {useCommandState} from "./comman/Command/useCommandState";
 
 const inputValue = ref('')
 
@@ -40,8 +41,15 @@ emitter.on('changeView', (view: string) => {
   }
 })
 
+const {getSelectCurrentItem} = useCommandState();
+
 // execute command
 whenever(enter, () => {
+  const selectCurrentNode = getSelectCurrentItem();
+  if (selectCurrentNode) {
+    inputValue.value = selectCurrentNode.getAttribute('data-value') ?? '';
+  }
+
   if (inputValue.value == '') {
     return
   }
@@ -65,13 +73,12 @@ whenever(enter, () => {
     <IconShell class="absolute w-12 h-12 pt-1 mr-2 rounded-md"/>
     <Command.Input class="ml-14 max-w-[93%] border-none bg-none"
                    placeholder="Run command..."
-                   v-model:value="inputValue"
+                   v-model="inputValue"
     />
     <Command.List>
       <Command.Empty>History is empty</Command.Empty>
       <Command.Group heading="" class="pt-3">
         <Command.Item v-for="item in history"
-                      @select="RunApplication(item.name, 'shell', item.cmd, item.terminal)"
                       :data-value="item.cmd">
           {{ item.cmd }}
         </Command.Item>
