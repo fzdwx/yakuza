@@ -3,6 +3,7 @@ import {Command} from "../Command/";
 import IconShell from "../../../icon/IconShell.vue";
 import {useViewEvent} from "../../../composables/useViewEvent";
 import {View} from "../../../utils";
+import IconTranslator from "../../../icon/IconTranslator.vue";
 
 const {emitter} = useViewEvent();
 
@@ -11,6 +12,11 @@ const builtinItems = [
     viewName: View.Shell,
     icon: IconShell,
     value: 'shell'
+  },
+  {
+    viewName: View.Translate,
+    icon: IconTranslator,
+    value: 'translate'
   }
 ]
 </script>

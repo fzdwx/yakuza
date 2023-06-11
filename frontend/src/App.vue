@@ -7,7 +7,7 @@ import {useViewState} from "./composables/useViewState";
 import Shell from "./components/Shell.vue";
 import {useViewEvent} from "./composables/useViewEvent";
 import {useCommandEvent} from "./components/comman/Command/useCommandEvent";
-import Translator from "./components/Translator.vue";
+import Translator from "./components/Translate.vue";
 import {View} from "./utils";
 
 window.onkeydown = (e: KeyboardEvent) => {
@@ -49,7 +49,7 @@ emitter.on('changeView', (view: string) => {
     <Transition name="fade" mode="out-in">
       <Self v-if="currentView == View.Self"/>
       <Shell v-else-if="currentView == View.Shell"/>
-      <Translator v-else-if="currentView == View.Translator"/>
+      <Translator v-else-if="currentView == View.Translate"/>
     </Transition>
   </div>
 </template>

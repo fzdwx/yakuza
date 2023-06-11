@@ -2,6 +2,8 @@ package main
 
 import (
 	"changeme/pkg/applications"
+	"changeme/pkg/clip"
+	"changeme/pkg/translate"
 	"context"
 	"fmt"
 	"github.com/robotn/gohook"
@@ -103,6 +105,14 @@ func (a *App) RunApplication(name string, runType string, cmd string, term bool)
 
 func (a *App) GetRunHistory() (*applications.RunHistory, error) {
 	return applications.GetHistory(a.ctx)
+}
+
+func (a *App) GetClipText() (string, error) {
+	return clip.Get()
+}
+
+func (a *App) GoogleTranslate(text string, from string, to string) (string, error) {
+	return translate.Do(text, from, to)
 }
 
 func (a *App) domReady(ctx context.Context) {

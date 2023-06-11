@@ -10,14 +10,14 @@
   },
   "dependencies": {
     "fuse.js": "^6.6.2",
-    "nanoid": "^4.0.2",
     "mitt": "^3.0.0",
+    "nanoid": "^4.0.2",
     "vue": "^3.2.37"
   },
   "devDependencies": {
-    "@vueuse/core": "^10.1.2",
     "@babel/types": "^7.18.10",
     "@vitejs/plugin-vue": "^3.0.3",
+    "@vueuse/core": "^10.1.2",
     "autoprefixer": "^10.4.14",
     "postcss": "^8.4.24",
     "tailwindcss": "^3.3.2",
