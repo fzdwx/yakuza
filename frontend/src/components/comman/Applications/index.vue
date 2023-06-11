@@ -26,7 +26,7 @@ onMounted(async () => {
 })
 
 const handleSelectItem = (item: Application) => {
-  RunApplication(item.Name,item.Exec,item.Terminal)
+  RunApplication(item.Name, "apps", item.Exec, item.Terminal)
 }
 </script>
 

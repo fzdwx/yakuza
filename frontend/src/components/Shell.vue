@@ -31,7 +31,7 @@ whenever(enter, () => {
   const value = inputValue.value.split(' ');
   value.shift();
 
-  const param = value.shift();
+  const param = value.shift() ?? '';
   let terminal = false;
   if (param != '-t') {
     value.unshift(param)
@@ -40,7 +40,7 @@ whenever(enter, () => {
   }
 
   const cmd = value.join(' ');
-  RunApplication(cmd, cmd, terminal)
+  RunApplication(cmd, "shell",cmd, terminal)
 })
 
 </script>
