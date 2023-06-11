@@ -22,6 +22,8 @@ func main() {
 		Title:         "launcher",
 		DisableResize: true,
 		Frameless:     true,
+		AlwaysOnTop:   true,
+		MaxWidth:      800,
 		AssetServer: &assetserver.Options{
 			Assets:  assets,
 			Handler: filehandler.Handler(),

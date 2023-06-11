@@ -8,7 +8,7 @@ export function Hide():Promise<void>;
 
 export function ListApplications():Promise<Array<desktop.Entry>>;
 
-export function RunApplication(arg1:string,arg2:boolean):Promise<void>;
+export function RunApplication(arg1:string,arg2:string,arg3:boolean):Promise<void>;
 
 export function Show():Promise<void>;
 

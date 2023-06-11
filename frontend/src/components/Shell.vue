@@ -30,8 +30,17 @@ onMounted(() => {
 whenever(enter, () => {
   const value = inputValue.value.split(' ');
   value.shift();
-  RunApplication(value.join(' '), true)
-  // TODO: add command history
+
+  const param = value.shift();
+  let terminal = false;
+  if (param != '-t') {
+    value.unshift(param)
+  } else {
+    terminal = true;
+  }
+
+  const cmd = value.join(' ');
+  RunApplication(cmd, cmd, terminal)
 })
 
 </script>
