@@ -57,3 +57,12 @@ type RunHistoryItem struct {
 	Count       int64  `json:"count"`
 	LastRunTime int64  `json:"lastRunTime"`
 }
+
+type Application struct {
+	Name        string `json:"name"`
+	Icon        string `json:"icon"`
+	Exec        string `json:"Exec"`
+	Terminal    bool   `json:"terminal"`
+	Count       int64  `json:"count"`
+	LastRunTime int64  `json:"lastRunTime"`
+}

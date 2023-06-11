@@ -2,7 +2,6 @@ package main
 
 import (
 	"changeme/pkg/applications"
-	"code.rocketnine.space/tslocum/desktop"
 	"context"
 	"fmt"
 	"github.com/robotn/gohook"
@@ -75,8 +74,8 @@ func (a *App) ToBlur() {
 	a.focus = false
 }
 
-func (a *App) ListApplications() ([]*desktop.Entry, error) {
-	return applications.List()
+func (a *App) ListApplications() ([]*applications.Application, error) {
+	return applications.List(a.ctx)
 }
 
 // RunApplication run app, cmd is the command to run, term is whether to run in terminal
@@ -91,7 +90,7 @@ func (a *App) RunApplication(name string, runType string, cmd string, term bool)
 				command.Run()
 				return
 			}
-			if _, err := execabs.LookPath("wezterm"); err == nil {
+			if _, err := execabs.LookPath("konsole"); err == nil {
 				execabs.Command("konsole", "-e", cmd).Run()
 				return
 			}
