@@ -86,7 +86,7 @@ func (a *App) RunApplication(name string, runType string, cmd string, term bool)
 		cmd = strings.ReplaceAll(cmd, "%F", "")
 		if term { // TODO 支持自定义终端
 			if _, err := execabs.LookPath("wezterm"); err == nil {
-				command := execabs.Command("wezterm", "-e", cmd)
+				command := execabs.Command("wezterm", "start", "sh", "-c", cmd)
 				command.Run()
 				return
 			}

@@ -32,11 +32,11 @@ whenever(enter, () => {
   value.shift();
 
   const param = value.shift() ?? '';
-  let terminal = false;
-  if (param != '-t') {
+  let terminal = true;
+  if (param != '-b') {
     value.unshift(param)
   } else {
-    terminal = true;
+    terminal = false;
   }
 
   const cmd = value.join(' ');
