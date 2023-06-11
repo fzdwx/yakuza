@@ -7,15 +7,17 @@ import {useViewState} from "./composables/useViewState";
 import Shell from "./components/Shell.vue";
 import {useViewEvent} from "./composables/useViewEvent";
 import {useCommandEvent} from "./components/comman/Command/useCommandEvent";
+import Translator from "./components/Translator.vue";
+import {View} from "./utils";
 
 window.onkeydown = (e: KeyboardEvent) => {
   if (e.code === "Escape") {
-    if (currentView.value == 'self') {
+    if (currentView.value == View.Self) {
       Hide()
       return
     }
 
-    emitter.emit('changeView', 'self') // TODO 一个列表, push/pop
+    emitter.emit('changeView', View.Self) // TODO 一个列表, push/pop
     event.emitter.emit('setInputValue', '')
   }
 }
@@ -35,7 +37,7 @@ const {emitter} = useViewEvent();
 EventsOn("show", () => {
   // location.reload()
   event.emitter.emit('setInputValue', '')
-  emitter.emit('changeView', 'self')
+  emitter.emit('changeView', View.Self)
 })
 
 emitter.on('changeView', (view: string) => {
@@ -48,8 +50,9 @@ emitter.on('changeView', (view: string) => {
 <template>
   <div class="m-4">
     <Transition name="fade" mode="out-in">
-      <Self v-if="currentView == 'self'"/>
-      <Shell v-else-if="currentView == 'builtIn-shell'"/>
+      <Self v-if="currentView == View.Self"/>
+      <Shell v-else-if="currentView == View.Shell"/>
+      <Translator v-else-if="currentView == View.Translator"/>
     </Transition>
   </div>
 </template>

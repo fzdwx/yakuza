@@ -2,17 +2,26 @@
 import {Command} from "../Command/";
 import IconShell from "../../../icon/IconShell.vue";
 import {useViewEvent} from "../../../composables/useViewEvent";
+import {View} from "../../../utils";
 
 const {emitter} = useViewEvent();
+
+const builtinItems = [
+  {
+    viewName: View.Shell,
+    icon: IconShell,
+    value: 'shell'
+  }
+]
 </script>
 
 <template>
   <Command.Group heading="Built in">
-    <Command.Item builtIn="true" data-value="shell"  @select="() => {
-      emitter.emit('changeView', 'builtIn-shell')
+    <Command.Item v-for="item in builtinItems" :key="item.value" :builtIn="true" :data-value="item.value" @select="() => {
+      emitter.emit('changeView', item.viewName)
     }">
-      <IconShell class="icon"/>
-      <span>shell</span>
+      <component :is="item.icon" class="icon"/>
+      <span>{{item.value}}</span>
     </Command.Item>
   </Command.Group>
 

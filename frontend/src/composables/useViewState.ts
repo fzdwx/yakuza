@@ -1,11 +1,12 @@
 import {reactive, toRefs} from "vue";
+import {View} from "../utils";
 
 type State = {
     currentView: string
 }
 
 const state = reactive<State>({
-    currentView: 'self'
+    currentView: View.Self
 })
 
 const useViewState = () => {

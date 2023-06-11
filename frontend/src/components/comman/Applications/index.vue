@@ -5,6 +5,7 @@ import {onMounted, ref} from "vue";
 import {Command} from "../Command/";
 import {applications} from "../../../../wailsjs/go/models";
 import {useViewEvent} from "../../../composables/useViewEvent";
+import {View} from "../../../utils";
 
 const apps = ref<applications.Application[]>([])
 const refreshApps = async () => {
@@ -15,7 +16,7 @@ onMounted(refreshApps)
 
 const {emitter} = useViewEvent();
 emitter.on('changeView', (view: string) => {
-  if (view === 'self') {
+  if (view === View.Self) {
     (refreshApps)()
   }
 })

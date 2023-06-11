@@ -9,6 +9,7 @@ import {GetRunHistory, RunApplication} from "../../wailsjs/go/main/App";
 import {useCommandEvent} from "./comman/Command/useCommandEvent";
 import {applications} from "../../wailsjs/go/models";
 import {useCommandState} from "./comman/Command/useCommandState";
+import {View} from "../utils";
 
 const inputValue = ref('')
 
@@ -17,7 +18,7 @@ const {emitter} = useViewEvent();
 
 whenever(backspace, () => {
   if (inputValue.value.length === 0) {
-    emitter.emit('changeView', 'self')
+    emitter.emit('changeView', View.Self)
   }
 })
 
@@ -36,7 +37,7 @@ onMounted(async () => {
 })
 
 emitter.on('changeView', (view: string) => {
-  if (view === 'builtIn-shell') {
+  if (view === View.Shell) {
     (refreshHistory)()
   }
 })
