@@ -62,7 +62,7 @@ const execCommand = () => {
   }
 
   if (inputValue.value === '' || inputValue.value.length === 0) {
-    retur
+    return
   }
   const value = inputValue.value.split(' ');
   const param = value.shift() ?? '';
