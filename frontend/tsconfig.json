@@ -17,6 +17,7 @@
     "skipLibCheck": true
   },
   "include": [
+    "lib/**/*.{ts,vue}",
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",

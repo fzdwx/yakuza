@@ -1,14 +1,14 @@
 <script setup lang="ts">
 
-import {Command} from "./comman/Command";
+import {Command} from "../../lib/command";
 import {useMagicKeys, whenever} from "@vueuse/core";
 import {useViewEvent} from "../composables/useViewEvent";
 import {computed, onMounted, ref} from "vue";
 import IconShell from "../icon/IconShell.vue";
 import {GetRunHistory, RunApplication} from "../../wailsjs/go/main/App";
-import {useCommandEvent} from "./comman/Command/useCommandEvent";
+import {useCommandEvent} from "../../lib/command/useCommandEvent";
 import {applications} from "../../wailsjs/go/models";
-import {useCommandState} from "./comman/Command/useCommandState";
+import {useCommandState} from "../../lib/command/useCommandState";
 import {View} from "../utils";
 import {useViewState} from "../composables/useViewState";
 

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import {Command} from "./comman/Command/";
+import {Command} from "../../lib/command/";
 import Applications from "./comman/Applications/index.vue";
 import BuiltIn from "./comman/BuiltIn/index.vue";
 import {useMagicKeys, whenever} from "@vueuse/core";
 import {computed, ref} from "vue";
-import {useCommandEvent} from "./comman/Command/useCommandEvent";
+import {useCommandEvent} from "../../lib/command/useCommandEvent";
 import {useViewState} from "../composables/useViewState";
 import {View} from "../utils";
 import Logo from "../icon/Logo.vue";

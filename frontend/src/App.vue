@@ -6,7 +6,7 @@ import {EventsOn} from "../wailsjs/runtime";
 import {useViewState} from "./composables/useViewState";
 import Shell from "./components/Shell.vue";
 import {useViewEvent} from "./composables/useViewEvent";
-import {useCommandEvent} from "./components/comman/Command/useCommandEvent";
+import {useCommandEvent} from "../lib/command/useCommandEvent";
 import Translator from "./components/Translate.vue";
 import {View} from "./utils";
 
