@@ -23,7 +23,10 @@ func main() {
 		DisableResize: true,
 		Frameless:     true,
 		AlwaysOnTop:   true,
-		MaxWidth:      900,
+		MaxWidth:      Width,
+		MaxHeight:     Height,
+		MinWidth:      Width,
+		MinHeight:     Height,
 		AssetServer: &assetserver.Options{
 			Assets:  assets,
 			Handler: filehandler.Handler(),

@@ -19,6 +19,11 @@ type App struct {
 	focus bool
 }
 
+var (
+	Width  = 900
+	Height = 540
+)
+
 // NewApp creates a new App application struct
 func NewApp() *App {
 	return &App{}
@@ -62,7 +67,7 @@ func (a *App) Hide() {
 
 func (a *App) Show() {
 	runtime.WindowShow(a.ctx)
-	runtime.WindowSetSize(a.ctx, 900, 540)
+	runtime.WindowSetSize(a.ctx, Width, Height)
 	runtime.WindowCenter(a.ctx)
 	a.show = true
 	runtime.EventsEmit(a.ctx, "show")
