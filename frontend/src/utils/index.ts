@@ -7,7 +7,8 @@ export namespace View {
     export const Translate = 'builtIn-Translate'
 }
 
-
+// inspired by https://github.com/iamtraction/google-translate/blob/master/src/index.js
+// sorry, this lib only support nodejs, so I have to rewrite it.
 export async function translate(text: string, from: string, to: string) {
     const translate = await GoogleTranslate(text, from, to);
     const body = JSON.parse(translate);

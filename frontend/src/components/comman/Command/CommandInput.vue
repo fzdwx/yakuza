@@ -29,15 +29,14 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import {computed} from 'vue'
 import {useCommandState} from './useCommandState'
-import {EventsOn} from "../../../../wailsjs/runtime";
 import {useCommandEvent} from "./useCommandEvent";
 
-defineProps<{
+const props = defineProps<{
   placeholder: string
   modelValue?: string
-}>()
+  disableFilter?: boolean
+}>();
 
 const emit = defineEmits<{
   (e: 'input', ie: InputEvent): void
@@ -50,7 +49,10 @@ const {search} = useCommandState()
 const handleInput = (e: Event) => {
   const event = e as InputEvent
   const input = e.target as HTMLInputElement
-  search.value = input?.value
+  if (!props.disableFilter) {
+    search.value = input?.value
+  }
+
   emit('input', event)
   emit('update:modelValue', input.value)
 }
@@ -58,7 +60,9 @@ const handleInput = (e: Event) => {
 const {emitter} = useCommandEvent();
 
 emitter.on('setInputValue', (value: string) => {
-  search.value = value;
+  if (!props.disableFilter) {
+    search.value = value;
+  }
   emit('update:modelValue', search.value)
 })
 
