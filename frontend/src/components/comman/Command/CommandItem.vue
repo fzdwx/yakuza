@@ -11,12 +11,12 @@
       v-show="isRender"
       @click="handleSelect"
   >
-    <slot />
+    <slot/>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import {defineComponent} from 'vue'
 
 export default defineComponent({
   name: 'Command.Item'
@@ -24,13 +24,13 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { computed, ref, watchEffect, onBeforeUnmount } from 'vue'
-import { nanoid } from 'nanoid'
-import { useMagicKeys, whenever } from '@vueuse/core'
+import {computed, ref, watchEffect, onBeforeUnmount} from 'vue'
+import {nanoid} from 'nanoid'
+import {useMagicKeys, whenever} from '@vueuse/core'
 
-import { useCommandState } from './useCommandState'
-import { useCommandEvent } from './useCommandEvent'
-import type { ItemInfo, Noop } from './types'
+import {useCommandState} from './useCommandState'
+import {useCommandEvent} from './useCommandEvent'
+import type {ItemInfo, Noop} from './types'
 
 const SELECT_EVENT = `command-item-select`
 const VALUE_ATTR = `data-value`
@@ -38,22 +38,24 @@ const VALUE_ATTR = `data-value`
 const props = defineProps<{
   shortcut?: string[]
   perform?: Noop
-  noHandleSpace?: boolean
+  noHandleSpace?: boolean // When a space is entered, the selected event will not be triggered
+  forceRender?: boolean
 }>()
 
 const emit = defineEmits<{
   (e: 'select', itemInfo: ItemInfo): void
 }>()
 
-const { current } = useMagicKeys()
-const { selectedNode, filtered, isSearching } = useCommandState()
-const { emitter } = useCommandEvent()
+const {current} = useMagicKeys()
+const {selectedNode, filtered, isSearching} = useCommandState()
+const {emitter} = useCommandEvent()
 
 const itemRef = ref<HTMLDivElement>()
 
 const itemId = computed(() => `command-item-${nanoid()}`)
 
 const isRender = computed(() => {
+  if (props.forceRender) return true
   const itemKey = filtered.value.items.get(itemId.value)
 
   return !isSearching.value ? true : itemKey !== undefined
