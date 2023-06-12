@@ -1,16 +1,18 @@
 # launcher
 
-<div style="">
-    <div style="display: flex; align-items: center; justify-content: center">
-        A launcher for linux
-    </div>
-    <br/>
-    <div style="display: flex; align-items: center; justify-content: center">
-        <img src=".github/img.png" alt="show">
-    </div>
-</div>
+A launcher for linux
+![image](.github/img.png)
 
+## install
 
-[//]: # (## requirements)
+```bash
+go install github.com/wailsapp/wails/v2/cmd/wails@v2.5.1
+git clone https://github.com/fzdwx/launcher.git
+cd launcher
+wails build
+./build/bin/launcher
+```
 
-[//]: # (1. xclip: `yay -S xclip`)
+## requirements
+
+1. xclip: `yay -S xclip`
