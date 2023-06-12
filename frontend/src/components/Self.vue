@@ -7,6 +7,11 @@ import {computed, ref} from "vue";
 import {useCommandEvent} from "./comman/Command/useCommandEvent";
 import {useViewState} from "../composables/useViewState";
 import {View} from "../utils";
+import Logo from "../icon/Logo.vue";
+import {BrowserOpenURL} from "../../wailsjs/runtime";
+import ArrowUp from "../icon/ArrowUp.vue";
+import ArrowDown from "../icon/ArrowDown.vue";
+import Enter from "../icon/Enter.vue";
 
 const {emitter} = useCommandEvent()
 
@@ -47,12 +52,43 @@ const visible = computed(() => {
       </Command.List>
     </template>
     <template #footer>
-      <Command.Footer>
-        <kbd>↵</kbd>
-      </Command.Footer>
+      <ul class="command-palette-commands">
+        <li>
+          <kbd class="command-palette-commands-key">
+            <Enter/>
+          </kbd>
+          <span>to select</span>
+        </li>
+        <li>
+          <kbd class="command-palette-commands-key">
+            <ArrowUp/>
+          </kbd>
+          <kbd class="command-palette-commands-key">
+            <ArrowDown/>
+          </kbd>
+          <span>to navigate</span>
+        </li>
+        <li>
+          <kbd class="command-palette-commands-key">
+            esc
+          </kbd>
+          <span>
+            to close
+          </span>
+        </li>
+      </ul>
+
+      <div class="footer cursor-default">
+        <a class="flex items-center" @click="()=>{
+          BrowserOpenURL('https://github.com/fzdwx')
+        }">
+          <span class="mr-1">Power By</span>
+          <Logo class="footer-icon"/>
+        </a>
+      </div>
     </template>
   </Command.Dialog>
 </template>
 
-<style>
+<style scoped>
 </style>

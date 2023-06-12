@@ -166,9 +166,7 @@ const langMap = (item: GoogleTranslateResp) => {
     </template>
 
     <template #footer>
-      <IconTranslator>
-        123123
-      </IconTranslator>
+      <IconTranslator/>
       <button command-raycast-open-trigger="" @click="()=>{
         handleCopy(currentSelectResult)
       }">

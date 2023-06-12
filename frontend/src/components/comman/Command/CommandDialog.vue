@@ -65,3 +65,6 @@ whenever(() => props.visible, resetStore)
 
 onBeforeUnmount(resetStore)
 </script>
+
+<style scoped>
+</style>

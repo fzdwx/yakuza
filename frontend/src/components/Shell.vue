@@ -106,7 +106,7 @@ const visible = computed(() => {
     </template>
 
     <template #footer>
-      <IconShell command-raycast-hammer-icon=""/>
+      <IconShell class="footer-icon"/>
     </template>
   </Command.Dialog>
 </template>
