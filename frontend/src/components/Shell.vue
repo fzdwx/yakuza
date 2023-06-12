@@ -3,13 +3,14 @@
 import {Command} from "./comman/Command";
 import {useMagicKeys, whenever} from "@vueuse/core";
 import {useViewEvent} from "../composables/useViewEvent";
-import {onMounted, ref} from "vue";
+import {computed, onMounted, ref} from "vue";
 import IconShell from "../icon/IconShell.vue";
 import {GetRunHistory, RunApplication} from "../../wailsjs/go/main/App";
 import {useCommandEvent} from "./comman/Command/useCommandEvent";
 import {applications} from "../../wailsjs/go/models";
 import {useCommandState} from "./comman/Command/useCommandState";
 import {View} from "../utils";
+import {useViewState} from "../composables/useViewState";
 
 const inputValue = ref('')
 
@@ -72,33 +73,43 @@ whenever(enter, () => {
   RunApplication(cmd, "shell", cmd, terminal)
 })
 
+const {currentView} = useViewState();
+
+const visible = computed(() => {
+  return currentView.value === View.Shell
+})
+
 </script>
 
 <template>
-  <Command :autoSelectFirst="false" theme="build-in-shell">
-    <Command.Input
-        placeholder="Run command..."
-        v-focus
-        v-model="inputValue"
-    >
-      <template #head>
-        <IconShell class="command-input-tag"/>
-      </template>
-    </Command.Input>
-    <Command.List>
-      <Command.Empty>History is empty</Command.Empty>
-      <Command.Group heading="" class="pt-3">
-        <Command.Item v-for="item in history"
-                      :data-value="item.cmd">
-          {{ item.cmd }}
-        </Command.Item>
-      </Command.Group>
-    </Command.List>
-  </Command>
+  <Command.Dialog :autoSelectFirst="false" :visible="visible" theme="raycast">
+
+    <template #header>
+      <Command.Input
+          placeholder="Run command..."
+          v-focus
+          v-model="inputValue"
+      >
+      </Command.Input>
+    </template>
+
+    <template #body>
+      <Command.List>
+        <Command.Empty>History is empty</Command.Empty>
+        <Command.Group heading="Command history" >
+          <Command.Item v-for="item in history"
+                        :data-value="item.cmd">
+            {{ item.cmd }}
+          </Command.Item>
+        </Command.Group>
+      </Command.List>
+    </template>
+
+    <template #footer>
+      <IconShell command-raycast-hammer-icon=""/>
+    </template>
+  </Command.Dialog>
 </template>
 
 <style>
-
-.build-in-shell [command-input] {
-}
 </style>

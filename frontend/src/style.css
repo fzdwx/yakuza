@@ -2,32 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-    --gray1: hsl(0, 0%, 8.5%);
-    --gray2: hsl(0, 0%, 11%);
-    --gray3: hsl(0, 0%, 13.6%);
-    --gray4: hsl(0, 0%, 15.8%);
-    --gray5: hsl(0, 0%, 17.9%);
-    --gray6: hsl(0, 0%, 20.5%);
-    --gray7: hsl(0, 0%, 24.3%);
-    --gray8: hsl(0, 0%, 31.2%);
-    --gray9: hsl(0, 0%, 43.9%);
-    --gray10: hsl(0, 0%, 49.4%);
-    --gray11: hsl(0, 0%, 62.8%);
-    --gray12: hsl(0, 0%, 93%);
-}
-
-html {
-    @apply bg-bgray2 text-white
-}
-
-body {
-    margin: 0;
-    font-family: 'Roboto', "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
-    "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-}
-
 @font-face {
     font-family: "Nunito";
     font-style: normal;
@@ -44,124 +18,14 @@ body {
     url("assets/fonts/RobotoMono-Regular.ttf");
 }
 
-#app {
-    height: 100vh;
-}
-
-[commnad-root] {
-    @apply p-2
-}
-
-.command-input-container {
-    @apply flex bg-black/5 items-center w-full
-}
-
-.command-input-tag {
-    @apply w-12 h-10 whitespace-pre select-none items-center inline-flex
-}
-
-[command-input] {
-    @apply h-[50px] p-3 w-full text-xl
-    bg-transparent text-bgray12
-    caret-emerald-400 placeholder-bgray9
-    outline-none flex-1
-}
-
-[command-input-top-shine] {
-    background: linear-gradient(
-            90deg,
-            rgba(56, 189, 248, 0),
-            var(--gray5) 20%,
-            var(--gray9) 67.19%,
-            rgba(236, 72, 153, 0)
-    );
-    height: 1px;
-    position: absolute;
-    top: -1px;
-    width: 100%;
-    z-index: -1;
-    opacity: 0;
-    animation: showTopShine 0.1s ease forwards 0.2s;
-}
-
-[command-input-loader] {
-    border: 0;
-    width: 100%;
-    left: 0;
-    height: 1px;
-    background: var(--gray6);
-    position: relative;
-    overflow: visible;
-    display: block;
-    margin-top: 12px;
-    margin-bottom: 12px;
-}
-
-[command-input-loader]:after {
-    --loader-color: var(--gray9);
-    content: '';
-    width: 50%;
-    height: 1px;
-    position: absolute;
-    background: linear-gradient(
-            90deg,
-            transparent 0%,
-            var(--loader-color) 50%,
-            transparent 100%
-    );
-    top: -1px;
-    opacity: 0;
-    animation-duration: 1.5s;
-    animation-delay: 1s;
-    animation-timing-function: ease;
-    animation-name: loading;
-}
-
-[command-list] {
-    @apply overflow-auto overscroll-contain
-    transition-height ease-in-out
-    /*h-[var(--command-list-height)]*/
-}
-
-[command-item] {
-    @apply cursor-pointer select-none will-change-[background]
-    text-bgray12
-    relative flex items-center h-10 px-4 py-0 gap-3 mt-2
-    first:mt-0 transition-all rounded-md
-    aria-selected:bg-bgray4 aria-selected:text-bgray12
-    aria-disabled:cursor-not-allowed aria-disabled:text-bgray8
-    hover:bg-gray-50/20
-    active:bg-bgray4 active:transition-[background]
-}
-
 .icon {
     @apply h-8 w-8
-}
-
-[command-empty] {
-    @apply flex items-center justify-center h-16 whitespace-pre-wrap
-    text-gray-100/90
-}
-
-[command-group-heading] {
-    @apply flex select-none py-0 px-1 text-2xl items-center my-2
-}
-
-[command-separator] {
-    @apply my-2 mx-0 h-[1px] bg-gray-100/20
-}
-
-[command-footer] {
-    @apply absolute bottom-0
 }
 
 .ellipse {
     @apply overflow-hidden overflow-ellipsis whitespace-nowrap
 }
 
-kbd {
-    @apply bg-bgray3 text-bgray11
-    w-5 h-5 rounded
-    py-0 px-1 mb-0.5
-    flex items-center justify-center
+[command-list]{
+    @apply h-[459px]
 }

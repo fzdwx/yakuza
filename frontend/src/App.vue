@@ -46,11 +46,9 @@ emitter.on('changeView', (view: string) => {
 
 <template>
   <div class="m-4">
-    <Transition name="fade" mode="out-in">
-      <Self v-if="currentView == View.Self"/>
-      <Shell v-else-if="currentView == View.Shell"/>
-      <Translator v-else-if="currentView == View.Translate"/>
-    </Transition>
+    <Self v-if="currentView == View.Self"/>
+    <Shell v-else-if="currentView == View.Shell"/>
+    <Translator v-else-if="currentView == View.Translate"/>
   </div>
 </template>
 

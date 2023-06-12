@@ -1,4 +1,5 @@
 <template>
+  <div command-raycast-top-shine="" />
   <div class="command-input-container">
     <slot name="head"></slot>
     <input
@@ -18,7 +19,7 @@
     />
     <slot name="tail"></slot>
   </div>
-  <hr command-input-loader="">
+  <hr command-raycast-loader="" />
 </template>
 
 <script lang="ts">
