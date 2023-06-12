@@ -103,20 +103,8 @@
   }
 
   [command-raycast-loader] {
-    --loader-color: var(--gray9);
-    border: 0;
-    width: 100%;
-    width: 100%;
-    left: 0;
-    height: 1px;
-    background: var(--gray6);
-    position: relative;
-    overflow: visible;
-    display: block;
-    margin-top: 12px;
-    margin-bottom: 12px;
-
     &:after {
+      --loader-color: #34d399;
       content: '';
       width: 50%;
       height: 1px;
@@ -129,10 +117,8 @@
       );
       top: -1px;
       opacity: 0;
-      animation-duration: 1.5s;
-      animation-delay: 1s;
-      animation-timing-function: ease;
-      animation-name: loading;
+      animation-delay: 0ms;
+      animation: loading 1.5s ease-in-out infinite;
     }
   }
 
@@ -541,4 +527,19 @@
       font-size: 16px;
     }
   }
+}
+
+
+.command-raycast-loader-common {
+  border: 0;
+  width: 100%;
+  width: 100%;
+  left: 0;
+  height: 1px;
+  background: var(--gray6);
+  position: relative;
+  overflow: visible;
+  display: block;
+  margin-top: 12px;
+  margin-bottom: 12px;
 }

@@ -45,7 +45,7 @@ emitter.on('changeView', (view: string) => {
 </script>
 
 <template>
-  <div class="m-4">
+  <div class="m-4 dark">
     <Self v-if="currentView == View.Self"/>
     <Shell v-else-if="currentView == View.Shell"/>
     <Translator v-else-if="currentView == View.Translate"/>

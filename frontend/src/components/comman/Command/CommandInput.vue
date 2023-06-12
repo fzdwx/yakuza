@@ -1,5 +1,5 @@
 <template>
-  <div command-raycast-top-shine="" />
+  <div command-raycast-top-shine=""/>
   <div class="command-input-container">
     <slot name="head"></slot>
     <input
@@ -19,7 +19,8 @@
     />
     <slot name="tail"></slot>
   </div>
-  <hr command-raycast-loader="" />
+  <hr v-if="props.loading" class="command-raycast-loader-common" command-raycast-loader="">
+  <hr v-else class="command-raycast-loader-common"/>
 </template>
 
 <script lang="ts">
@@ -38,6 +39,7 @@ const props = defineProps<{
   placeholder: string
   modelValue?: string
   disableFilter?: boolean
+  loading?: boolean
 }>();
 
 const emit = defineEmits<{

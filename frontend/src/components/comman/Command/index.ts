@@ -71,18 +71,6 @@ const Separator = defineComponent({
     }
 })
 
-const Footer = defineComponent({
-    name: 'Command.Footer',
-    setup(props, {attrs, slots}) {
-        return () =>
-            h('div', {
-                'command-footer': '',
-                role: 'presentation',
-                ...attrs
-            },slots)
-    }
-})
-
 const pkg = Object.assign(Command, {
     Dialog,
     Empty,
@@ -92,7 +80,6 @@ const pkg = Object.assign(Command, {
     List,
     Loading,
     Separator,
-    Footer,
     Root: Command
 })
 

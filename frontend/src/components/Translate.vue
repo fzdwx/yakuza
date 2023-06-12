@@ -12,6 +12,7 @@ import {translate} from "../common/translate";
 import {LanguageCode, languagesByCode} from "../common/translate/languages";
 import {useDebouncedRef} from "../composables/useDebouncedRef";
 import {useViewState} from "../composables/useViewState";
+import IconTranslator from "../icon/IconTranslator.vue";
 
 const {escape, enter} = useMagicKeys()
 const {emitter} = useViewEvent();
@@ -27,6 +28,8 @@ const currentSelectResult = ref<GoogleTranslateResp>()
 const currentSelectRevertResult = ref<GoogleTranslateResp>()
 
 const commandEvent = useCommandEvent();
+
+const loading = ref(false)
 
 async function refreshTranslate() {
   if (!clipText.value) {
@@ -58,15 +61,28 @@ watch(clipText, () => {
   debouncedValue.value = clipText.value
 })
 
-watch(debouncedValue, refreshTranslate)
+watch(debouncedValue, () => {
+  updateLoading(refreshTranslate)()
+})
+
+const updateLoading = (fn: () => Promise<void>) => {
+  return async () => {
+    loading.value = true
+    await fn()
+    loading.value = false
+  }
+}
 
 whenever(escape, () => {
   emitter.emit('changeView', View.Self)
 })
 
 onMounted(async () => {
-  await reload()
-  await refreshTranslate()
+  await updateLoading(async () => {
+    commandEvent.emitter.emit('setInputValue', '')
+    await reload()
+    await refreshTranslate()
+  })();
 })
 
 const reload = async () => {
@@ -93,6 +109,21 @@ const {currentView} = useViewState();
 const visible = computed(() => {
   return currentView.value === View.Translate
 })
+
+const handleCopy = (item: GoogleTranslateResp | undefined) => {
+  if (!item) {
+    return
+  }
+  SetClipText(item.text)
+  Hide()
+}
+
+const langMap = (item: GoogleTranslateResp) => {
+  if (item.from.language.iso == item.to.language) {
+    return item.from.language.iso
+  }
+  return `${item.from.language.iso} => ${item.to.language}`
+}
 </script>
 
 <template>
@@ -102,6 +133,7 @@ const visible = computed(() => {
                      v-focus
                      disable-filter
                      v-model="clipText"
+                     :loading="loading"
       />
     </template>
     <template #body>
@@ -114,19 +146,18 @@ const visible = computed(() => {
                           :translate-item="JSON.stringify(resp)"
                           :data-value="resp.text"
                           @select="itemInfo => {
-                          SetClipText(resp.text)
-                          Hide()
+                            handleCopy(resp)
                         }"
             >
-              <span class="font-bold ellipse w-36">{{ resp.text }}</span>
-              <span class="ml-2 right-0 absolute text-gray-100/40">{{ resp.from.language.iso }} => {{
-                  resp.to.language
-                }}
+              <div class="flex">
+                <span class="font-bold ellipse w-40">{{ resp.text }}</span>
+                <span class="ml-2  text-gray-100/40">{{ langMap(resp) }}
               </span>
+              </div>
             </Command.Item>
           </Command.List>
         </div>
-        <div class="basis-[65%] ml-4">
+        <div class="basis-[65%] ml-4 text-white">
           {{ currentSelectResult?.text }}
           <br>
           {{ currentSelectRevertResult?.text }}
@@ -135,9 +166,17 @@ const visible = computed(() => {
     </template>
 
     <template #footer>
-      <Command.Footer>
+      <IconTranslator>
+        123123
+      </IconTranslator>
+      <button command-raycast-open-trigger="" @click="()=>{
+        handleCopy(currentSelectResult)
+      }">
+        Copy
         <kbd>↵</kbd>
-      </Command.Footer>
+      </button>
+
+      <hr>
     </template>
   </Command.Dialog>
 </template>
