@@ -173,8 +173,6 @@ const langMap = (item: GoogleTranslateResp) => {
         Copy
         <kbd>↵</kbd>
       </button>
-
-      <hr>
     </template>
   </Command.Dialog>
 </template>

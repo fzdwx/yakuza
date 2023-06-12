@@ -52,13 +52,17 @@ const {getSelectCurrentItem} = useCommandState();
 
 // execute command
 whenever(enter, () => {
+  execCommand()
+})
+
+const execCommand = () => {
   const selectCurrentNode = getSelectCurrentItem();
   if (selectCurrentNode && selectCurrentNode.getAttribute('builtIn') !== 'true') {
     inputValue.value = selectCurrentNode.getAttribute('data-value') ?? '';
   }
 
   if (inputValue.value === '' || inputValue.value.length === 0) {
-    return
+    retur
   }
   const value = inputValue.value.split(' ');
   const param = value.shift() ?? '';
@@ -71,7 +75,7 @@ whenever(enter, () => {
 
   const cmd = value.join(' ');
   RunApplication(cmd, "shell", cmd, terminal)
-})
+}
 
 const {currentView} = useViewState();
 
@@ -96,7 +100,7 @@ const visible = computed(() => {
     <template #body>
       <Command.List>
         <Command.Empty>History is empty</Command.Empty>
-        <Command.Group heading="Command history" >
+        <Command.Group heading="Command history">
           <Command.Item v-for="item in history"
                         :data-value="item.cmd">
             {{ item.cmd }}
@@ -107,6 +111,12 @@ const visible = computed(() => {
 
     <template #footer>
       <IconShell class="footer-icon"/>
+      <button command-raycast-open-trigger="" @click="()=>{
+        execCommand()
+      }">
+        Execute command
+        <kbd>↵</kbd>
+      </button>
     </template>
   </Command.Dialog>
 </template>
