@@ -17,6 +17,10 @@ const builtinItems = [
     viewName: View.Translate,
     icon: IconTranslator,
     value: 'translate'
+  }, {
+    viewName: 'ext',
+    icon: IconTranslator,
+    value: 'ext'
   }
 ]
 </script>
@@ -27,7 +31,7 @@ const builtinItems = [
       emitter.emit('changeView', item.viewName)
     }">
       <component :is="item.icon" class="icon"/>
-      <span>{{item.value}}</span>
+      <span>{{ item.value }}</span>
     </Command.Item>
   </Command.Group>
 

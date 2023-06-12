@@ -9,6 +9,12 @@ import {useViewEvent} from "./composables/useViewEvent";
 import {useCommandEvent} from "../lib/command/useCommandEvent";
 import Translator from "./components/Translate.vue";
 import {View} from "./utils";
+import {onMounted} from "vue";
+import {init} from "./extApiHandle";
+
+onMounted(()=>{
+  init()
+})
 
 window.onkeydown = (e: KeyboardEvent) => {
   if (e.code === "Escape") {
@@ -49,6 +55,9 @@ emitter.on('changeView', (view: string) => {
     <Self v-if="currentView == View.Self"/>
     <Shell v-else-if="currentView == View.Shell"/>
     <Translator v-else-if="currentView == View.Translate"/>
+    <div v-else-if="currentView == 'ext'">
+      <iframe src="http://localhost:5174"/>
+    </div>
   </div>
 </template>
 
