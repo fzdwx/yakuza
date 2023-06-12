@@ -127,6 +127,9 @@ watch(selectedNode, () => {
       </div>
     </div>
 
+    <Command.Footer>
+      <kbd>↵</kbd>
+    </Command.Footer>
   </Command>
 </template>
 

@@ -18,6 +18,7 @@
     />
     <slot name="tail"></slot>
   </div>
+  <hr command-input-loader="">
 </template>
 
 <script lang="ts">
