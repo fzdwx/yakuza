@@ -30,6 +30,10 @@ export function RunApplication(arg1, arg2, arg3, arg4) {
   return window['go']['main']['App']['RunApplication'](arg1, arg2, arg3, arg4);
 }
 
+export function SetClipText(arg1) {
+  return window['go']['main']['App']['SetClipText'](arg1);
+}
+
 export function Show() {
   return window['go']['main']['App']['Show']();
 }

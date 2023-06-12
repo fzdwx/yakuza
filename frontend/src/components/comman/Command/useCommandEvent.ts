@@ -5,6 +5,7 @@ type Events = {
     selectItem: ItemInfo
     rerenderList: Boolean
     selectCurrentItem: Boolean
+    selectFirstItem: Boolean
     setInputValue: string
 }
 

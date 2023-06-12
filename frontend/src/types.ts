@@ -1,17 +1,20 @@
+import {LanguageCode} from "./common/translate/languages";
 
-
-export interface GoogleTranslateResp{
+export interface GoogleTranslateResp {
     text: string;
     from: {
         language: {
             didYouMean: boolean;
-            iso: string;
+            iso: LanguageCode;
         };
-        text:{
+        text: {
             autoCorrected: boolean;
             value: string;
             didYouMean: boolean;
         }
+    }
+    to: {
+        language: LanguageCode;
     }
     raw: string;
 }

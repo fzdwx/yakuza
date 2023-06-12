@@ -3,9 +3,17 @@
 package clip
 
 import (
+	"golang.design/x/clipboard"
 	"os/exec"
 	"strings"
 )
+
+func init() {
+	err := clipboard.Init()
+	if err != nil {
+		panic(err)
+	}
+}
 
 // Get returns the current selection from the clipboard
 func Get() (string, error) {
@@ -20,4 +28,8 @@ func Get() (string, error) {
 	}
 
 	return out.String(), nil
+}
+
+func Write(s string) {
+	clipboard.Write(clipboard.FmtText, []byte(s))
 }

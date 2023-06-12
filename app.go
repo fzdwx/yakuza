@@ -62,7 +62,7 @@ func (a *App) Hide() {
 
 func (a *App) Show() {
 	runtime.WindowShow(a.ctx)
-	runtime.WindowSetSize(a.ctx, 800, 540)
+	runtime.WindowSetSize(a.ctx, 900, 540)
 	runtime.WindowCenter(a.ctx)
 	a.show = true
 	runtime.EventsEmit(a.ctx, "show")
@@ -109,6 +109,10 @@ func (a *App) GetRunHistory() (*applications.RunHistory, error) {
 
 func (a *App) GetClipText() (string, error) {
 	return clip.Get()
+}
+
+func (a *App) SetClipText(text string) {
+	clip.Write(text)
 }
 
 func (a *App) GoogleTranslate(text string, from string, to string) (string, error) {

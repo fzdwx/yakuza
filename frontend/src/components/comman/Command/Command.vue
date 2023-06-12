@@ -369,6 +369,10 @@ emitter.on('selectCurrentItem', () => {
   }
 })
 
+emitter.on('selectFirstItem',()=>{
+  selectedFirstItem()
+})
+
 const debouncedEmit = useDebounceFn((isRerender: Boolean) => {
   if (isRerender) {
     initStore()
