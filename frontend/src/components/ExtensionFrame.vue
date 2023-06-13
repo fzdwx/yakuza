@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import {buildEvent, Command, setConfigAction, userInputAction} from "@fzdwx/launcher-api";
+import {
+  buildEvent,
+  Command,
+  commandKeyDownAction,
+  setConfigAction,
+  userInputAction
+} from "@fzdwx/launcher-api";
 import {useViewEvent} from "../composables/useViewEvent";
 import {View} from "../utils";
 import {useMagicKeys, whenever} from "@vueuse/core";
@@ -7,7 +13,7 @@ import {onMounted, ref, watch} from "vue";
 import {GetConfig} from "../../wailsjs/go/main/App";
 import {inputState} from "../extApiHandle";
 
-const frameSrc = "http://localhost:5173"
+const frameSrc = "http://localhost:5174"
 const userInput = ref('')
 const extensionFrame = ref()
 
@@ -28,6 +34,18 @@ onMounted(async () => {
     extensionFrame.value.contentWindow.postMessage(buildEvent(setConfigAction, JSON.stringify(config)), "*")
   }
 })
+
+window.onkeydown = (e) => {
+  let event = {
+    code: e.code,
+    key: e.key,
+    ctrlKey: e.ctrlKey,
+    altKey: e.altKey,
+    metaKey: e.metaKey,
+  }
+  const data = JSON.stringify(event);
+  extensionFrame.value.contentWindow.postMessage(buildEvent(commandKeyDownAction, data), "*")
+}
 </script>
 
 <template>
