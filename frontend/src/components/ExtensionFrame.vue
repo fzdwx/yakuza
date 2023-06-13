@@ -3,11 +3,11 @@ import {Command} from "@fzdwx/launcher-api";
 import {useViewEvent} from "../composables/useViewEvent";
 import {View} from "../utils";
 import {useMagicKeys, whenever} from "@vueuse/core";
-import {ref, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import {useExtensionEvent} from "../composables/useExtensionEvent";
 import {setExtensionFrameWindow} from "../extApiHandle";
 
-const frameSrc = "http://localhost:5173"
+const frameSrc = "http://localhost:5174"
 const userInput = ref('')
 const extensionFrame = ref()
 

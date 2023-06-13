@@ -1,7 +1,7 @@
 import {useViewEvent} from "../composables/useViewEvent";
 import {View} from "../utils";
 import {GetClipText} from "../../wailsjs/go/main/App";
-import {buildEvent, exitAction, getClipTextAction, userInputAction} from "@fzdwx/launcher-api";
+import {buildEvent, exitAction, getClipTextAction, setConfigAction, userInputAction} from "@fzdwx/launcher-api";
 import {ExtEvent} from "@fzdwx/launcher-api/dist/types/ext/api/types";
 import {useExtensionEvent} from "../composables/useExtensionEvent";
 import {ref} from "vue";
@@ -40,6 +40,12 @@ const init = () => {
     extensionEvent.emitter.on("userInput", (text) => {
         if (extensionFrameWindow.value) {
             extensionFrameWindow.value.postMessage(buildEvent(userInputAction, text), "*")
+        }
+    })
+    extensionEvent.emitter.on("setConfig", (config) => {
+        if (extensionFrameWindow.value) {
+            console.log('set config wawawawa:', config)
+            extensionFrameWindow.value.postMessage(buildEvent(setConfigAction, config), "*")
         }
     })
 }

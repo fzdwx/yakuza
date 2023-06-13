@@ -1,14 +1,15 @@
 package main
 
 import (
-	"changeme/pkg/applications"
-	"changeme/pkg/clip"
-	"changeme/pkg/translate"
 	"context"
 	"fmt"
 	"github.com/robotn/gohook"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 	"golang.org/x/sys/execabs"
+	"launcher/pkg/applications"
+	"launcher/pkg/clip"
+	"launcher/pkg/config"
+	"launcher/pkg/translate"
 	"strings"
 )
 
@@ -110,6 +111,14 @@ func (a *App) RunApplication(name string, runType string, cmd string, term bool)
 
 func (a *App) GetRunHistory() (*applications.RunHistory, error) {
 	return applications.GetHistory(a.ctx)
+}
+
+func (a *App) GetConfig() (map[string]any, error) {
+	return config.Get(a.ctx)
+}
+
+func (a *App) SetConfig(key string, value any) error {
+	return config.Set(a.ctx, key, value)
 }
 
 func (a *App) GetClipText() (string, error) {

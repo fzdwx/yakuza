@@ -1,6 +1,6 @@
 //go:build linux
 
-package filepath
+package fileutil
 
 import (
 	"os"
@@ -17,4 +17,8 @@ func init() {
 
 func RunHistory() string {
 	return filepath.Join(base, "run_history.json")
+}
+
+func Config() string {
+	return filepath.Join(base, "config.json")
 }

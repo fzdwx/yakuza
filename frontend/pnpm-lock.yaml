@@ -26,8 +26,8 @@ devDependencies:
     specifier: ^7.18.10
     version: registry.npmmirror.com/@babel/types@7.22.5
   '@fzdwx/launcher-api':
-    specifier: ^0.0.14
-    version: 0.0.14(primeflex@3.3.1)(primeicons@5.0.0)(primevue@3.29.2)(vue@3.3.4)
+    specifier: ^0.0.22
+    version: 0.0.22(primeflex@3.3.1)(primeicons@5.0.0)(primevue@3.29.2)(vue@3.3.4)
   '@vitejs/plugin-vue':
     specifier: ^3.0.3
     version: registry.npmmirror.com/@vitejs/plugin-vue@3.0.3(vite@3.2.7)(vue@3.3.4)
@@ -73,8 +73,8 @@ packages:
     dev: true
     optional: true
 
-  /@fzdwx/launcher-api@0.0.14(primeflex@3.3.1)(primeicons@5.0.0)(primevue@3.29.2)(vue@3.3.4):
-    resolution: {integrity: sha512-fYXGQIgK4/ayMvfsITaxh4bFUNcyqxRCZzwU2Wp437KCCfZavlfkrhYxCHWjzYGSj98ADlTrzTOgR+wYFXr4dg==}
+  /@fzdwx/launcher-api@0.0.22(primeflex@3.3.1)(primeicons@5.0.0)(primevue@3.29.2)(vue@3.3.4):
+    resolution: {integrity: sha512-m0FcYesvEHqk9NAwBExMLoIsiBgpDIPoo87h/s0CqeyjMieE6D9o1VtIMU5K7qzzWe9BoLXTC77bRdF1+KQkbA==}
     peerDependencies:
       primeflex: ^3.1.2
       primeicons: ^5.0.0

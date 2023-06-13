@@ -3,13 +3,13 @@
 package applications
 
 import (
-	"changeme/pkg/filepath"
 	"code.rocketnine.space/tslocum/desktop"
 	"context"
 	"encoding/json"
 	"github.com/fzdwx/iter"
 	"github.com/fzdwx/iter/stream"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
+	"launcher/pkg/fileutil"
 	"os"
 	"strings"
 )
@@ -50,7 +50,7 @@ func AddHistory(ctx context.Context, name string, runType string, cmd string, te
 		runtime.LogErrorf(ctx, "Failed to encode run history: %s", err.Error())
 	}
 
-	err = os.WriteFile(filepath.RunHistory(), bytes, os.ModePerm)
+	err = os.WriteFile(fileutil.RunHistory(), bytes, os.ModePerm)
 	if err != nil {
 		runtime.LogErrorf(ctx, "Failed to write run history: %s", err.Error())
 		return
@@ -58,35 +58,11 @@ func AddHistory(ctx context.Context, name string, runType string, cmd string, te
 }
 
 func GetHistory(ctx context.Context) (*RunHistory, error) {
-	path := filepath.RunHistory()
-
-	file, err := os.OpenFile(path, os.O_CREATE|os.O_RDWR, os.ModePerm)
-	if err != nil {
-		runtime.LogErrorf(ctx, "Failed to open run history file: %s", err.Error())
-		return nil, err
-	}
-	defer file.Close()
-
-	bytes, err := os.ReadFile(path)
-	if err != nil {
-		runtime.LogErrorf(ctx, "Failed to read run history: %s", err.Error())
-		return nil, err
-	}
-
+	path := fileutil.RunHistory()
 	history := &RunHistory{}
-	if len(bytes) > 0 {
-		err = json.Unmarshal(bytes, history)
-		if err != nil {
-			runtime.LogErrorf(ctx, "Failed to decode run history: %s", err.Error())
-			return nil, err
-		}
-	} else if len(bytes) == 0 {
-		return history, nil
-	}
 
-	bytes, err = json.Marshal(history)
+	err := fileutil.Read(ctx, path, history)
 	if err != nil {
-		runtime.LogErrorf(ctx, "Failed to encode run history: %s", err.Error())
 		return nil, err
 	}
 

@@ -35,7 +35,7 @@ const visible = computed(() => {
 </script>
 
 <template>
-  <Command.Dialog auto-select-first :visible="visible" theme="raycast">
+  <Command.Dialog v-if="visible" auto-select-first :visible="visible" theme="raycast">
     <template #header>
       <Command.Input placeholder="Search for apps and commands..."
                      v-model="inputValue"

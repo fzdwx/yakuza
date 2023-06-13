@@ -38,11 +38,11 @@ const event = useCommandEvent();
 const {currentView} = useViewState();
 const {emitter} = useViewEvent();
 
-EventsOn("show", () => {
-  // location.reload()
-  event.emitter.emit('setInputValue', '')
-  emitter.emit('changeView', View.Self)
-})
+// EventsOn("show", () => {
+//   // location.reload()
+//   event.emitter.emit('setInputValue', '')
+//   emitter.emit('changeView', View.Self)
+// })
 
 emitter.on('changeView', (view: string) => {
   // 防止空格输入到下一个view

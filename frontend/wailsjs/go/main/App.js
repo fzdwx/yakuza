@@ -6,6 +6,10 @@ export function GetClipText() {
   return window['go']['main']['App']['GetClipText']();
 }
 
+export function GetConfig() {
+  return window['go']['main']['App']['GetConfig']();
+}
+
 export function GetRunHistory() {
   return window['go']['main']['App']['GetRunHistory']();
 }
@@ -32,6 +36,10 @@ export function RunApplication(arg1, arg2, arg3, arg4) {
 
 export function SetClipText(arg1) {
   return window['go']['main']['App']['SetClipText'](arg1);
+}
+
+export function SetConfig(arg1, arg2) {
+  return window['go']['main']['App']['SetConfig'](arg1, arg2);
 }
 
 export function Show() {

@@ -1,9 +1,9 @@
 package main
 
 import (
-	"changeme/pkg/filehandler"
 	"embed"
 	"github.com/wailsapp/wails/v2/pkg/options/linux"
+	"launcher/pkg/filehandler"
 
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
