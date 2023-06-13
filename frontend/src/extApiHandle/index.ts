@@ -25,9 +25,6 @@ handleMap.set(getClipTextAction, (e, s) => {
     })()
 })
 
-const extensionEvent = useExtensionEvent();
-const extensionFrameWindow = ref<WindowProxy>();
-
 const init = () => {
     window.addEventListener('message', (event) => {
         const {action, data} = event.data as ExtEvent<any>;
@@ -36,25 +33,9 @@ const init = () => {
             handle({action, data}, event.source);
         }
     });
-
-    extensionEvent.emitter.on("userInput", (text) => {
-        if (extensionFrameWindow.value) {
-            extensionFrameWindow.value.postMessage(buildEvent(userInputAction, text), "*")
-        }
-    })
-    extensionEvent.emitter.on("setConfig", (config) => {
-        if (extensionFrameWindow.value) {
-            console.log('set config wawawawa:', config)
-            extensionFrameWindow.value.postMessage(buildEvent(setConfigAction, config), "*")
-        }
-    })
-}
-
-const setExtensionFrameWindow = (frame: WindowProxy) => {
-    extensionFrameWindow.value = frame;
 }
 
 
 export {
-    init, setExtensionFrameWindow
+    init
 }

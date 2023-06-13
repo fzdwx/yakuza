@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import {Command} from "@fzdwx/launcher-api";
+import {buildEvent, Command, setConfigAction, userInputAction} from "@fzdwx/launcher-api";
 import {useViewEvent} from "../composables/useViewEvent";
 import {View} from "../utils";
-import {useMagicKeys, whenever} from "@vueuse/core";
+import {set, useMagicKeys, whenever} from "@vueuse/core";
 import {onMounted, ref, watch} from "vue";
-import {useExtensionEvent} from "../composables/useExtensionEvent";
-import {setExtensionFrameWindow} from "../extApiHandle";
+import {GetConfig} from "../../wailsjs/go/main/App";
 
 const frameSrc = "http://localhost:5174"
 const userInput = ref('')
@@ -18,16 +17,17 @@ whenever(escape, () => {
   viewEvent.emitter.emit('changeView', View.Self)
 })
 
-const extensionEvent = useExtensionEvent();
 watch(userInput, (value) => {
-  extensionEvent.emitter.emit('userInput', value)
+  extensionFrame.value.contentWindow.postMessage(buildEvent(userInputAction, userInput.value), "*")
 })
 
-watch(extensionFrame, (value) => {
-  if (extensionFrame.value) {
-    setExtensionFrameWindow(extensionFrame.value.contentWindow)
+onMounted(async () => {
+  const config = await GetConfig();
+  extensionFrame.value.onload = () => {
+    extensionFrame.value.contentWindow.postMessage(buildEvent(setConfigAction, JSON.stringify(config)), "*")
   }
 })
+
 </script>
 
 <template>
