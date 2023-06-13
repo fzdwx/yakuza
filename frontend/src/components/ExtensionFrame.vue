@@ -7,7 +7,7 @@ import {onMounted, ref, watch} from "vue";
 import {GetConfig} from "../../wailsjs/go/main/App";
 import {inputState} from "../extApiHandle";
 
-const frameSrc = "http://localhost:5174"
+const frameSrc = "http://localhost:5173"
 const userInput = ref('')
 const extensionFrame = ref()
 
@@ -28,14 +28,15 @@ onMounted(async () => {
     extensionFrame.value.contentWindow.postMessage(buildEvent(setConfigAction, JSON.stringify(config)), "*")
   }
 })
-
-
 </script>
 
 <template>
   <Command.Dialog :autoSelectFirst="true" :visible="true" theme="raycast">
     <template #header>
-      <Command.Input :loading="inputState.loading" placeholder="Type a command or search..." v-model="userInput"/>
+      <Command.Input :loading="inputState.loading"
+                     :disable-filter="inputState.disableFilter"
+                     placeholder="Type a command or search..."
+                     v-model="userInput"/>
     </template>
     <template #body>
       <iframe ref="extensionFrame" :src="frameSrc"/>
