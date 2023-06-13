@@ -38,7 +38,6 @@ const visible = computed(() => {
   <Command.Dialog auto-select-first :visible="visible" theme="raycast">
     <template #header>
       <Command.Input placeholder="Search for apps and commands..."
-                     v-focus
                      v-model="inputValue"
       />
     </template>

@@ -1,8 +1,10 @@
 import {useViewEvent} from "../composables/useViewEvent";
 import {View} from "../utils";
 import {GetClipText} from "../../wailsjs/go/main/App";
-import {buildEvent, exitAction, getClipTextAction} from "@fzdwx/launcher-api";
+import {buildEvent, exitAction, getClipTextAction, userInputAction} from "@fzdwx/launcher-api";
 import {ExtEvent} from "@fzdwx/launcher-api/dist/types/ext/api/types";
+import {useExtensionEvent} from "../composables/useExtensionEvent";
+import {ref} from "vue";
 
 const viewEvent = useViewEvent();
 
@@ -23,6 +25,8 @@ handleMap.set(getClipTextAction, (e, s) => {
     })()
 })
 
+const extensionEvent = useExtensionEvent();
+const extensionFrameWindow = ref<WindowProxy>();
 
 const init = () => {
     window.addEventListener('message', (event) => {
@@ -32,8 +36,19 @@ const init = () => {
             handle({action, data}, event.source);
         }
     });
+
+    extensionEvent.emitter.on("userInput", (text) => {
+        if (extensionFrameWindow.value) {
+            extensionFrameWindow.value.postMessage(buildEvent(userInputAction, text), "*")
+        }
+    })
 }
 
+const setExtensionFrameWindow = (frame: WindowProxy) => {
+    extensionFrameWindow.value = frame;
+}
+
+
 export {
-    init,
+    init, setExtensionFrameWindow
 }

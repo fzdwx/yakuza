@@ -16,7 +16,7 @@
     "vue": "^3.2.37"
   },
   "devDependencies": {
-    "@fzdwx/launcher-api": "^0.0.8",
+    "@fzdwx/launcher-api": "^0.0.14",
     "@babel/types": "^7.18.10",
     "@vitejs/plugin-vue": "^3.0.3",
     "@vueuse/core": "^10.1.2",

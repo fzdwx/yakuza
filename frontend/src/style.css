@@ -26,6 +26,11 @@
     @apply overflow-hidden overflow-ellipsis whitespace-nowrap
 }
 
+iframe{
+    height: 540px;
+    width: 100%;
+}
+
 [command-list]{
     @apply h-[461px]
 }

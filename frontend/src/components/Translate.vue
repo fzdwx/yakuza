@@ -143,7 +143,6 @@ const langMap = (item: GoogleTranslateResp) => {
   <Command.Dialog auto-select-first :visible="visible" theme="raycast">
     <template #header>
       <Command.Input placeholder="Type to translate..."
-                     v-focus
                      disable-filter
                      v-model="clipText"
                      :loading="loading"

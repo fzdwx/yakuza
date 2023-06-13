@@ -10,9 +10,10 @@ import Translator from "./components/Translate.vue";
 import {View} from "./utils";
 import {onMounted} from "vue";
 import {init} from "./extApiHandle";
-import {useCommandEvent} from "@fzdwx/launcher-api";
+import {useCommandEvent, Command} from "@fzdwx/launcher-api";
+import ExtensionFrame from "./components/ExtensionFrame.vue";
 
-onMounted(()=>{
+onMounted(() => {
   init()
 })
 
@@ -51,13 +52,11 @@ emitter.on('changeView', (view: string) => {
 </script>
 
 <template>
-  <div class="m-4 dark">
+  <div class="dark">
     <Self v-if="currentView == View.Self"/>
     <Shell v-else-if="currentView == View.Shell"/>
     <Translator v-else-if="currentView == View.Translate"/>
-    <div v-else-if="currentView == 'ext'">
-      <iframe src="http://localhost:5173"/>
-    </div>
+    <ExtensionFrame v-else-if="currentView == 'ext'"/>
   </div>
 </template>
 

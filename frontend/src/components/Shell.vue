@@ -89,7 +89,6 @@ const visible = computed(() => {
     <template #header>
       <Command.Input
           placeholder="Run command..."
-          v-focus
           v-model="inputValue"
       >
       </Command.Input>

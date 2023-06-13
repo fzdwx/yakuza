@@ -13,6 +13,7 @@ import (
 //go:embed all:frontend/dist
 var assets embed.FS
 
+// http://localhost:34115/
 func main() {
 	// Create an instance of the app structure
 	app := NewApp()
@@ -23,10 +24,10 @@ func main() {
 		DisableResize: true,
 		Frameless:     true,
 		AlwaysOnTop:   true,
-		MaxWidth:      Width,
-		MaxHeight:     Height,
-		MinWidth:      Width,
-		MinHeight:     Height,
+		//MaxWidth:      Width,
+		//MaxHeight:     Height,
+		//MinWidth:      Width,
+		//MinHeight:     Height,
 		AssetServer: &assetserver.Options{
 			Assets:  assets,
 			Handler: filehandler.Handler(),
