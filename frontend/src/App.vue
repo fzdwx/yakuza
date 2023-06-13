@@ -17,14 +17,14 @@ onMounted(() => {
   init()
 })
 
-window.onkeydown = (e: KeyboardEvent) => {
+window.addEventListener('keydown', e => {
   if (e.code === "Escape") {
     if (currentView.value == View.Self) {
       Hide()
       return
     }
   }
-}
+})
 
 window.onfocus = () => {
   ToFocus()

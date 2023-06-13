@@ -5,10 +5,11 @@ import {
     buildEvent, changeInputStateAction,
     exitAction,
     getClipTextAction,
-    InputState
+    InputState, openUrlAction
 } from "@fzdwx/launcher-api";
 import {ExtEvent} from "@fzdwx/launcher-api/dist/types/ext/api/types";
 import {ref} from "vue";
+import {BrowserOpenURL} from "../../wailsjs/runtime";
 
 const viewEvent = useViewEvent();
 
@@ -41,14 +42,20 @@ handleMap.set(changeInputStateAction, (e) => {
     }
 })
 
+handleMap.set(openUrlAction, (e) => {
+    BrowserOpenURL(e.data)
+})
+
+const handler = (event: MessageEvent<any>) => {
+    const {action, data} = event.data as ExtEvent<any>;
+    const handle = handleMap.get(action);
+    if (handle) {
+        handle({action, data}, event.source);
+    }
+}
 const init = () => {
-    window.addEventListener('message', (event) => {
-        const {action, data} = event.data as ExtEvent<any>;
-        const handle = handleMap.get(action);
-        if (handle) {
-            handle({action, data}, event.source);
-        }
-    });
+    window.removeEventListener('message', handler)
+    window.addEventListener('message', handler);
 }
 
 

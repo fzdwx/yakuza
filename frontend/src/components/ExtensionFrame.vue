@@ -28,14 +28,7 @@ watch(userInput, (value) => {
   extensionFrame.value.contentWindow.postMessage(buildEvent(userInputAction, userInput.value), "*")
 })
 
-onMounted(async () => {
-  const config = await GetConfig();
-  extensionFrame.value.onload = () => {
-    extensionFrame.value.contentWindow.postMessage(buildEvent(setConfigAction, JSON.stringify(config)), "*")
-  }
-})
-
-window.onkeydown = (e) => {
+const listener = (e: KeyboardEvent) => {
   let event = {
     code: e.code,
     key: e.key,
@@ -45,7 +38,18 @@ window.onkeydown = (e) => {
   }
   const data = JSON.stringify(event);
   extensionFrame.value.contentWindow.postMessage(buildEvent(commandKeyDownAction, data), "*")
-}
+};
+onMounted(async () => {
+  const config = await GetConfig();
+  extensionFrame.value.onload = () => {
+    extensionFrame.value.contentWindow.postMessage(buildEvent(setConfigAction, JSON.stringify(config)), "*")
+  }
+
+  window.removeEventListener('keydown', listener)
+  window.addEventListener('keydown', listener)
+})
+
+
 </script>
 
 <template>
