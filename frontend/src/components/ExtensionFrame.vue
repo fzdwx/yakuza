@@ -2,9 +2,10 @@
 import {buildEvent, Command, setConfigAction, userInputAction} from "@fzdwx/launcher-api";
 import {useViewEvent} from "../composables/useViewEvent";
 import {View} from "../utils";
-import {set, useMagicKeys, whenever} from "@vueuse/core";
+import {useMagicKeys, whenever} from "@vueuse/core";
 import {onMounted, ref, watch} from "vue";
 import {GetConfig} from "../../wailsjs/go/main/App";
+import {inputState} from "../extApiHandle";
 
 const frameSrc = "http://localhost:5174"
 const userInput = ref('')
@@ -28,14 +29,15 @@ onMounted(async () => {
   }
 })
 
+
 </script>
 
 <template>
   <Command.Dialog :autoSelectFirst="true" :visible="true" theme="raycast">
     <template #header>
-      <Command.Input placeholder="Type a command or search..." v-model="userInput"/>
+      <Command.Input :loading="inputState.loading" placeholder="Type a command or search..." v-model="userInput"/>
     </template>
-    <template #body class="qwe">
+    <template #body>
       <iframe ref="extensionFrame" :src="frameSrc"/>
     </template>
   </Command.Dialog>

@@ -1,9 +1,13 @@
 import {useViewEvent} from "../composables/useViewEvent";
 import {View} from "../utils";
 import {GetClipText} from "../../wailsjs/go/main/App";
-import {buildEvent, exitAction, getClipTextAction, setConfigAction, userInputAction} from "@fzdwx/launcher-api";
+import {
+    buildEvent, changeInputStateAction,
+    exitAction,
+    getClipTextAction,
+    InputState
+} from "@fzdwx/launcher-api";
 import {ExtEvent} from "@fzdwx/launcher-api/dist/types/ext/api/types";
-import {useExtensionEvent} from "../composables/useExtensionEvent";
 import {ref} from "vue";
 
 const viewEvent = useViewEvent();
@@ -25,6 +29,18 @@ handleMap.set(getClipTextAction, (e, s) => {
     })()
 })
 
+const inputState = ref<InputState>({
+    loading: false,
+})
+handleMap.set(changeInputStateAction, (e) => {
+    if (e.data) {
+        const newState = JSON.parse(e.data) as InputState;
+        if (newState.loading !== undefined) {
+            inputState.value.loading = newState.loading;
+        }
+    }
+})
+
 const init = () => {
     window.addEventListener('message', (event) => {
         const {action, data} = event.data as ExtEvent<any>;
@@ -37,5 +53,5 @@ const init = () => {
 
 
 export {
-    init
+    init, inputState
 }
