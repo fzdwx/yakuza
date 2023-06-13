@@ -2,7 +2,7 @@
 
 import {ListApplications, RunApplication} from "../../../../wailsjs/go/main/App";
 import {onMounted, ref} from "vue";
-import {Command} from "../../../../lib/command/";
+import {Command} from "@fzdwx/launcher-api";
 import {applications} from "../../../../wailsjs/go/models";
 import {useViewEvent} from "../../../composables/useViewEvent";
 import {View} from "../../../utils";

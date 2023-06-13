@@ -6,11 +6,11 @@ import {EventsOn} from "../wailsjs/runtime";
 import {useViewState} from "./composables/useViewState";
 import Shell from "./components/Shell.vue";
 import {useViewEvent} from "./composables/useViewEvent";
-import {useCommandEvent} from "../lib/command/useCommandEvent";
 import Translator from "./components/Translate.vue";
 import {View} from "./utils";
 import {onMounted} from "vue";
 import {init} from "./extApiHandle";
+import {useCommandEvent} from "@fzdwx/launcher-api";
 
 onMounted(()=>{
   init()
@@ -56,7 +56,7 @@ emitter.on('changeView', (view: string) => {
     <Shell v-else-if="currentView == View.Shell"/>
     <Translator v-else-if="currentView == View.Translate"/>
     <div v-else-if="currentView == 'ext'">
-      <iframe src="http://localhost:5174"/>
+      <iframe src="http://localhost:5173"/>
     </div>
   </div>
 </template>

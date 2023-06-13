@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Command} from "../../../../lib/command/";
+import {Command} from "@fzdwx/launcher-api";
 import IconShell from "../../../icon/IconShell.vue";
 import {useViewEvent} from "../../../composables/useViewEvent";
 import {View} from "../../../utils";

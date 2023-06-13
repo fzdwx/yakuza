@@ -1,11 +1,8 @@
-import {
-    buildEvent,
-    exitAction,
-    ExtEvent, getClipTextAction,
-} from "../../lib/ext/api/types";
 import {useViewEvent} from "../composables/useViewEvent";
 import {View} from "../utils";
 import {GetClipText} from "../../wailsjs/go/main/App";
+import {buildEvent, exitAction, getClipTextAction} from "@fzdwx/launcher-api";
+import {ExtEvent} from "@fzdwx/launcher-api/dist/types/ext/api/types";
 
 const viewEvent = useViewEvent();
 
@@ -20,7 +17,7 @@ handleMap.set(exitAction, (e) => {
 handleMap.set(getClipTextAction, (e, s) => {
     (async () => {
         const text = await GetClipText()
-        s?.postMessage(buildEvent(getClipTextAction,'qwheqjkehjkqwhekqjwheqk'), {
+        s?.postMessage(buildEvent(getClipTextAction, 'qwheqjkehjkqwhekqjwheqk'), {
             targetOrigin: '*'
         })
     })()
