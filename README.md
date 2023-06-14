@@ -26,3 +26,4 @@ reference:
 
 1. https://github.com/fzdwx/launcher-github-repository-search
 2. https://github.com/fzdwx/launcher-extension
+3. https://github.com/fzdwx/launcher-api
