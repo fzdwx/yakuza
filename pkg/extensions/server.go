@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"launcher/pkg/fileutil"
 	"net/http"
-	"os"
 	"path/filepath"
 )
 
@@ -20,17 +19,19 @@ func init() {
 }
 
 func ChangeTo(e Extension) {
-	fp := filepath.Join(fileutil.Extensions(), e.Path, "dist")
-	fs := http.FS(os.DirFS(fp))
-	server.fsHandler = http.FileServer(fs)
+	server.ext = e
 }
 
 type ExtensionServer struct {
-	fsHandler http.Handler
+	ext Extension
 }
 
 func (e *ExtensionServer) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
-	if e.fsHandler != nil {
-		e.fsHandler.ServeHTTP(writer, request)
+	fp := filepath.Join(fileutil.Extensions(), e.ext.Path, "dist")
+	if request.RequestURI == "/" {
+		fp = filepath.Join(fp, "index.html")
+	} else {
+		fp = filepath.Join(fp, request.RequestURI)
 	}
+	http.ServeFile(writer, request, fp)
 }

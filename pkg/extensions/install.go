@@ -28,6 +28,12 @@ func walk() error {
 	if err != nil {
 		return err
 	}
+	var newInstalled = make(map[string]Extension)
+	if len(names) == 0 {
+		installed = newInstalled
+		return nil
+	}
+
 	for _, name := range names {
 		bytes, err := os.ReadFile(filepath.Join(fileutil.Extensions(), name, "package.json"))
 		if err != nil {
@@ -38,8 +44,9 @@ func walk() error {
 		if err != nil {
 			return errors.Wrapf(err, "parse package.json error, dir: %s", name)
 		}
-		installed[ext.Name] = ext
+		newInstalled[ext.Name] = ext
 	}
+	installed = newInstalled
 	return nil
 }
 

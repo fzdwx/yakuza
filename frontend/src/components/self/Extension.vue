@@ -21,7 +21,7 @@ const openExtension = (ext: Extension) => {
 </script>
 
 <template>
-  <Command.Group heading="Extension">
+  <Command.Group heading="Extension" v-if="installExtensionList">
     <Command.Item v-for="item in installExtensionList"
                   :data-value="item.name"
                   @select="()=>{
