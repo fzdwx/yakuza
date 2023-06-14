@@ -99,7 +99,7 @@ const visible = computed(() => {
           <Logo class="footer-icon"/>
         </a>
       </div>
-    </template>An extensible linux application launcher
+    </template>
   </Command.Dialog>
 </template>
 
