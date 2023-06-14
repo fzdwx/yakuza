@@ -216,20 +216,23 @@ const langMap = (item: GoogleTranslateResp) => {
     </template>
 
     <template #footer>
-      <IconTranslator/>
+      <IconTranslator class="w-6"/>
 
-      <button class="cursor-default" command-raycast-open-trigger @click="reload">
-        Reload
-      </button>
+      <div command-raycast-open-trigger="">
+        <button class="cursor-default" command-raycast-open-trigger @click="reload">
+          Reload
+        </button>
 
-      <hr>
+        <hr>
 
-      <button class="cursor-default" command-raycast-open-trigger="" @click="()=>{
-        handleCopy(currentSelectResult)
-      }">
-        Copy
-        <kbd>↵</kbd>
-      </button>
+        <button command-raycast-open-trigger
+                class="cursor-default"
+                @click="()=>{handleCopy(currentSelectResult)}"
+        >
+          Copy
+          <kbd>↵</kbd>
+        </button>
+      </div>
 
     </template>
   </Command.Dialog>
