@@ -23,11 +23,6 @@ const builtinItems = [
     viewName: View.ExtensionManager,
     icon: IconExtensionMananger,
     value: 'extension manager'
-  },
-  {
-    viewName: 'ext',
-    icon: IconTranslator,
-    value: 'ext'
   }
 ]
 </script>

@@ -34,7 +34,7 @@ func walk() error {
 			return errors.Wrapf(err, "read package.json error, dir: %s", name)
 		}
 
-		ext, err := parseExtension(bytes)
+		ext, err := parseExtension(bytes, name)
 		if err != nil {
 			return errors.Wrapf(err, "parse package.json error, dir: %s", name)
 		}
@@ -57,6 +57,14 @@ func Install(ext Extension) (bool, error) {
 	return true, nil
 }
 
+func ListInstalled() []Extension {
+	var result []Extension
+	for k := range installed {
+		result = append(result, installed[k])
+	}
+	return result
+}
+
 func CheckInstalled(ext Extension) bool {
 	extensionDir := filepath.Join(fileutil.Extensions(), ext.Dir())
 	stat, _ := os.Stat(extensionDir)
@@ -66,11 +74,12 @@ func CheckInstalled(ext Extension) bool {
 	return false
 }
 
-func parseExtension(bytes []byte) (Extension, error) {
+func parseExtension(bytes []byte, path string) (Extension, error) {
 	var ext launcher
 	err := json.Unmarshal(bytes, &ext)
 	if err != nil {
 		return ext.Launcher, err
 	}
+	ext.Launcher.Path = path
 	return ext.Launcher, err
 }

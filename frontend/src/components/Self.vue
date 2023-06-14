@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {Command, useCommandEvent} from "@fzdwx/launcher-api";
-import Applications from "./comman/Applications/index.vue";
-import BuiltIn from "./comman/BuiltIn/index.vue";
+import Applications from "./self/Applications/index.vue";
+import BuiltIn from "./self/BuiltIn/index.vue";
 import {useMagicKeys, whenever} from "@vueuse/core";
 import {computed, ref} from "vue";
 import {useViewState} from "../composables/useViewState";
@@ -11,6 +11,7 @@ import {BrowserOpenURL} from "../../wailsjs/runtime";
 import ArrowUp from "../icon/ArrowUp.vue";
 import ArrowDown from "../icon/ArrowDown.vue";
 import Enter from "../icon/Enter.vue";
+import Extension from "./self/Extension.vue";
 
 const {emitter} = useCommandEvent()
 
@@ -46,6 +47,7 @@ const visible = computed(() => {
       <Command.List>
         <Command.Empty>No results found.</Command.Empty>
         <BuiltIn/>
+        <Extension/>
         <Applications/>
       </Command.List>
     </template>
@@ -89,7 +91,7 @@ const visible = computed(() => {
 </template>
 
 <style scoped>
-span{
+span {
   @apply text-bgray12 font-bold
 }
 </style>

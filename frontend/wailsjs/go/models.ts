@@ -86,6 +86,7 @@ export namespace extensions {
 	    icon: string;
 	    giturl: string;
 	    installed: boolean;
+	    path: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new Extension(source);
@@ -99,6 +100,7 @@ export namespace extensions {
 	        this.icon = source["icon"];
 	        this.giturl = source["giturl"];
 	        this.installed = source["installed"];
+	        this.path = source["path"];
 	    }
 	}
 	export class ListReq {

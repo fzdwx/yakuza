@@ -142,6 +142,14 @@ func (a *App) ListExtension(req extensions.ListReq) (*extensions.ListResp, error
 	return extensions.List(a.ctx, req)
 }
 
+func (a *App) ListInstalled() []extensions.Extension {
+	return extensions.ListInstalled()
+}
+
+func (a *App) ChangeExtension(ext extensions.Extension) {
+	extensions.ChangeTo(ext)
+}
+
 func (a *App) InstallExtension(ext extensions.Extension) (bool, error) {
 	return extensions.Install(ext)
 }

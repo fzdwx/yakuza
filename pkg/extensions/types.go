@@ -23,6 +23,9 @@ type Extension struct {
 	Icon        string `json:"icon"`
 	GitUrl      string `json:"giturl"`
 	Installed   bool   `json:"installed"`
+
+	//
+	Path string `json:"path"`
 }
 
 type launcher struct {

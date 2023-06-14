@@ -13,7 +13,7 @@ import {onMounted, ref, watch} from "vue";
 import {GetConfig} from "../../wailsjs/go/main/App";
 import {inputState} from "../extApiHandle";
 
-const frameSrc = "http://localhost:5174"
+const frameSrc = "http://localhost:58585"
 const userInput = ref('')
 const extensionFrame = ref()
 
