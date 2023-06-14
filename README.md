@@ -1,9 +1,10 @@
 # launcher
 
-A launcher for linux
+A launcher like raycast, but for linux
+
 ![image](.github/img.png)
 
-## install
+## Install
 
 ```bash
 go install github.com/wailsapp/wails/v2/cmd/wails@v2.5.1
@@ -13,6 +14,15 @@ wails build
 ./build/bin/launcher
 ```
 
-## requirements
+## Requirements
 
 1. xclip: `yay -S xclip`
+
+## Build your owner extension
+
+You can use  [template](https://github.com/fzdwx/launcher-extension-sample) as a first step in developing extensions
+
+reference:
+
+1. https://github.com/fzdwx/launcher-github-repository-search
+2. https://github.com/fzdwx/launcher-extension
