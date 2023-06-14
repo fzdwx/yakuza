@@ -15,6 +15,8 @@ export function Greet(arg1:string):Promise<string>;
 
 export function Hide():Promise<void>;
 
+export function InstallExtension(arg1:extensions.Extension):Promise<boolean>;
+
 export function ListApplications():Promise<Array<applications.Application>>;
 
 export function ListExtension(arg1:extensions.ListReq):Promise<extensions.ListResp>;

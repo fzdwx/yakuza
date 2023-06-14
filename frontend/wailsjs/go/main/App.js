@@ -26,6 +26,10 @@ export function Hide() {
   return window['go']['main']['App']['Hide']();
 }
 
+export function InstallExtension(arg1) {
+  return window['go']['main']['App']['InstallExtension'](arg1);
+}
+
 export function ListApplications() {
   return window['go']['main']['App']['ListApplications']();
 }

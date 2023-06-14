@@ -1,5 +1,10 @@
 package extensions
 
+import (
+	"path/filepath"
+	"strings"
+)
+
 type ListReq struct {
 	SearchText string `json:"searchText"`
 	//Page  int `json:"page"`
@@ -18,6 +23,15 @@ type Extension struct {
 	Icon        string `json:"icon"`
 	GitUrl      string `json:"giturl"`
 	Installed   bool   `json:"installed"`
+}
+
+type launcher struct {
+	Launcher Extension `json:"launcher"`
+}
+
+func (e Extension) Dir() string {
+	base := filepath.Base(e.GitUrl)
+	return strings.TrimSuffix(base, filepath.Ext(base))
 }
 
 type ExtensionSource []Extension

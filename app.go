@@ -141,3 +141,7 @@ func (a *App) GoogleTranslate(text string, from string, to string) (string, erro
 func (a *App) ListExtension(req extensions.ListReq) (*extensions.ListResp, error) {
 	return extensions.List(a.ctx, req)
 }
+
+func (a *App) InstallExtension(ext extensions.Extension) (bool, error) {
+	return extensions.Install(ext)
+}

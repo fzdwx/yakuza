@@ -41,9 +41,12 @@ func init() {
 
 		exts = items
 	}
+
 	go func() {
-		refresh()
-		time.Sleep(30 * time.Second)
+		for {
+			refresh()
+			time.Sleep(30 * time.Second)
+		}
 	}()
 }
 
@@ -65,6 +68,17 @@ func List(ctx context.Context, req ListReq) (*ListResp, error) {
 
 	return &ListResp{
 		Total: len(exts),
-		Items: matchedItems,
+		Items: setInstalled(matchedItems),
 	}, nil
+}
+
+func setInstalled(items []Extension) []Extension {
+	var resp []Extension
+	for _, item := range items {
+		if _, ok := installed[item.Name]; ok {
+			item.Installed = true
+		}
+		resp = append(resp, item)
+	}
+	return resp
 }
