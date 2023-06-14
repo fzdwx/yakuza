@@ -12,6 +12,7 @@ import {onMounted} from "vue";
 import {init} from "./extApiHandle";
 import {useCommandEvent, Command} from "@fzdwx/launcher-api";
 import ExtensionFrame from "./components/ExtensionFrame.vue";
+import ExtensionManager from "./components/ExtensionManager.vue";
 
 onMounted(() => {
   init()
@@ -55,6 +56,7 @@ emitter.on('changeView', (view: string) => {
     <Self v-if="currentView == View.Self"/>
     <Shell v-else-if="currentView == View.Shell"/>
     <Translator v-else-if="currentView == View.Translate"/>
+    <ExtensionManager v-else-if="currentView == View.ExtensionManager"/>
     <ExtensionFrame v-else-if="currentView == 'ext'"/>
   </div>
 </template>

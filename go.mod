@@ -6,6 +6,7 @@ require (
 	code.rocketnine.space/tslocum/desktop v0.1.5
 	github.com/fzdwx/iter v0.0.0-20230511075109-0afee9319312
 	github.com/robotn/gohook v0.40.0
+	github.com/sahilm/fuzzy v0.1.0
 	github.com/wailsapp/wails/v2 v2.5.1
 	golang.design/x/clipboard v0.7.0
 	golang.org/x/sys v0.8.0
@@ -17,6 +18,7 @@ require (
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/jchv/go-winloader v0.0.0-20210711035445-715c2860da7e // indirect
+	github.com/kylelemons/godebug v1.1.0 // indirect
 	github.com/labstack/echo/v4 v4.10.2 // indirect
 	github.com/labstack/gommon v0.4.0 // indirect
 	github.com/leaanthony/go-ansi-parser v1.6.1 // indirect

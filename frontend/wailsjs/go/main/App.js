@@ -30,6 +30,10 @@ export function ListApplications() {
   return window['go']['main']['App']['ListApplications']();
 }
 
+export function ListExtension(arg1) {
+  return window['go']['main']['App']['ListExtension'](arg1);
+}
+
 export function RunApplication(arg1, arg2, arg3, arg4) {
   return window['go']['main']['App']['RunApplication'](arg1, arg2, arg3, arg4);
 }

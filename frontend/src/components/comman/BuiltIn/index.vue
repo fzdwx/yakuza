@@ -4,6 +4,7 @@ import IconShell from "../../../icon/IconShell.vue";
 import {useViewEvent} from "../../../composables/useViewEvent";
 import {View} from "../../../utils";
 import IconTranslator from "../../../icon/IconTranslator.vue";
+import IconExtensionMananger from "../../../icon/IconExtensionMananger.vue";
 
 const {emitter} = useViewEvent();
 
@@ -17,7 +18,13 @@ const builtinItems = [
     viewName: View.Translate,
     icon: IconTranslator,
     value: 'translate'
-  }, {
+  },
+  {
+    viewName: View.ExtensionManager,
+    icon: IconExtensionMananger,
+    value: 'extension manager'
+  },
+  {
     viewName: 'ext',
     icon: IconTranslator,
     value: 'ext'

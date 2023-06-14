@@ -1,11 +1,11 @@
 import {useViewEvent} from "../composables/useViewEvent";
 import {View} from "../utils";
-import {GetClipText} from "../../wailsjs/go/main/App";
+import {GetClipText, SetClipText} from "../../wailsjs/go/main/App";
 import {
     buildEvent, changeInputStateAction,
     exitAction,
     getClipTextAction,
-    InputState, openUrlAction
+    InputState, openUrlAction, setClipTextAction
 } from "@fzdwx/launcher-api";
 import {ExtEvent} from "@fzdwx/launcher-api/dist/types/ext/api/types";
 import {ref} from "vue";
@@ -28,6 +28,10 @@ handleMap.set(getClipTextAction, (e, s) => {
             targetOrigin: '*'
         })
     })()
+})
+
+handleMap.set(setClipTextAction, (e) => {
+    SetClipText(e.data)
 })
 
 const inputState = ref<InputState>({

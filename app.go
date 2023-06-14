@@ -9,6 +9,7 @@ import (
 	"launcher/pkg/applications"
 	"launcher/pkg/clip"
 	"launcher/pkg/config"
+	"launcher/pkg/extensions"
 	"launcher/pkg/translate"
 	"strings"
 )
@@ -53,6 +54,10 @@ func (a *App) startup(ctx context.Context) {
 		s := hook.Start()
 		<-hook.Process(s)
 	}()
+}
+
+func (a *App) domReady(ctx context.Context) {
+	a.Show()
 }
 
 // Greet returns a greeting for the given name
@@ -133,6 +138,6 @@ func (a *App) GoogleTranslate(text string, from string, to string) (string, erro
 	return translate.Do(text, from, to)
 }
 
-func (a *App) domReady(ctx context.Context) {
-	a.Show()
+func (a *App) ListExtension(req extensions.ListReq) (*extensions.ListResp, error) {
+	return extensions.List(a.ctx, req)
 }

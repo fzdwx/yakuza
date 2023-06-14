@@ -89,4 +89,7 @@ const visible = computed(() => {
 </template>
 
 <style scoped>
+span{
+  @apply text-bgray12 font-bold
+}
 </style>
