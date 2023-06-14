@@ -57,7 +57,7 @@ emitter.on('changeView', (view: string) => {
     <Shell v-else-if="currentView == View.Shell"/>
     <Translator v-else-if="currentView == View.Translate"/>
     <ExtensionManager v-else-if="currentView == View.ExtensionManager"/>
-    <ExtensionFrame v-else-if="currentView == View.Extension"/>
+    <ExtensionFrame v-else-if="currentView == View.Extension || currentView==View.ExtensionDev"/>
   </div>
 </template>
 

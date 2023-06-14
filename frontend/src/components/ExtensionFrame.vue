@@ -12,12 +12,14 @@ import {useMagicKeys, whenever} from "@vueuse/core";
 import {onMounted, ref, watch} from "vue";
 import {GetConfig} from "../../wailsjs/go/main/App";
 import {inputState} from "../extApiHandle";
+import {useViewState} from "../composables/useViewState";
 
-const frameSrc = "http://localhost:58585"
+const frameSrc = ref("http://localhost:58585")
 const userInput = ref('')
 const extensionFrame = ref()
 
 const viewEvent = useViewEvent();
+const {currentView} = useViewState();
 const {escape} = useMagicKeys();
 
 whenever(escape, () => {
@@ -40,6 +42,9 @@ const listener = (e: KeyboardEvent) => {
   extensionFrame.value.contentWindow.postMessage(buildEvent(commandKeyDownAction, data), "*")
 };
 onMounted(async () => {
+  if (currentView.value === View.ExtensionDev) {
+    frameSrc.value = "http://localhost:58586"
+  }
   const config = await GetConfig();
   extensionFrame.value.onload = () => {
     extensionFrame.value.contentWindow.postMessage(buildEvent(setConfigAction, JSON.stringify(config)), "*")

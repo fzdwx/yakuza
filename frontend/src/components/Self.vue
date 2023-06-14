@@ -12,12 +12,15 @@ import ArrowUp from "../icon/ArrowUp.vue";
 import ArrowDown from "../icon/ArrowDown.vue";
 import Enter from "../icon/Enter.vue";
 import Extension from "./self/Extension.vue";
+import IconDevTool from "../icon/IconDevTool.vue";
+import {useViewEvent} from "../composables/useViewEvent";
 
 const {emitter} = useCommandEvent()
 
 const inputValue = ref('')
 const {space} = useMagicKeys()
 const {currentView} = useViewState();
+const viewEvent = useViewEvent();
 
 whenever(space, () => {
   if (inputValue.value === '' || inputValue.value.length === 0) {
@@ -49,6 +52,16 @@ const visible = computed(() => {
         <BuiltIn/>
         <Extension/>
         <Applications/>
+
+        <Command.Item data-value="extension dev mode"
+                      @select="()=>{
+                        viewEvent.emitter.emit('changeView', View.ExtensionDev)
+                      }"
+        >
+          <IconDevTool/>
+          <span>Extension dev mode</span>
+          <span>Please set the local extension development port to 58586</span>
+        </Command.Item>
       </Command.List>
     </template>
     <template #footer>

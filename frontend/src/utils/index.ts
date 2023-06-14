@@ -4,5 +4,6 @@ export namespace View {
     export const Translate = 'builtIn-Translate'
     export const ExtensionManager = 'builtIn-ExtensionManager'
     export const Extension = 'builtIn-ext'
+    export const ExtensionDev = 'builtIn-ext-dev'
 }
 
