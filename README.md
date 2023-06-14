@@ -1,6 +1,6 @@
 # launcher
 
-A launcher like raycast, but for linux
+An extensible linux application launcher
 
 ![image](.github/img.png)
 
