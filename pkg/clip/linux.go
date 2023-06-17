@@ -3,17 +3,10 @@
 package clip
 
 import (
-	"golang.design/x/clipboard"
+	"bytes"
 	"os/exec"
 	"strings"
 )
-
-func init() {
-	err := clipboard.Init()
-	if err != nil {
-		panic(err)
-	}
-}
 
 // Get returns the current selection from the clipboard
 func Get() (string, error) {
@@ -31,5 +24,13 @@ func Get() (string, error) {
 }
 
 func Write(s string) {
-	clipboard.Write(clipboard.FmtText, []byte(s))
+	var (
+		command = exec.Command("xclip", "-i", "-selection", "clipboard")
+		input   bytes.Buffer
+	)
+	input.WriteString(s)
+	command.Stdin = &input
+	if err := command.Run(); err != nil {
+		return
+	}
 }
