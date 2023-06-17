@@ -2,13 +2,13 @@
 
 import {Command, useDebouncedRef} from "@fzdwx/launcher-api";
 import {useMagicKeys, whenever} from "@vueuse/core";
-import {View} from "../utils";
-import {useViewEvent} from "../composables/useViewEvent";
+import {View} from "../../../utils";
+import {useViewEvent} from "../../../composables/useViewEvent";
 import {ref, watch} from "vue";
-import {useExtension} from "../composables/useExtension";
-import IconDownload from "../icon/IconDownload.vue";
-import {InstallExtension} from "../../wailsjs/go/main/App";
-import {extensions} from "../../wailsjs/go/models";
+import {useExtension} from "../../../composables/useExtension";
+import IconDownload from "../../../icon/IconDownload.vue";
+import {InstallExtension} from "../../../../wailsjs/go/main/App";
+import {extensions} from "../../../../wailsjs/go/models";
 import Extension = extensions.Extension;
 
 const {escape} = useMagicKeys();

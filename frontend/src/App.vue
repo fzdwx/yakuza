@@ -4,15 +4,16 @@ import Self from "./components/Self.vue";
 import {Hide, ToBlur, ToFocus} from "../wailsjs/go/main/App";
 import {EventsOn} from "../wailsjs/runtime";
 import {useViewState} from "./composables/useViewState";
-import Shell from "./components/Shell.vue";
+import Shell from "./components/self/BuiltIn/Shell.vue";
 import {useViewEvent} from "./composables/useViewEvent";
-import Translator from "./components/Translate.vue";
+import Translator from "./components/self/BuiltIn/Translate.vue";
 import {View} from "./utils";
 import {onMounted} from "vue";
 import {init} from "./extApiHandle";
 import {useCommandEvent, Command} from "@fzdwx/launcher-api";
 import ExtensionFrame from "./components/ExtensionFrame.vue";
-import ExtensionManager from "./components/ExtensionManager.vue";
+import ExtensionManager from "./components/self/BuiltIn/ExtensionManager.vue";
+import Setting from "./components/self/BuiltIn/Setting.vue";
 
 onMounted(() => {
   init()
@@ -57,6 +58,7 @@ emitter.on('changeView', (view: string) => {
     <Shell v-else-if="currentView == View.Shell"/>
     <Translator v-else-if="currentView == View.Translate"/>
     <ExtensionManager v-else-if="currentView == View.ExtensionManager"/>
+    <Setting v-else-if="currentView == View.Setting"/>
     <ExtensionFrame v-else-if="currentView == View.Extension || currentView==View.ExtensionDev"/>
   </div>
 </template>

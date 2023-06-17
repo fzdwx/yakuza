@@ -5,5 +5,6 @@ export namespace View {
     export const ExtensionManager = 'builtIn-ExtensionManager'
     export const Extension = 'builtIn-ext'
     export const ExtensionDev = 'builtIn-ext-dev'
+    export const Setting = 'builtIn-setting'
 }
 

@@ -5,6 +5,7 @@ import {useViewEvent} from "../../../composables/useViewEvent";
 import {View} from "../../../utils";
 import IconTranslator from "../../../icon/IconTranslator.vue";
 import IconExtensionMananger from "../../../icon/IconExtensionMananger.vue";
+import IconSetting from "../../../icon/IconSetting.vue";
 
 const {emitter} = useViewEvent();
 
@@ -12,17 +13,21 @@ const builtinItems = [
   {
     viewName: View.Shell,
     icon: IconShell,
-    value: 'shell'
+    value: 'Shell'
   },
   {
     viewName: View.Translate,
     icon: IconTranslator,
-    value: 'translate'
+    value: 'Translate'
   },
   {
     viewName: View.ExtensionManager,
     icon: IconExtensionMananger,
-    value: 'extension manager'
+    value: 'Extension manager'
+  }, {
+    viewName: View.Setting,
+    icon: IconSetting,
+    value: 'Setting'
   }
 ]
 </script>
