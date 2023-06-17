@@ -42,7 +42,9 @@ const {emitter} = useViewEvent();
 
 EventsOn("show", () => {
   event.emitter.emit('setInputValue', '')
-  emitter.emit('changeView', View.Self)
+  if (currentView.value !== View.Self) {
+    emitter.emit('changeView', View.Self)
+  }
 })
 
 emitter.on('changeView', (view: string) => {

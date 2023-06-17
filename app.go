@@ -71,12 +71,16 @@ func (a *App) Hide() {
 	a.ToBlur()
 }
 
+func (a *App) WindowIsShow() bool {
+	return a.show
+}
+
 func (a *App) Show() {
-	runtime.WindowShow(a.ctx)
-	runtime.WindowSetSize(a.ctx, Width, Height)
-	runtime.WindowCenter(a.ctx)
 	a.show = true
 	runtime.EventsEmit(a.ctx, "show")
+	runtime.WindowSetSize(a.ctx, Width, Height)
+	runtime.WindowShow(a.ctx)
+	runtime.WindowCenter(a.ctx)
 }
 
 func (a *App) ToFocus() {

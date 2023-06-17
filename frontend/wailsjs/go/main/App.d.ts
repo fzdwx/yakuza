@@ -36,3 +36,5 @@ export function Show():Promise<void>;
 export function ToBlur():Promise<void>;
 
 export function ToFocus():Promise<void>;
+
+export function WindowIsShow():Promise<boolean>;

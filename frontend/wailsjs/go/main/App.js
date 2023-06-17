@@ -69,3 +69,7 @@ export function ToBlur() {
 export function ToFocus() {
   return window['go']['main']['App']['ToFocus']();
 }
+
+export function WindowIsShow() {
+  return window['go']['main']['App']['WindowIsShow']();
+}
