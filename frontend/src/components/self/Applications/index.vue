@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import {ListApplications, RunApplication} from "../../../../wailsjs/go/main/App";
+import {GetShortcut, ListApplications, RunApplication} from "../../../../wailsjs/go/main/App";
 import {onMounted, ref} from "vue";
 import {Command} from "@fzdwx/launcher-api";
 import {applications} from "../../../../wailsjs/go/models";
@@ -25,6 +25,19 @@ const handleSelectItem = (item: applications.Application) => {
   RunApplication(item.name, "apps", item.Exec, item.terminal)
 }
 
+const shortcut = ref();
+onMounted(async () => {
+  shortcut.value = await GetShortcut();
+
+})
+
+const getShortcut = (name: string) => {
+  if (shortcut.value) {
+    return shortcut.value[name]
+  }
+  return undefined
+}
+
 </script>
 
 <template>
@@ -35,6 +48,10 @@ const handleSelectItem = (item: applications.Application) => {
                   :data-value="application.name">
       <img :src="'/favicon.ico?/'+application.icon" alt="icon" class="w-6 h-6 mr-2"/>
       {{ application.name }}
+
+      <kbd class="absolute right-10">
+        {{ getShortcut(application.name) }}
+      </kbd>
     </Command.Item>
   </Command.Group>
 </template>

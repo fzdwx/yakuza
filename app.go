@@ -157,3 +157,11 @@ func (a *App) ChangeExtension(ext extensions.Extension) {
 func (a *App) InstallExtension(ext extensions.Extension) (bool, error) {
 	return extensions.Install(ext)
 }
+
+func (a *App) SetShortcut(key string, value string) {
+	extensions.SetShortcut(a.ctx, key, value)
+}
+
+func (a *App) GetShortcut() map[string]any {
+	return extensions.GetShortcut(a.ctx)
+}

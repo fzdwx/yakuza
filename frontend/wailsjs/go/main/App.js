@@ -18,6 +18,10 @@ export function GetRunHistory() {
   return window['go']['main']['App']['GetRunHistory']();
 }
 
+export function GetShortcut() {
+  return window['go']['main']['App']['GetShortcut']();
+}
+
 export function GoogleTranslate(arg1, arg2, arg3) {
   return window['go']['main']['App']['GoogleTranslate'](arg1, arg2, arg3);
 }
@@ -56,6 +60,10 @@ export function SetClipText(arg1) {
 
 export function SetConfig(arg1, arg2) {
   return window['go']['main']['App']['SetConfig'](arg1, arg2);
+}
+
+export function SetShortcut(arg1, arg2) {
+  return window['go']['main']['App']['SetShortcut'](arg1, arg2);
 }
 
 export function Show() {

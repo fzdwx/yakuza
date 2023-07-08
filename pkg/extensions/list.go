@@ -68,11 +68,11 @@ func List(ctx context.Context, req ListReq) (*ListResp, error) {
 
 	return &ListResp{
 		Total: len(exts),
-		Items: setInstalled(matchedItems),
+		Items: fill(ctx, matchedItems),
 	}, nil
 }
 
-func setInstalled(items []Extension) []Extension {
+func fill(ctx context.Context, items []Extension) []Extension {
 	var resp []Extension
 	for _, item := range items {
 		if _, ok := installed[item.Name]; ok {
