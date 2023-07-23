@@ -38,6 +38,22 @@ func (a *App) startup(ctx context.Context) {
 	a.show = true
 
 	go func() {
+		shortcut := a.GetShortcut()
+		for name, value := range shortcut {
+			v := value.(map[string]any)
+			key := parseKey(v["shortcuts"].(string))
+
+			if v["type"] == "builtin" {
+				hook.Register(hook.KeyDown, key, func(e hook.Event) {
+					fmt.Println(name, value)
+					a.Show(map[string]string{
+						"view": name,
+					})
+
+				})
+			}
+		}
+
 		hook.Register(hook.KeyDown, []string{"space", "alt"}, func(e hook.Event) {
 			if a.show {
 				a.Hide()
@@ -75,9 +91,9 @@ func (a *App) WindowIsShow() bool {
 	return a.show
 }
 
-func (a *App) Show() {
+func (a *App) Show(data ...any) {
 	a.show = true
-	runtime.EventsEmit(a.ctx, "show")
+	runtime.EventsEmit(a.ctx, "show", data)
 	runtime.WindowSetSize(a.ctx, Width, Height)
 	runtime.WindowShow(a.ctx)
 	runtime.WindowCenter(a.ctx)
@@ -164,4 +180,8 @@ func (a *App) SetShortcut(key string, value string, typestr string) {
 
 func (a *App) GetShortcut() map[string]any {
 	return extensions.GetShortcut(a.ctx)
+}
+
+func parseKey(val string) []string {
+	return strings.Split(val, "+")
 }

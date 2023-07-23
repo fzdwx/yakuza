@@ -40,10 +40,16 @@ const event = useCommandEvent();
 const {currentView} = useViewState();
 const {emitter} = useViewEvent();
 
-EventsOn("show", () => {
-  event.emitter.emit('setInputValue', '')
-  if (currentView.value !== View.Self) {
-    emitter.emit('changeView', View.Self)
+EventsOn("show", (array) => {
+  if (array) {
+    const data = array[0];
+    emitter.emit('changeView', data['view'])
+    event.emitter.emit('setInputValue', '')
+  } else {
+    event.emitter.emit('setInputValue', '')
+    if (currentView.value !== View.Self) {
+      emitter.emit('changeView', View.Self)
+    }
   }
 })
 

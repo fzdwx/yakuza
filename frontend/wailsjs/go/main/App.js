@@ -66,8 +66,8 @@ export function SetShortcut(arg1, arg2, arg3) {
   return window['go']['main']['App']['SetShortcut'](arg1, arg2, arg3);
 }
 
-export function Show() {
-  return window['go']['main']['App']['Show']();
+export function Show(arg1) {
+  return window['go']['main']['App']['Show'](arg1);
 }
 
 export function ToBlur() {

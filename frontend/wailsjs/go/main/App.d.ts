@@ -35,7 +35,7 @@ export function SetConfig(arg1:string,arg2:any):Promise<void>;
 
 export function SetShortcut(arg1:string,arg2:string,arg3:string):Promise<void>;
 
-export function Show():Promise<void>;
+export function Show(arg1:Array<any>):Promise<void>;
 
 export function ToBlur():Promise<void>;
 
