@@ -7,7 +7,7 @@ import (
 
 const key = "shortcuts"
 
-func SetShortcut(ctx context.Context, shortcut string, name string) {
+func SetShortcut(ctx context.Context, name string, shortcuts string, typeStr string) {
 	cfg, err := config.Get(ctx)
 	if err != nil {
 		return
@@ -24,11 +24,15 @@ func SetShortcut(ctx context.Context, shortcut string, name string) {
 	m := val.(map[string]any)
 
 	for k := range m {
-		if m[k] == name {
+		info := m[k].(map[string]any)
+		if info["shortcuts"] == shortcuts {
 			delete(m, k)
 		}
 	}
-	m[shortcut] = name
+	m[name] = map[string]string{
+		"shortcuts": shortcuts,
+		"type":      typeStr,
+	}
 
 	_ = config.Set(ctx, key, m)
 }

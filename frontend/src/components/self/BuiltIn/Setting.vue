@@ -32,9 +32,17 @@ onMounted(refreshApps)
 
 const showSettingItem = ref(false)
 const currentApplicationName = ref('')
-const update = (name: string) => {
+const currentItemType = ref('')
+const update = (name: string, type: string) => {
   showSettingItem.value = true
   currentApplicationName.value = name
+  currentItemType.value = type
+}
+
+const type = {
+  builtin: 'builtin',
+  extension: 'extension',
+  application: 'application'
 }
 
 const installExtensionList = ref<Extension[]>([]);
@@ -61,7 +69,8 @@ onMounted(async () => {
         <Command.Empty>Extension is empty</Command.Empty>
 
         <Command.Group heading="Built in">
-          <Command.Item @select="update(item.viewName)" v-for="item in builtinItems" :key="item.value" :builtIn="true"
+          <Command.Item @select="update(item.viewName,type.builtin)" v-for="item in builtinItems" :key="item.value"
+                        :builtIn="true"
                         :data-value="item.value">
             <component :is="item.icon" class="icon"/>
             <span>{{ item.value }}</span>
@@ -72,7 +81,7 @@ onMounted(async () => {
           <Command.Item v-for="item in installExtensionList"
                         :data-value="item.name"
                         @select="()=>{
-                    update(item.name)
+                    update(item.name,type.extension)
                   }"
           >
             <img :src="item.icon" alt="" style="width: 20px; height: 20px;"/>
@@ -82,7 +91,7 @@ onMounted(async () => {
 
         <Command.Group heading="Applications">
           <Command.Item v-for="application in apps"
-                        @select="update(application.name)"
+                        @select="update(application.name,type.application)"
                         noHandleSpace
                         :data-value="application.name">
             <img :src="'/favicon.ico?/'+application.icon" alt="icon" class="w-6 h-6 mr-2"/>
@@ -112,7 +121,7 @@ onMounted(async () => {
                     return
                  }
 
-                 SetShortcut(currentApplicationName,shortcut)
+                 SetShortcut(currentApplicationName,shortcut,currentItemType)
                }"
   />
 </template>
