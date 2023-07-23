@@ -6,11 +6,11 @@ import IconSetting from "../../../icon/IconSetting.vue";
 import {useMagicKeys, whenever} from "@vueuse/core";
 import {useViewEvent} from "../../../composables/useViewEvent";
 import {View} from "../../../utils";
-import {applications} from "../../../../wailsjs/go/models";
+import {applications, extensions} from "../../../../wailsjs/go/models";
 import {ListApplications, ListInstalled, SetShortcut} from "../../../../wailsjs/go/main/App";
 import SettingItem from "./SettingItem.vue";
 import {builtinItems} from "./utils";
-import Extension from "../Extension.vue";
+import Extension = extensions.Extension;
 
 
 const {escape} = useMagicKeys()
@@ -104,6 +104,7 @@ onMounted(async () => {
     </template>
   </Command.Dialog>
   <SettingItem v-if="showSettingItem"
+               :name="currentApplicationName"
                :on-save="(shortcut:string)=>{
                  showSettingItem = false
 
@@ -111,7 +112,7 @@ onMounted(async () => {
                     return
                  }
 
-                    SetShortcut(currentApplicationName,shortcut)
+                 SetShortcut(currentApplicationName,shortcut)
                }"
   />
 </template>

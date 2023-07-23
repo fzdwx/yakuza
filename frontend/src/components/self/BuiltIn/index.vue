@@ -30,7 +30,7 @@ const getShortcut = (name: string) => {
       <span>{{ item.value }}</span>
 
       <kbd class="absolute right-10">
-        {{ getShortcut(item.name) }}
+        {{ getShortcut(item.viewName) }}
       </kbd>
     </Command.Item>
   </Command.Group>

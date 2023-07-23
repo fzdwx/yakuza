@@ -15,13 +15,13 @@ func SetShortcut(ctx context.Context, shortcut string, name string) {
 
 	val := cfg[key]
 	if val == nil {
-		val = make(map[string]string)
+		val = make(map[string]any)
 	}
 	// todo 传入类型, 在注册快捷键的时候根据类型进行判断
 	// 1. 如果是 application 那么直接执行
 	// 2. 如果是 builtin or extension 就打开对应的页面
 
-	m := val.(map[string]string)
+	m := val.(map[string]any)
 
 	for k := range m {
 		if m[k] == name {
