@@ -1,8 +1,8 @@
-import {View} from "../../../utils";
-import IconShell from "../../../icon/IconShell.vue";
-import IconTranslator from "../../../icon/IconTranslator.vue";
-import IconExtensionMananger from "../../../icon/IconExtensionMananger.vue";
-import IconSetting from "../../../icon/IconSetting.vue";
+import {View} from "../utils";
+import IconShell from "../icon/IconShell.vue";
+import IconTranslator from "../icon/IconTranslator.vue";
+import IconExtensionMananger from "../icon/IconExtensionMananger.vue";
+import IconSetting from "../icon/IconSetting.vue";
 
 const builtinItems = [
     {

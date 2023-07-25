@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import {Command} from "@fzdwx/launcher-api";
-import {useViewEvent} from "../../../composables/useViewEvent";
-import {builtinItems} from "./utils";
-import {GetShortcut} from "../../../../wailsjs/go/main/App";
+import {useViewEvent} from "../../composables/useViewEvent";
+import {builtinItems} from "../utils";
+import {GetShortcut} from "../../../wailsjs/go/main/App";
 import {onMounted, ref} from "vue";
 
 const {emitter} = useViewEvent();

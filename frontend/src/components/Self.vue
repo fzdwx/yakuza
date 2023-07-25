@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {Command, useCommandEvent} from "@fzdwx/launcher-api";
-import Applications from "./self/Applications/index.vue";
-import BuiltIn from "./self/BuiltIn/index.vue";
+import Applications from "./self/Applications.vue";
+import BuiltIn from "./self/BuiltIn.vue";
 import {useMagicKeys, whenever} from "@vueuse/core";
 import {computed, ref} from "vue";
 import {useViewState} from "../composables/useViewState";

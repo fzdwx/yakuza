@@ -2,13 +2,13 @@
 
 import {Command} from "@fzdwx/launcher-api";
 import {onMounted, ref} from "vue";
-import IconSetting from "../../../icon/IconSetting.vue";
+import IconSetting from "../icon/IconSetting.vue";
 import {useMagicKeys, whenever} from "@vueuse/core";
-import {useViewEvent} from "../../../composables/useViewEvent";
-import {View} from "../../../utils";
-import {applications, extensions} from "../../../../wailsjs/go/models";
-import {ListApplications, ListInstalled, SetShortcut} from "../../../../wailsjs/go/main/App";
-import SettingItem from "./SettingItem.vue";
+import {useViewEvent} from "../composables/useViewEvent";
+import {View} from "../utils";
+import {applications, extensions} from "../../wailsjs/go/models";
+import {ListApplications, ListInstalled, SetShortcut} from "../../wailsjs/go/main/App";
+import SettingItem from "./ExtensionManager/SettingItem.vue";
 import {builtinItems} from "./utils";
 import Extension = extensions.Extension;
 

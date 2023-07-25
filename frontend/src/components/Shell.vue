@@ -1,13 +1,13 @@
 <script setup lang="ts">
 
 import {useMagicKeys, whenever} from "@vueuse/core";
-import {useViewEvent} from "../../../composables/useViewEvent";
+import {useViewEvent} from "../composables/useViewEvent";
 import {computed, onMounted, ref} from "vue";
-import IconShell from "../../../icon/IconShell.vue";
-import {GetRunHistory, RunApplication} from "../../../../wailsjs/go/main/App";
-import {applications} from "../../../../wailsjs/go/models";
-import {View} from "../../../utils";
-import {useViewState} from "../../../composables/useViewState";
+import IconShell from "../icon/IconShell.vue";
+import {GetRunHistory, RunApplication} from "../../wailsjs/go/main/App";
+import {applications} from "../../wailsjs/go/models";
+import {View} from "../utils";
+import {useViewState} from "../composables/useViewState";
 import {useCommandEvent, Command, useCommandState} from "@fzdwx/launcher-api";
 
 const inputValue = ref('')

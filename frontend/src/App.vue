@@ -4,16 +4,16 @@ import Self from "./components/Self.vue";
 import {Hide, ToBlur, ToFocus} from "../wailsjs/go/main/App";
 import {EventsOn} from "../wailsjs/runtime";
 import {useViewState} from "./composables/useViewState";
-import Shell from "./components/self/BuiltIn/Shell.vue";
+import Shell from "./components/Shell.vue";
 import {useViewEvent} from "./composables/useViewEvent";
-import Translator from "./components/self/BuiltIn/Translate.vue";
+import Translator from "./components/Translate.vue";
 import {View} from "./utils";
 import {onMounted} from "vue";
 import {init} from "./extApiHandle";
 import {useCommandEvent, Command} from "@fzdwx/launcher-api";
 import ExtensionFrame from "./components/ExtensionFrame.vue";
-import ExtensionManager from "./components/self/BuiltIn/ExtensionManager.vue";
-import Setting from "./components/self/BuiltIn/Setting.vue";
+import ExtensionManager from "./components/ExtensionManager/index.vue";
+import Setting from "./components/Setting.vue";
 
 onMounted(() => {
   init()

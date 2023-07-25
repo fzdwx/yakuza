@@ -1,3 +1,4 @@
+<!-- 插件 view -->
 <script setup lang="ts">
 import {
   buildEvent,
