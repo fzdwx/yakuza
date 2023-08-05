@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import {Command} from "@fzdwx/launcher-api";
-import {ChangeExtension, GetShortcut, ListInstalled} from "../../../wailsjs/go/main/App";
+import {ChangeExtension, ListInstalled} from "../../../wailsjs/go/main/App";
 import {onMounted, ref} from "vue";
 import {extensions} from "../../../wailsjs/go/models";
 import Extension = extensions.Extension;
 import {useViewEvent} from "../../composables/useViewEvent";
 import {View} from "../../utils";
+import Shortcuts from "../common/Shortcuts.vue";
 
 const installExtensionList = ref<Extension[]>([]);
 
@@ -19,17 +20,6 @@ const openExtension = (ext: Extension) => {
   ChangeExtension(ext)
 }
 
-const shortcut = ref();
-onMounted(async () => {
-  shortcut.value = await GetShortcut();
-})
-
-const getShortcut = (name: string) => {
-  if (shortcut.value) {
-    return shortcut.value[name]
-  }
-  return undefined
-}
 </script>
 
 <template>
@@ -43,9 +33,7 @@ const getShortcut = (name: string) => {
       <img :src="item.icon" alt="" style="width: 20px; height: 20px;"/>
       {{ item.name }}
 
-      <kbd class="absolute right-10">
-        {{ getShortcut(item.name) }}
-      </kbd>
+      <Shortcuts :name="item.name"/>
     </Command.Item>
   </Command.Group>
 </template>
