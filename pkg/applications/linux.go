@@ -14,9 +14,34 @@ import (
 	"strings"
 )
 
+func entryIntoApplications(entry *desktop.Entry) []*Application {
+	var apps []*Application
+	apps = append(apps, &Application{
+		Name:     entry.Name,
+		Icon:     entry.Icon,
+		Exec:     entry.Exec,
+		Terminal: entry.Terminal,
+	})
+	for _, action := range entry.ActionEntries {
+		var icon string
+		if action.Icon == "" {
+			icon = entry.Icon
+		} else {
+			icon = action.Icon
+		}
+		apps = append(apps, &Application{
+			Name:     entry.Name + " " + action.Name,
+			Icon:     icon,
+			Exec:     action.Exec,
+			Terminal: entry.Terminal,
+		})
+	}
+	return apps
+}
+
 // List all applications
 func List(ctx context.Context) ([]*Application, error) {
-	apps, err := desktop.Scan(desktop.DataDirs())
+	entries, err := desktop.Scan(desktop.DataDirs())
 	if err != nil {
 		return nil, err
 	}
@@ -26,12 +51,53 @@ func List(ctx context.Context) ([]*Application, error) {
 		return nil, err
 	}
 
-	return stream.FlatMap[[]*desktop.Entry, *Application](
-		iter.Stream(apps),
-		func(entries []*desktop.Entry) stream.Iterator[*Application] {
-			return stream.Map[*desktop.Entry, *Application](iter.Stream(entries), mapEntryToApplication(history))
+	applications := stream.FlatMap[[]*desktop.Entry, []*Application](
+		iter.Stream(entries),
+		func(entries []*desktop.Entry) stream.Iterator[[]*Application] {
+			return stream.Map[*desktop.Entry, []*Application](iter.Stream(entries), entryIntoApplications)
+		},
+	).ToArray()
+
+	return stream.FlatMap[[]*Application, *Application](
+		iter.Stream(applications),
+		func(apps []*Application) stream.Iterator[*Application] {
+			return stream.Map[*Application, *Application](
+				iter.Stream(apps),
+				mapApplicationToAppwithHistory(history),
+			)
 		},
 	).ToArray(), nil
+
+	// return stream.FlatMap[[]*desktop.Entry, *Application](
+	// 	iter.Stream(entries),
+	// 	func(entries []*desktop.Entry) stream.Iterator[*Application] {
+	// 		return stream.Map[*desktop.Entry, *Application](iter.Stream(entries), mapEntryToApplication(history))
+	// 	},
+	// ).ToArray(), nil
+}
+
+func mapApplicationToAppwithHistory(history *RunHistory) func(entry *Application) *Application {
+	var appMap map[string]RunHistoryItem = nil
+	if len(history.Apps) > 0 {
+		appMap = iter.Stream(history.Apps).ToMap(func(item RunHistoryItem) string {
+			return item.Name
+		})
+	}
+
+	return func(application *Application) *Application {
+		a := &Application{
+			Name:     application.Name,
+			Exec:     application.Exec,
+			Icon:     application.Icon,
+			Terminal: application.Terminal,
+		}
+		if appMap != nil {
+			app := appMap[a.Name]
+			a.Count = app.Count
+			a.LastRunTime = app.LastRunTime
+		}
+		return a
+	}
 }
 
 func AddHistory(ctx context.Context, name string, runType string, cmd string, term bool) {
