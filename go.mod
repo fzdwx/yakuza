@@ -3,7 +3,7 @@ module launcher
 go 1.18
 
 require (
-	code.rocketnine.space/tslocum/desktop v0.1.5
+	github.com/eric-song-nop/desktop v0.1.0
 	github.com/fzdwx/iter v0.0.0-20230511075109-0afee9319312
 	github.com/pkg/errors v0.9.1
 	github.com/robotn/gohook v0.40.0

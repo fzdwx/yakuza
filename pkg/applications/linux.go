@@ -3,9 +3,9 @@
 package applications
 
 import (
-	"code.rocketnine.space/tslocum/desktop"
 	"context"
 	"encoding/json"
+	"github.com/eric-song-nop/desktop"
 	"github.com/fzdwx/iter"
 	"github.com/fzdwx/iter/stream"
 	"github.com/wailsapp/wails/v2/pkg/runtime"
