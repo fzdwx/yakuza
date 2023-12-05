@@ -45,10 +45,12 @@ export default () => {
       titleBarStyle: 'hidden',
       alwaysOnTop: true,
       transparent: true,
+      frame: false,
       icon: join(process.env.VITE_PUBLIC, 'favicon.ico'),
       webPreferences: {
         webSecurity: false,
         backgroundThrottling: false,
+        experimentalFeatures: true,
         contextIsolation: false,
         webviewTag: true,
         nodeIntegration: true,

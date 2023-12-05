@@ -23,7 +23,8 @@
     "electron-updater": "^6.1.7",
     "jotai": "^2.6.0",
     "launcher-api": "^0.6.4",
-    "lowdb": "^6.1.1"
+    "lowdb": "^6.1.1",
+    "sass": "^1.69.5"
   },
   "devDependencies": {
     "@types/react": "^18.2.40",
