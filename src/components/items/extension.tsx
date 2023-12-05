@@ -30,6 +30,7 @@ const extension = () => {
                 key={item.name}
                 value={item.name}
                 onSelect={() => {
+                    // @ts-ignore
                     window.launcher.openExtension(item)
                 }}
             >

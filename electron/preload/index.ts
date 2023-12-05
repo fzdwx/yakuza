@@ -42,6 +42,12 @@ window.launcher = {
         })
     },
 
+    async openUrl(url: string) {
+        return callApiWithRes('openUrl', {
+            url
+        })
+    },
+
     //@ts-ignore
     openExtension(ext: LocalExtension) {
         callApi('openExtension', {

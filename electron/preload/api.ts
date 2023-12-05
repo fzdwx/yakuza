@@ -1,8 +1,7 @@
-import {BrowserWindow, app, ipcMain, clipboard} from "electron"
+import {BrowserWindow, app, ipcMain, clipboard, shell} from "electron"
 import {toCenter} from "../main/screen";
 import * as cmd from 'node:child_process'
 import util from 'node:util'
-import {LocalExtension} from "@/native";
 
 const exec = util.promisify(cmd.exec)
 const spawn = util.promisify(cmd.spawn)
@@ -45,6 +44,11 @@ class LauncherApi {
         this.mainWindow.show()
         toCenter(this.mainWindow)
         this.mainWindow.focus()
+    }
+
+    public openUrl = async ({data}: { data: any }) => {
+        const {url} = data
+        return await shell.openExternal(url)
     }
 
     public async execCommand({data}: { data: any }) {
