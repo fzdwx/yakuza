@@ -22,7 +22,6 @@
     "@radix-ui/themes": "^2.0.1",
     "electron-updater": "^6.1.7",
     "jotai": "^2.6.0",
-    "launcher-api": "^0.6.6",
     "lowdb": "^6.1.1",
     "sass": "^1.69.5"
   },
@@ -39,6 +38,7 @@
     "unocss": "^0.57.7",
     "vite": "^5.0.4",
     "vite-plugin-electron": "^0.15.4",
+    "launcher-api": "^0.6.8",
     "vite-plugin-electron-renderer": "^0.14.5"
   },
   "engines": {

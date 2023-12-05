@@ -4,7 +4,8 @@ import App from './App'
 import 'virtual:uno.css'
 import '@radix-ui/themes/styles.css';
 import { Theme } from '@radix-ui/themes'
-import '@/assets/global.scss'
+// import '@/assets/global.scss'
+import 'launcher-api/dist/index.css'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
