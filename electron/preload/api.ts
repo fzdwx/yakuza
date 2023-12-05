@@ -2,6 +2,7 @@ import {BrowserWindow, app, ipcMain, clipboard} from "electron"
 import {toCenter} from "../main/screen";
 import * as cmd from 'node:child_process'
 import util from 'node:util'
+import {LocalExtension} from "@/native";
 
 const exec = util.promisify(cmd.exec)
 const spawn = util.promisify(cmd.spawn)
@@ -29,6 +30,11 @@ class LauncherApi {
 
     public loadDevView() {
         this.mainWindow.loadURL('http://localhost:35678')
+    }
+
+    public openExtension({data}: { data: any }) {
+        const {ext} = data
+        this.mainWindow.loadURL(`http://localhost:8080?ext=${ext.fullPath}`)
     }
 
     public loadMainView() {

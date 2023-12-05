@@ -35,8 +35,24 @@ type LocalExtension struct {
 	DirName  string `json:"dirName"`
 }
 
-var remoteExtensions []*RemoteExtension
-var localExtensions []*LocalExtension
+var (
+	remoteExtensions []*RemoteExtension
+	localExtensions  []*LocalExtension
+	currentExtension *LocalExtension
+)
+
+func (s *Server) ServeExtension(writer http.ResponseWriter, request *http.Request) {
+	fullPath := request.URL.Query().Get("ext")
+	if len(fullPath) > 0 {
+		changeExtension(fullPath)
+	}
+	if currentExtension == nil {
+		return
+	}
+
+	dir := filepath.Join(currentExtension.FullPath, "dist")
+	http.FileServer(http.Dir(dir)).ServeHTTP(writer, request)
+}
 
 func (s *Server) ListLocalExtension(w http.ResponseWriter, r *http.Request) {
 	err := json.NewEncoder(w).Encode(localExtensions)
@@ -159,4 +175,12 @@ func (s *Server) doRefreshLocal() {
 	}
 
 	localExtensions = extensions
+}
+
+func changeExtension(path string) {
+	find, _ := lo.Find(localExtensions, func(localExtension *LocalExtension) bool {
+		return localExtension.FullPath == path
+	})
+
+	currentExtension = find
 }

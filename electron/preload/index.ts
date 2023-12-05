@@ -1,4 +1,5 @@
 import {ipcRenderer} from "electron"
+import {LocalExtension} from "@/native";
 
 const callApi = (type: string, data: any) => {
     ipcRenderer.send('launcher-api', {
@@ -14,6 +15,8 @@ const callApiWithRes = <I, O>(type: string, data: I) => {
     }) as O
 }
 
+// @ts-ignore
+// @ts-ignore
 window.launcher = {
     hello() {
         return callApiWithRes('hello', {})
@@ -38,6 +41,14 @@ window.launcher = {
             name
         })
     },
+
+    //@ts-ignore
+    openExtension(ext: LocalExtension) {
+        callApi('openExtension', {
+            ext
+        })
+    },
+
 
     async getSelect() {
         return callApiWithRes('getSelect', {})

@@ -58,4 +58,7 @@ func (s *Server) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 		s.InstallExtension(writer, request)
 		return
 	}
+
+	s.ServeExtension(writer, request)
+	return
 }

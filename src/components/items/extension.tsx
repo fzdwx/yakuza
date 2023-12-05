@@ -30,6 +30,7 @@ const extension = () => {
                 key={item.name}
                 value={item.name}
                 onSelect={() => {
+                    window.launcher.openExtension(item)
                 }}
             >
                 <img className="w-4" alt='img' src={item.icon}/>
