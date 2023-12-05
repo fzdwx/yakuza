@@ -1,5 +1,4 @@
 import { BrowserWindow } from "electron"
-const glasstron = require('glasstron');
 import { Height, Width } from "./cons"
 import { join } from 'node:path'
 import { release } from 'node:os'

@@ -20,12 +20,11 @@ const CommandMenu = () => {
         <Command className='raycast' label="Global Command Menu">
             <div cmdk-raycast-top-shine=""/>
             <Command.Input value={value} onValueChange={onValueChange} autoFocus ref={inputRef}/>
-            <hr cmdk-raycast-loader=""/>
             <Command.List ref={listRef}>
                 <Command.Empty>No results found.</Command.Empty>
 
-                <Application/>
                 <Extension/>
+                <Application/>
 
             </Command.List>
 

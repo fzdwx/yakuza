@@ -21,9 +21,8 @@
     "@radix-ui/react-popover": "^1.0.7",
     "@radix-ui/themes": "^2.0.1",
     "electron-updater": "^6.1.7",
-    "glasstron": "^0.1.1",
     "jotai": "^2.6.0",
-    "launcher-api": "^0.6.4",
+    "launcher-api": "^0.6.6",
     "lowdb": "^6.1.1",
     "sass": "^1.69.5"
   },
