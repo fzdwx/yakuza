@@ -27,6 +27,7 @@ func NewServer(port *int) *Server {
 	}
 
 	go s.refreshApplication()
+	go s.refreshExtension()
 
 	return s
 }
@@ -43,6 +44,18 @@ func (s *Server) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 	}
 	if request.URL.Path == "/api/runHistory" {
 		s.AddRunHistory(writer, request)
+		return
+	}
+	if request.URL.Path == "/api/extension/listLocal" {
+		s.ListLocalExtension(writer, request)
+		return
+	}
+	if request.URL.Path == "/api/extension/listRemote" {
+		s.ListRemoteExtension(writer, request)
+		return
+	}
+	if request.URL.Path == "/api/extension/install" {
+		s.InstallExtension(writer, request)
 		return
 	}
 }

@@ -1,8 +1,9 @@
-import { BrowserView, BrowserWindow } from "electron"
+import { BrowserWindow } from "electron"
+const glasstron = require('glasstron');
 import { Height, Width } from "./cons"
 import { join } from 'node:path'
 import { release } from 'node:os'
-import { app, shell, ipcMain } from 'electron'
+import { app } from 'electron'
 import { update } from "./update"
 import { toCenter } from "./screen"
 import { initShortCut } from "./shortcut"
