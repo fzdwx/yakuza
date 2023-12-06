@@ -1,15 +1,14 @@
 import {Command} from "launcher-api";
 import {useEffect, useState} from "react";
-import {getLocalExtensions, LocalExtension} from "@/native";
-import storeIcon from '../store/store.png'
+import {getRemoteExtensions, RemoteExtensionResp} from "@/native";
 
-const useLocalExtensions = () => {
+const useRemoteExtensions = () => {
     const [loading, setLoading] = useState(true)
-    const [extensions, setExtensions] = useState<LocalExtension[]>([])
+    const [extensions, setExtensions] = useState<RemoteExtensionResp[]>([])
 
     useEffect(() => {
         setLoading(true)
-        getLocalExtensions().then((apps) => {
+        getRemoteExtensions().then((apps) => {
             setExtensions(apps)
             setLoading(false)
         }).catch((err) => {
@@ -24,7 +23,7 @@ const useLocalExtensions = () => {
 }
 
 const extension = () => {
-    const {extensions, loading} = useLocalExtensions()
+    const {extensions, loading} = useRemoteExtensions()
     return (<Command.Group heading="Extensions">
         {extensions ? extensions.map((item) => (
             <Command.Item
@@ -44,10 +43,6 @@ const extension = () => {
         }}>
             <span className="w-4">🛠</span>
             <span>Dev Mode</span>
-        </Command.Item>
-        <Command.Item key="Store">
-            <img className='w-4' src={storeIcon} alt='storeImage'/>
-            <span>Store</span>
         </Command.Item>
     </Command.Group>)
 }

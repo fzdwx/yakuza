@@ -1,7 +1,6 @@
-import {Application, getApplications} from "@/native"
+import {addAppRunCount, Application, getApplications, getIcon} from "@/native"
 import {Command} from "launcher-api"
 import React, {useEffect, useState} from "react"
-import {addAppRunCount, getIcon} from "@/native";
 
 const useApplications = () => {
     const [loading, setLoading] = useState(true)
@@ -25,23 +24,24 @@ const useApplications = () => {
     }
 }
 
-const AppImage = ({ app }: { app: Application }) => {
-  const image = getIcon(app)
-  if (image) {
-    return (<>
-      <img alt="icon" className="w-4" src={image} />
-    </>)
-  }
-  return (
-    <></>
-  )
+const AppImage = ({app}: { app: Application }) => {
+    const image = getIcon(app)
+    if (image) {
+        return (<>
+            <img alt="icon" className="w-4" src={image}/>
+        </>)
+    }
+    return (
+        <></>
+    )
 }
-
 
 const application = () => {
     const {apps, loading} = useApplications()
     const runApplication = (app: Application) => {
-        const command = app.exec.replace("%u", "").replace("%U", "")
+        const command = app.exec
+            .replace("%u", "").replace("%U", "")
+            .replace("%f", "").replace("%F", "")
         window.launcher.execCommand(command)
         window.launcher.hide()
         addAppRunCount(app)
