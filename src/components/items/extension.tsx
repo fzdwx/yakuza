@@ -1,6 +1,6 @@
-import {Command} from "launcher-api";
-import {useEffect, useState} from "react";
-import {getLocalExtensions, LocalExtension} from "@/native";
+import { Command } from "launcher-api";
+import { useEffect, useState } from "react";
+import { getLocalExtensions, LocalExtension } from "@/native";
 
 const useLocalExtensions = () => {
     const [loading, setLoading] = useState(true)
@@ -23,9 +23,9 @@ const useLocalExtensions = () => {
 }
 
 const extension = () => {
-    const {extensions, loading} = useLocalExtensions()
+    const { extensions, loading } = useLocalExtensions()
     return (<Command.Group heading="Extensions">
-        {extensions.map((item) => (
+        {extensions ? extensions.map((item) => (
             <Command.Item
                 key={item.name}
                 value={item.name}
@@ -34,10 +34,10 @@ const extension = () => {
                     window.launcher.openExtension(item)
                 }}
             >
-                <img className="w-4" alt='img' src={item.icon}/>
+                <img className="w-4" alt='img' src={item.icon} />
                 <span>{item.name}</span>
             </Command.Item>
-        ))}
+        )) : <></>}
         <Command.Item key="Dev Mode" onSelect={() => {
             window.launcher.loadDevView()
         }}>
