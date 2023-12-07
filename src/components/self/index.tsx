@@ -1,5 +1,5 @@
 import {Command, RaycastLightIcon} from 'launcher-api'
-import React, {useState} from 'react'
+import React from 'react'
 import Application from '../items/application'
 import Extension from "@/components/items/extension";
 import {SubCommand} from "@/components/subCommand";

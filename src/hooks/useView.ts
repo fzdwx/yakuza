@@ -8,13 +8,14 @@ type ViewEvent = {
 type ViewName = 'self' | 'store'
 const emitter = mitt<ViewEvent>()
 
-emitter.on('changeView', (view: ViewName) => {
-    console.log(view)
-})
-
 const useViewEvent = () => {
+    const changeView = (viewName: ViewName) => {
+        emitter.emit('changeView', viewName)
+    }
+
     return {
-        emitter
+        emitter,
+        changeView
     }
 }
 

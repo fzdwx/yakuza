@@ -16,6 +16,7 @@ interface LocalExtension extends RemoteExtension {
 
 interface RemoteExtensionResp extends RemoteExtension {
     installed: boolean
+    fullPath: string
 }
 
 

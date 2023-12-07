@@ -6,6 +6,7 @@ import '@radix-ui/themes/styles.css';
 import { Theme } from '@radix-ui/themes'
 // import '@/assets/global.scss'
 import 'launcher-api/dist/index.css'
+import {useCommandState} from "launcher-api";
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>

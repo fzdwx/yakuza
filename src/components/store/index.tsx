@@ -1,15 +1,20 @@
-import {Command} from 'launcher-api'
+import {Command, useCommandState} from 'launcher-api'
+import {useInterval, useKeyPress} from 'ahooks'
 import React, {useEffect, useState} from 'react'
 import {SubCommand} from "@/components/subCommand";
 import RemoteExtension from "@/components/store/remoteExtension";
 import StoreIcon from "@/components/store/storeIcon";
-import {getRemoteExtensions, RemoteExtensionResp} from "@/native";
+import {
+    getRemoteExtensions,
+    RemoteExtensionResp,
+} from "@/native";
+import {useViewEvent} from "@/hooks/useView";
 
 const useRemoteExtensions = () => {
     const [loading, setLoading] = useState(true)
     const [extensions, setExtensions] = useState<RemoteExtensionResp[]>([])
 
-    useEffect(() => {
+    const get = () => {
         setLoading(true)
         getRemoteExtensions().then((apps) => {
             setExtensions(apps)
@@ -17,7 +22,16 @@ const useRemoteExtensions = () => {
         }).catch((err) => {
             console.log(err)
         })
-    }, [])
+    }
+
+    useEffect(() => {
+        get()
+    }, []);
+
+    useInterval(() => {
+        get()
+    }, 1000);
+
 
     return {
         extensions,
@@ -31,13 +45,20 @@ export default function Store() {
     const listRef = React.useRef<HTMLInputElement>(null)
     const [value, setValue] = React.useState('')
     const {extensions, loading} = useRemoteExtensions()
+    const [currentExt, setCurrentExt] = useState<RemoteExtensionResp>()
     React.useEffect(() => {
         inputRef.current?.focus()
     })
 
+    const {changeView} = useViewEvent()
+
     const onValueChange = (v: string) => {
         setValue(v)
     }
+
+    useKeyPress('esc', () => {
+        changeView('self')
+    })
 
     return (
         <Command className='raycast' label="Store">
@@ -46,7 +67,7 @@ export default function Store() {
             <Command.List ref={listRef}>
                 <Command.Empty>Store is empty</Command.Empty>
 
-                <RemoteExtension extensions={extensions}/>
+                <RemoteExtension changeExtension={setCurrentExt} extensions={extensions}/>
 
             </Command.List>
 
@@ -54,7 +75,7 @@ export default function Store() {
                 <StoreIcon/>
 
                 <button cmdk-raycast-open-trigger="">
-                    Install Extension
+                    {currentExt?.installed ? 'Open extension' : 'Install Extension'}
                     <kbd>↵</kbd>
                 </button>
 

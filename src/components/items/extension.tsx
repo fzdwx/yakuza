@@ -1,4 +1,4 @@
-import {Command} from "launcher-api";
+import {Command, useCommandState} from "launcher-api";
 import {useEffect, useState} from "react";
 import {getLocalExtensions, LocalExtension} from "@/native";
 import StoreItem from "@/components/store/storeItem";

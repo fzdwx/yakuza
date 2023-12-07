@@ -25,7 +25,8 @@ type RemoteExtension struct {
 
 type RemoteExtensionResp struct {
 	RemoteExtension
-	Installed bool `json:"installed"`
+	Installed bool   `json:"installed"`
+	FullPath  string `json:"fullPath"`
 }
 
 type LocalExtension struct {
@@ -65,12 +66,18 @@ func (s *Server) ListLocalExtension(w http.ResponseWriter, r *http.Request) {
 
 func (s *Server) ListRemoteExtension(w http.ResponseWriter, r *http.Request) {
 	resps := lo.Map(remoteExtensions, func(extension *RemoteExtension, i int) *RemoteExtensionResp {
-		return &RemoteExtensionResp{
-			RemoteExtension: *extension,
-			Installed: lo.ContainsBy(localExtensions, func(localExtension *LocalExtension) bool {
-				return localExtension.Name == extension.Name
-			}),
+		localExtension, has := lo.Find(localExtensions, func(localExtension *LocalExtension) bool {
+			return localExtension.Name == extension.Name
+		})
+
+		if has {
+			return &RemoteExtensionResp{
+				RemoteExtension: *extension,
+				Installed:       has,
+				FullPath:        localExtension.FullPath,
+			}
 		}
+		return &RemoteExtensionResp{RemoteExtension: *extension}
 	})
 
 	err := json.NewEncoder(w).Encode(resps)
@@ -90,15 +97,17 @@ func (s *Server) InstallExtension(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = doInstallExtension(remoteExtension)
+	err = s.doInstallExtension(remoteExtension)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Fprintf(w, "install extension:%v", err)
 		return
 	}
+
+	fmt.Fprintf(w, "install success")
 }
 
-func doInstallExtension(extension RemoteExtension) error {
+func (s *Server) doInstallExtension(extension RemoteExtension) error {
 	sum := md5.Sum([]byte(extension.GitUrl + extension.Author + extension.Name))
 	dest := filepath.Join(fileutil.Extensions(), hex.EncodeToString(sum[:]))
 
@@ -107,12 +116,18 @@ func doInstallExtension(extension RemoteExtension) error {
 	})
 
 	if err != nil {
-		file, err := os.Create(filepath.Join(dest, "extension.json"))
-		if err != nil {
-			return err
-		}
+		return err
+	}
 
-		return json.NewEncoder(file).Encode(extension)
+	file, err := os.Create(filepath.Join(dest, "extension.json"))
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	err = json.NewEncoder(file).Encode(extension)
+	if err != nil {
+		s.doRefreshLocal()
 	}
 	return err
 }
