@@ -1,7 +1,7 @@
 import {Command} from "launcher-api";
 import {useEffect, useState} from "react";
 import {getLocalExtensions, LocalExtension} from "@/native";
-import storeIcon from '../store/store.png'
+import StoreItem from "@/components/store/storeItem";
 
 const useLocalExtensions = () => {
     const [loading, setLoading] = useState(true)
@@ -36,19 +36,16 @@ const extension = () => {
                 }}
             >
                 <img className="w-4" alt='img' src={item.icon}/>
-                <span>{item.name}</span>
+                {item.name}
             </Command.Item>
         )) : <></>}
         <Command.Item key="Dev Mode" onSelect={() => {
             window.launcher.loadDevView()
         }}>
             <span className="w-4">🛠</span>
-            <span>Dev Mode</span>
+            Dev Mode
         </Command.Item>
-        <Command.Item key="Store">
-            <img className='w-4' src={storeIcon} alt='storeImage'/>
-            <span>Store</span>
-        </Command.Item>
+        <StoreItem/>
     </Command.Group>)
 }
 
