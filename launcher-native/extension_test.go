@@ -13,7 +13,8 @@ func TestA(t *testing.T) {
 }
 
 func TestServer_InstallExtension(t *testing.T) {
-	fmt.Println(doInstallExtension(RemoteExtension{
+	server := Server{}
+	fmt.Println(server.doInstallExtension(RemoteExtension{
 		Name:        "Github repository search",
 		Description: "Search repositories on Github",
 		Author:      "fzdwx",
