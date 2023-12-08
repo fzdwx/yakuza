@@ -1,22 +1,24 @@
-import {addAppRunCount, Application, getApplications, getIcon} from "@/native"
+import {addAppRunCount, Application, getApplications, getIcon, getLocalExtensions} from "@/native"
 import {Command} from "launcher-api"
 import React, {useEffect, useState} from "react"
+import {useInterval} from "ahooks";
 
 const useApplications = () => {
     const [loading, setLoading] = useState(true)
     const [apps, setApps] = useState<Application[]>([])
 
-    useEffect(() => {
+    const get = async () => {
         setLoading(true)
-        getApplications().then((apps) => {
-            setApps(apps.sort((a, b) => {
-                return b.count - a.count
-            }))
-            setLoading(false)
-        }).catch((err) => {
-            console.log(err)
-        })
+        const app = await getApplications()
+        setApps(app .sort((a, b) => {
+            return b.count - a.count
+        }))
+        setLoading(false)
+    }
+    useEffect(() => {
+        get()
     }, [])
+    useInterval(get, 1000)
 
     return {
         apps,

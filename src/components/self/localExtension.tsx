@@ -2,20 +2,22 @@ import {Command, useCommandState} from "launcher-api";
 import {useEffect, useState} from "react";
 import {getLocalExtensions, LocalExtension} from "@/native";
 import StoreItem from "@/components/store/storeItem";
+import {useInterval} from "ahooks";
 
 const useLocalExtensions = () => {
     const [loading, setLoading] = useState(true)
     const [extensions, setExtensions] = useState<LocalExtension[]>([])
 
-    useEffect(() => {
+    const get = async () => {
         setLoading(true)
-        getLocalExtensions().then((apps) => {
-            setExtensions(apps)
-            setLoading(false)
-        }).catch((err) => {
-            console.log(err)
-        })
+        const ext = await getLocalExtensions()
+        setExtensions(ext)
+        setLoading(false)
+    }
+    useEffect(() => {
+        get()
     }, [])
+    useInterval(get, 1000)
 
     return {
         extensions,
@@ -23,7 +25,7 @@ const useLocalExtensions = () => {
     }
 }
 
-const extension = () => {
+const localExtension = () => {
     const {extensions, loading} = useLocalExtensions()
     return (<Command.Group heading="Extensions">
         {extensions ? extensions.map((item) => (
@@ -49,4 +51,4 @@ const extension = () => {
     </Command.Group>)
 }
 
-export default extension
+export default localExtension

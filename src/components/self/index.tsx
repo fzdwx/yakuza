@@ -1,10 +1,10 @@
 import {Command, RaycastLightIcon} from 'launcher-api'
 import React from 'react'
-import Application from '../items/application'
-import Extension from "@/components/items/extension";
+import Application from './application'
+import LocalExtension from "@/components/self/localExtension";
 import {SubCommand} from "@/components/subCommand";
 
-const CommandMenu = () => {
+export default function Self() {
     const inputRef = React.useRef<HTMLInputElement>(null)
     const listRef = React.useRef<HTMLInputElement>(null)
     const [value, setValue] = React.useState('')
@@ -23,7 +23,7 @@ const CommandMenu = () => {
             <Command.List ref={listRef}>
                 <Command.Empty>No results found.</Command.Empty>
 
-                <Extension/>
+                <LocalExtension/>
                 <Application/>
 
             </Command.List>
@@ -41,13 +41,5 @@ const CommandMenu = () => {
                 <SubCommand listRef={listRef} selectedValue={value} inputRef={inputRef}/>
             </div>
         </Command>
-    )
-}
-
-export default function Self() {
-    return (
-        <>
-            <CommandMenu/>
-        </>
     )
 }
