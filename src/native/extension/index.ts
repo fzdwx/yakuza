@@ -25,8 +25,8 @@ const getRemoteExtensions = async () => {
     return await resp.json() as RemoteExtensionResp[]
 };
 
-const getLocalExtensions = async () => {
-    const resp = await fetch("http://localhost:8080/api/extension/listLocal")
+const getLocalExtensions = async (searchText: string) => {
+    const resp = await fetch(`http://localhost:8080/api/extension/listLocal?searchText=${searchText}`)
     return await resp.json() as LocalExtension[]
 };
 

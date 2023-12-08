@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/fzdwx/launcher/launcher-native/fileutil"
 	"github.com/go-git/go-git/v5"
+	"github.com/sahilm/fuzzy"
 	"github.com/samber/lo"
 	"io/fs"
 	"net/http"
@@ -36,6 +37,20 @@ type LocalExtension struct {
 	DirName  string `json:"dirName"`
 }
 
+type sortExtension []*LocalExtension
+
+func (s sortExtension) String(i int) string {
+	return s[i].Name
+}
+
+func (s sortExtension) Len() int {
+	return len(s)
+}
+
+func (s sortExtension) Swap(i, j int) {
+	s[i], s[j] = s[j], s[i]
+}
+
 var (
 	remoteExtensions []*RemoteExtension
 	localExtensions  []*LocalExtension
@@ -56,12 +71,17 @@ func (s *Server) ServeExtension(writer http.ResponseWriter, request *http.Reques
 }
 
 func (s *Server) ListLocalExtension(w http.ResponseWriter, r *http.Request) {
-	err := json.NewEncoder(w).Encode(localExtensions)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprintf(w, "encode json:%v", err)
-		return
+	exts := sortExtension(localExtensions)
+
+	text := r.URL.Query().Get("searchText")
+	if len(text) > 0 {
+		matches := fuzzy.FindFrom(text, exts)
+		exts = lo.Map(matches, func(item fuzzy.Match, index int) *LocalExtension {
+			return exts[item.Index]
+		})
 	}
+
+	_ = json.NewEncoder(w).Encode(exts)
 }
 
 func (s *Server) ListRemoteExtension(w http.ResponseWriter, r *http.Request) {

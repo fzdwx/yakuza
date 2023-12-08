@@ -2,12 +2,13 @@ import {addAppRunCount, Application, getApplications, getIcon, getLocalExtension
 import {Command} from "launcher-api"
 import React, {useEffect, useState} from "react"
 import {useInterval} from "ahooks";
+import {searchResultIsEmpty} from "@/components/self/helper";
 
-const useApplications = (searchText:string) => {
+const useApplications = (searchText: string) => {
     const [loading, setLoading] = useState(true)
     const [apps, setApps] = useState<Application[]>([])
 
-    const get = async (searchText:string) => {
+    const get = async (searchText: string) => {
         setLoading(true)
         const app = await getApplications(searchText)
         setApps(app)
@@ -45,6 +46,8 @@ const runApplication = (app: Application) => {
 
 const application = (props: { searchText: string }) => {
     const {apps, loading} = useApplications(props.searchText)
+
+    if (searchResultIsEmpty(apps, props)) return <></>
     return (
         <>
             <Command.Group heading="Applications">
