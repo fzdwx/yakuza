@@ -110,26 +110,33 @@ func (s *Server) InstallExtension(w http.ResponseWriter, r *http.Request) {
 func (s *Server) doInstallExtension(extension RemoteExtension) error {
 	sum := md5.Sum([]byte(extension.GitUrl + extension.Author + extension.Name))
 	dest := filepath.Join(fileutil.Extensions(), hex.EncodeToString(sum[:]))
+	err := func() error {
+		_, err := git.PlainClone(dest, false, &git.CloneOptions{
+			URL: extension.GitUrl,
+		})
+		if err != nil {
+			return err
+		}
 
-	_, err := git.PlainClone(dest, false, &git.CloneOptions{
-		URL: extension.GitUrl,
-	})
+		file, err := os.Create(filepath.Join(dest, "extension.json"))
+		if err != nil {
+			return err
+		}
+		defer file.Close()
 
+		err = json.NewEncoder(file).Encode(extension)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	}()
 	if err != nil {
+		_ = os.RemoveAll(dest)
 		return err
 	}
 
-	file, err := os.Create(filepath.Join(dest, "extension.json"))
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-
-	err = json.NewEncoder(file).Encode(extension)
-	if err != nil {
-		s.doRefreshLocal()
-	}
-	return err
+	return nil
 }
 
 func (s *Server) refreshExtension() {
@@ -154,6 +161,10 @@ func (s *Server) doRefreshRemote() {
 	err = json.NewDecoder(resp.Body).Decode(&extensions)
 	if err != nil {
 		fmt.Println(err)
+		return
+	}
+
+	if len(extensions) == 0 {
 		return
 	}
 
