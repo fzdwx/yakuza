@@ -1,7 +1,6 @@
 import {Command} from "launcher-api";
 import {useEffect, useState} from "react";
 import {getLocalExtensions, LocalExtension} from "@/native";
-import StoreItem from "@/components/store/storeItem";
 import {doingSearch, searchResultIsEmpty} from "@/components/self/helper";
 import {useInterval} from "ahooks";
 
@@ -31,22 +30,6 @@ const useLocalExtensions = (searchText: string) => {
     }
 }
 
-const DefaultExtItem = (props: { searchText: string }) => {
-    if (doingSearch(props)) {
-        return <></>
-    }
-
-    return <>
-        <Command.Item key="Dev Mode" onSelect={() => {
-            window.launcher.loadDevView()
-        }}>
-            <span className="w-4">🛠</span>
-            Dev Mode
-        </Command.Item>
-        <StoreItem/>
-    </>
-}
-
 const localExtension = (props: { searchText: string }) => {
     const {extensions, loading} = useLocalExtensions(props.searchText)
 
@@ -65,8 +48,6 @@ const localExtension = (props: { searchText: string }) => {
                 {item.name}
             </Command.Item>
         )) : <></>}
-
-        <DefaultExtItem searchText={props.searchText}/>
     </Command.Group>)
 }
 

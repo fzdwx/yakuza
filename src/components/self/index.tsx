@@ -3,6 +3,7 @@ import React from 'react'
 import Application from './application'
 import LocalExtension from "@/components/self/localExtension";
 import {SubCommand} from "@/components/subCommand";
+import Builtin from "@/components/self/builtin";
 
 export default function Self() {
     const inputRef = React.useRef<HTMLInputElement>(null)
@@ -25,6 +26,7 @@ export default function Self() {
 
                 <LocalExtension searchText={value}/>
                 <Application searchText={value}/>
+                <Builtin searchText={value}/>
 
             </Command.List>
 
