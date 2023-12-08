@@ -7,16 +7,15 @@ const useApplications = (searchText:string) => {
     const [loading, setLoading] = useState(true)
     const [apps, setApps] = useState<Application[]>([])
 
-    const get = async () => {
+    const get = async (searchText:string) => {
         setLoading(true)
-        const app = await getApplications()
+        const app = await getApplications(searchText)
         setApps(app)
         setLoading(false)
     }
     useEffect(() => {
-        get()
-    }, [])
-    useInterval(get, 1000)
+        get(searchText)
+    }, [searchText])
 
     return {
         apps,

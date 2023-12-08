@@ -66,8 +66,8 @@ const getIcon = (app: Application) => {
     return null;
 };
 
-const getApplications = async () => {
-    const resp = await fetch("http://localhost:8080/api/applications")
+const getApplications = async (searchText: string) => {
+    const resp = await fetch(`http://localhost:8080/api/applications?searchText=${searchText}`)
     return await resp.json() as Application[]
 };
 

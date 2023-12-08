@@ -6,6 +6,7 @@ import (
 	"github.com/eric-song-nop/desktop"
 	"github.com/fzdwx/iter"
 	"github.com/fzdwx/iter/stream"
+	"github.com/sahilm/fuzzy"
 	"github.com/samber/lo"
 	"net/http"
 	"sort"
@@ -25,6 +26,10 @@ var applications []*Application
 
 type sortApplication []*Application
 
+func (s sortApplication) String(i int) string {
+	return s[i].Name
+}
+
 func (s sortApplication) Len() int {
 	return len(s)
 }
@@ -39,6 +44,15 @@ func (s sortApplication) Swap(i, j int) {
 
 func (s *Server) ListApplication(w http.ResponseWriter, r *http.Request) {
 	apps := sortApplication(applications)
+
+	text := r.URL.Query().Get("searchText")
+	if len(text) > 0 {
+		matches := fuzzy.FindFrom(text, apps)
+		apps = lo.Map(matches, func(item fuzzy.Match, index int) *Application {
+			return apps[item.Index]
+		})
+	}
+
 	sort.Sort(apps)
 	_ = json.NewEncoder(w).Encode(apps)
 }
