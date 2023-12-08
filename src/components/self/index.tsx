@@ -17,14 +17,14 @@ export default function Self() {
     }
 
     return (
-        <Command className='raycast' label="Global Command Menu">
+        <Command shouldFilter={false} className='raycast' label="Global Command Menu">
             <div cmdk-raycast-top-shine=""/>
             <Command.Input value={value} onValueChange={onValueChange} autoFocus ref={inputRef}/>
             <Command.List ref={listRef}>
                 <Command.Empty>No results found.</Command.Empty>
 
-                <LocalExtension/>
-                <Application/>
+                <LocalExtension searchText={value}/>
+                <Application searchText={value}/>
 
             </Command.List>
 

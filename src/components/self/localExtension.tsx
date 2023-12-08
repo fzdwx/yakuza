@@ -4,7 +4,7 @@ import {getLocalExtensions, LocalExtension} from "@/native";
 import StoreItem from "@/components/store/storeItem";
 import {useInterval} from "ahooks";
 
-const useLocalExtensions = () => {
+const useLocalExtensions = (searchText :string) => {
     const [loading, setLoading] = useState(true)
     const [extensions, setExtensions] = useState<LocalExtension[]>([])
 
@@ -25,8 +25,9 @@ const useLocalExtensions = () => {
     }
 }
 
-const localExtension = () => {
-    const {extensions, loading} = useLocalExtensions()
+const localExtension = (props: { searchText: string }) => {
+    const {extensions, loading} = useLocalExtensions(props.searchText)
+
     return (<Command.Group heading="Extensions">
         {extensions ? extensions.map((item) => (
             <Command.Item

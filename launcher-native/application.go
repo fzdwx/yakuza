@@ -8,6 +8,7 @@ import (
 	"github.com/fzdwx/iter/stream"
 	"github.com/samber/lo"
 	"net/http"
+	"sort"
 	"time"
 )
 
@@ -22,8 +23,24 @@ type Application struct {
 
 var applications []*Application
 
+type sortApplication []*Application
+
+func (s sortApplication) Len() int {
+	return len(s)
+}
+
+func (s sortApplication) Less(i, j int) bool {
+	return (s[i].Count - s[j].Count) > 0
+}
+
+func (s sortApplication) Swap(i, j int) {
+	s[i], s[j] = s[j], s[i]
+}
+
 func (s *Server) ListApplication(w http.ResponseWriter, r *http.Request) {
-	_ = json.NewEncoder(w).Encode(applications)
+	apps := sortApplication(applications)
+	sort.Sort(apps)
+	_ = json.NewEncoder(w).Encode(apps)
 }
 
 func (s *Server) refreshApplication() {

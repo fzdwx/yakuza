@@ -3,16 +3,14 @@ import {Command} from "launcher-api"
 import React, {useEffect, useState} from "react"
 import {useInterval} from "ahooks";
 
-const useApplications = () => {
+const useApplications = (searchText:string) => {
     const [loading, setLoading] = useState(true)
     const [apps, setApps] = useState<Application[]>([])
 
     const get = async () => {
         setLoading(true)
         const app = await getApplications()
-        setApps(app .sort((a, b) => {
-            return b.count - a.count
-        }))
+        setApps(app)
         setLoading(false)
     }
     useEffect(() => {
@@ -37,18 +35,17 @@ const AppImage = ({app}: { app: Application }) => {
         <></>
     )
 }
+const runApplication = (app: Application) => {
+    const command = app.exec
+        .replace("%u", "").replace("%U", "")
+        .replace("%f", "").replace("%F", "")
+    window.launcher.execCommand(command)
+    window.launcher.hide()
+    addAppRunCount(app)
+}
 
-const application = () => {
-    const {apps, loading} = useApplications()
-    const runApplication = (app: Application) => {
-        const command = app.exec
-            .replace("%u", "").replace("%U", "")
-            .replace("%f", "").replace("%F", "")
-        window.launcher.execCommand(command)
-        window.launcher.hide()
-        addAppRunCount(app)
-    }
-
+const application = (props: { searchText: string }) => {
+    const {apps, loading} = useApplications(props.searchText)
     return (
         <>
             <Command.Group heading="Applications">
