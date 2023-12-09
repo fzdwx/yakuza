@@ -46,11 +46,14 @@ const AppImage = ({app}: { app: Application }) => {
     )
 }
 const runApplication = (app: Application) => {
-    const command = app.exec
+    const commands = app.exec
         .replace("%u", "").replace("%U", "")
         .replace("%f", "").replace("%F", "")
-    execCommand(command, [], app.terminal)
-    window.launcher.hide()
+        .trim()
+        .split(" ")
+
+    execCommand(commands[0], commands.slice(1), app.terminal)
+    // window.launcher.hide()
     addAppRunCount(app)
 }
 
