@@ -1,8 +1,17 @@
-import {addAppRunCount, Application, getApplications, getIcon, getLocalExtensions, SearchItem} from "@/native"
+import {
+    addAppRunCount,
+    Application,
+    execCommand,
+    getApplications,
+    getIcon,
+    getLocalExtensions,
+    SearchItem
+} from "@/native"
 import {Command} from "launcher-api"
 import React, {useEffect, useState} from "react"
 import {searchResultIsEmpty} from "@/components/self/helper";
 import {SearchResp} from "@/native/types";
+import {Terser} from "vite";
 
 const useApplications = (searchText: string) => {
     const [loading, setLoading] = useState(true)
@@ -40,7 +49,7 @@ const runApplication = (app: Application) => {
     const command = app.exec
         .replace("%u", "").replace("%U", "")
         .replace("%f", "").replace("%F", "")
-    window.launcher.execCommand(command)
+    execCommand(command, [], app.terminal)
     window.launcher.hide()
     addAppRunCount(app)
 }

@@ -2,8 +2,8 @@ import {BrowserWindow, app, ipcMain, clipboard, shell} from "electron"
 import {toCenter} from "../main/screen";
 import * as cmd from 'node:child_process'
 import util from 'node:util'
+import {execCommand} from "../../src/native";
 
-const exec = util.promisify(cmd.exec)
 const spawn = util.promisify(cmd.spawn)
 
 let LoadMainView: () => void
@@ -52,11 +52,8 @@ class LauncherApi {
     }
 
     public async execCommand({data}: { data: any }) {
-        const {command, args} = data
-        if (args && args.length > 0) {
-            return await exec(`${command} ${args?.join(' ')}`)
-        }
-        return await exec(command)
+        const {command, args, terminal} = data
+        return await execCommand(command, args ? args : [], terminal)
     }
 
     public async spawn({data}: { data: any }) {

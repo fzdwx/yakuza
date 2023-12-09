@@ -1,5 +1,5 @@
 import {addAppRunCount, getApplications, getIcon} from "./application";
-import { getBuiltin } from "./builtin";
+import {getBuiltin} from "./builtin";
 import {getLocalExtensions, getRemoteExtensions, installExtension} from "./extension";
 
 export {
@@ -13,8 +13,16 @@ export {
     installExtension
 }
 
+const execCommand = async (command: string, args: string[], terminal?: boolean) => {
+    return (await fetch("http://localhost:8080/api/exec/command", {
+        method: "POST",
+        body: JSON.stringify({command, args, terminal})
+    })).text()
+}
+
 export {
-    getBuiltin
+    getBuiltin,
+    execCommand
 }
 
 

@@ -19,6 +19,13 @@ const sort = (extensions: SearchResp<LocalExtension>[], apps: SearchResp<Applica
     return arr
 }
 
+function getHeader(value: string) {
+    if (value.length ==0){
+        return 'Recommend'
+    }
+    return 'Results';
+}
+
 export default function Self() {
     const inputRef = React.useRef<HTMLInputElement>(null)
     const listRef = React.useRef<HTMLInputElement>(null)
@@ -56,15 +63,17 @@ export default function Self() {
             <Command.List ref={listRef}>
                 <Command.Empty>No results found.</Command.Empty>
 
-                {
-                    items.map((item) => {
-                        return (<RenderItem item={item}/>)
-                    })
-                }
+               <Command.Group heading={getHeader(value)}>
+                   {
+                       items.map((item) => {
+                           return (<RenderItem item={item}/>)
+                       })
+                   }
+               </Command.Group>
             </Command.List>
 
             <div cmdk-raycast-footer="">
-                <RaycastLightIcon/>
+                <div className='icon'>🖖</div>
 
                 <button cmdk-raycast-open-trigger="">
                     Open Application

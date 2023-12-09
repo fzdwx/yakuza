@@ -63,6 +63,11 @@ func (s *Server) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 
+	if request.URL.Path == "/api/exec/command" {
+		s.ExecCommand(writer, request)
+		return
+	}
+
 	s.ServeExtension(writer, request)
 	return
 }
