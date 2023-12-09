@@ -2,13 +2,14 @@ import {BrowserWindow, app, ipcMain, clipboard, shell} from "electron"
 import {toCenter} from "../main/screen";
 import * as cmd from 'node:child_process'
 import util from 'node:util'
-import {execCommand} from "../../src/native";
+import {execCommand, getConfig, setConfig} from "../../src/native";
+import {LauncherApiType} from "launcher-api";
 
 const spawn = util.promisify(cmd.spawn)
 
 let LoadMainView: () => void
 
-class LauncherApi {
+class LauncherApi implements LauncherApiType {
 
     private readonly mainWindow: BrowserWindow
 
@@ -77,6 +78,16 @@ class LauncherApi {
     public setClipText({data}: { data: any }) {
         const {text} = data
         clipboard.writeText(text)
+    }
+
+    public set({data}: { data: any }): Promise<void> {
+        const {key, value} = data
+        return setConfig(key, value)
+    }
+
+    public get<T>({data}: { data: any }): Promise<T> {
+        const {key} = data
+        return getConfig(key)
     }
 }
 

@@ -17,8 +17,7 @@ func main() {
 }
 
 type Server struct {
-	port            int
-	applicationList *[]*Application
+	port int
 }
 
 func NewServer(port *int) *Server {
@@ -62,9 +61,16 @@ func (s *Server) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 		s.ListBuiltin(writer, request)
 		return
 	}
-
 	if request.URL.Path == "/api/exec/command" {
 		s.ExecCommand(writer, request)
+		return
+	}
+	if request.URL.Path == "/api/config/set" {
+		s.Set(writer, request)
+		return
+	}
+	if request.URL.Path == "/api/config/get" {
+		s.Get(writer, request)
 		return
 	}
 

@@ -14,6 +14,7 @@ var (
 func init() {
 	_ = os.MkdirAll(base, os.ModePerm)
 	_ = os.MkdirAll(Extensions(), os.ModePerm)
+	_ = os.MkdirAll(Config(), os.ModePerm)
 }
 
 func RunHistory() string {
@@ -21,7 +22,7 @@ func RunHistory() string {
 }
 
 func Config() string {
-	return filepath.Join(base, "config.json")
+	return filepath.Join(base, "config")
 }
 
 func Extensions() string {

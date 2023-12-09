@@ -85,5 +85,18 @@ window.launcher = {
 
     loadMainView() {
         callApi('loadMainView', {})
+    },
+
+    set<T>(key: string, value: T): Promise<void> {
+        return callApiWithRes('set', {
+            key,
+            value
+        })
+    },
+
+    get<T>(key: string): Promise<T> {
+        return callApiWithRes('get', {
+            key
+        })
     }
 }

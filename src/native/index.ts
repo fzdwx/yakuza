@@ -20,8 +20,23 @@ const execCommand = async (command: string, args: string[], terminal?: boolean) 
     })).text()
 }
 
+const setConfig = async (key: string, value: any) => {
+    return (await fetch("http://localhost:8080/api/config/set", {
+        method: "POST",
+        body: JSON.stringify({key, value: JSON.stringify(value)})
+    })).text()
+}
+
+const getConfig = async (key: string) => {
+    return (await fetch("http://localhost:8080/api/config/get", {
+        method: "POST",
+        body: JSON.stringify({key})
+    })).text()
+}
+
 export {
     getBuiltin,
+    setConfig, getConfig,
     execCommand
 }
 

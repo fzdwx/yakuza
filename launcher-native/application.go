@@ -45,7 +45,9 @@ func (s *Server) ListApplication(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) refreshApplication() {
-	s.doRefresh()
+	go func() {
+		s.doRefresh()
+	}()
 	ticker := time.NewTicker(1 * time.Second)
 	for {
 		select {
