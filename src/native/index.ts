@@ -1,4 +1,5 @@
 import {addAppRunCount, getApplications, getIcon} from "./application";
+import { getBuiltin } from "./builtin";
 import {getLocalExtensions, getRemoteExtensions, installExtension} from "./extension";
 
 export {
@@ -10,6 +11,10 @@ export {
     getRemoteExtensions,
     getLocalExtensions,
     installExtension
+}
+
+export {
+    getBuiltin
 }
 
 

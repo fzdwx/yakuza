@@ -38,6 +38,16 @@ func (s sortApplication) Swap(i, j int) {
 	s[i], s[j] = s[j], s[i]
 }
 
+type sortBuiltin []*SearchResp[string]
+
+func (s sortBuiltin) Len() int {
+	return len(s)
+}
+
+func (s sortBuiltin) String(i int) string {
+	return s[i].Item
+}
+
 func LocalToSearchResp(item *LocalExtension, _ int) *SearchResp[*LocalExtension] {
 	return &SearchResp[*LocalExtension]{
 		Item:  item,

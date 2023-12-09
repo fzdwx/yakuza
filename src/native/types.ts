@@ -30,7 +30,7 @@ export interface RemoteExtensionResp extends RemoteExtension {
 export interface SearchResp<T> {
     score: number
     item: T
-    kind:string
+    kind: string
 }
 
 export const IsApplication = (obj: SearchResp<SearchItem>): obj is SearchResp<Application> => {
@@ -41,4 +41,8 @@ export const IsLocalExtension = (obj: SearchResp<SearchItem>): obj is SearchResp
     return obj.kind === 'Extension'
 }
 
-export type SearchItem = LocalExtension | Application
+export const IsBuiltin = (obj: SearchResp<SearchItem>): obj is SearchResp<string> => {
+    return obj.kind === 'Builtin'
+}
+
+export type SearchItem = LocalExtension | Application | string

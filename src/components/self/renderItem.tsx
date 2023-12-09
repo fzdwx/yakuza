@@ -1,7 +1,8 @@
-import {Application as AppType, IsApplication, IsLocalExtension, SearchItem, SearchResp} from "@/native";
+import {Application as AppType, IsApplication, IsBuiltin, IsLocalExtension, SearchItem, SearchResp} from "@/native";
 import React from "react";
 import ApplicationItem from "@/components/self/applicationItem";
 import LocalExtensionItem from "@/components/self/localExtension";
+import Builtin from "@/components/self/builtin";
 
 const RenderItem = (props: { item: SearchResp<SearchItem> }) => {
     if (IsApplication(props.item)) {
@@ -12,6 +13,9 @@ const RenderItem = (props: { item: SearchResp<SearchItem> }) => {
         return <LocalExtensionItem item={props.item}/>
     }
 
+    if (IsBuiltin(props.item)) {
+        return <Builtin item={props.item}/>
+    }
     return (
         <div></div>
     )

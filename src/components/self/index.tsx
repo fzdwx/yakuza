@@ -3,22 +3,21 @@ import React, {useState} from 'react'
 import {useApplications} from './applicationItem'
 import {useLocalExtensions} from "@/components/self/localExtension";
 import {SubCommand} from "@/components/subCommand";
-import Builtin from "@/components/self/builtin";
+import Builtin, {useBuiltin} from "@/components/self/builtin";
 import {SearchItem, SearchResp} from "@/native/types";
 import {Application, LocalExtension} from "@/native";
 import RenderItem from "@/components/self/renderItem";
 import {useInterval} from "ahooks";
 import {doingSearch} from "@/components/self/helper";
 
-const sort = (extensions: SearchResp<LocalExtension>[], apps: SearchResp<Application>[]) => {
-    const arr = [...extensions, ...apps]
+const sort = (extensions: SearchResp<LocalExtension>[], apps: SearchResp<Application>[], builtins: SearchResp<string>[]) => {
+    const arr = [...extensions, ...apps, ...builtins]
     arr.sort((a, b) => {
         return b.score - a.score
     })
 
     return arr
 }
-
 
 export default function Self() {
     const inputRef = React.useRef<HTMLInputElement>(null)
@@ -28,15 +27,16 @@ export default function Self() {
 
     const {extensions, refreshExt,} = useLocalExtensions(value)
     const {apps, refreshApp} = useApplications(value)
+    const {builtins} = useBuiltin(value)
 
     React.useEffect(() => {
         inputRef.current?.focus()
     })
 
     React.useEffect(() => {
-        const arr = sort(extensions, apps)
+        const arr = sort(extensions, apps, builtins)
         setItems(arr)
-    }, [extensions, apps])
+    }, [extensions, apps, builtins])
 
     useInterval(() => {
         if (doingSearch({searchText: value})) return
@@ -49,7 +49,6 @@ export default function Self() {
         setValue(v)
     }
 
-    // todo 重构搜索， 不区分 group 转移到一个里面，只根据类型来渲染
     return (
         <Command shouldFilter={false} className='raycast' label="Global Command Menu">
             <div cmdk-raycast-top-shine=""/>
@@ -59,12 +58,9 @@ export default function Self() {
 
                 {
                     items.map((item) => {
-                        return (<RenderItem key={item.item.name + item.kind + item.score} item={item}/>)
+                        return (<RenderItem item={item}/>)
                     })
                 }
-
-                < Builtin searchText={value}/>
-
             </Command.List>
 
             <div cmdk-raycast-footer="">
