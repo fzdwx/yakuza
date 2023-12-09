@@ -3,6 +3,7 @@ import React from "react";
 import ApplicationItem from "@/components/self/applicationItem";
 import LocalExtensionItem from "@/components/self/localExtension";
 import Builtin from "@/components/self/builtin";
+import {useCommandState} from "launcher-api";
 
 const RenderItem = (props: { item: SearchResp<SearchItem> }) => {
     if (IsApplication(props.item)) {

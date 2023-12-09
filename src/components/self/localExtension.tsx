@@ -27,6 +27,7 @@ const useLocalExtensions = (searchText: string) => {
 const LocalExtensionItem = ({item}: { item: SearchResp<LocalExtension> }) => {
     return (<Command.Item
         value={item.item.name}
+        data-value={item.item.name}
         onSelect={() => {
             // @ts-ignore
             window.launcher.openExtension(item.item)

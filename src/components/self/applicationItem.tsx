@@ -53,7 +53,7 @@ const runApplication = (app: Application) => {
         .split(" ")
 
     execCommand(commands[0], commands.slice(1), app.terminal)
-    // window.launcher.hide()
+    window.launcher.hide()
     addAppRunCount(app)
 }
 
@@ -62,7 +62,7 @@ const ApplicationItem = (props: { item: SearchResp<Application> }) => {
     return (
         <Command.Item
             value={item.item.name}
-            data-value={item.item}
+            data-value={item.item.name}
             onSelect={() => {
                 runApplication(item.item)
             }}
