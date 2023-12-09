@@ -7,25 +7,20 @@ const useLocalExtensions = (searchText: string) => {
     const [loading, setLoading] = useState(true)
     const [extensions, setExtensions] = useState<SearchResp<LocalExtension>[]>([])
 
-    const get = async (searchText: string) => {
+    const refreshExt = async (searchText: string) => {
         setLoading(true)
         const ext = await getLocalExtensions(searchText)
         setExtensions(ext)
         setLoading(false)
     }
     useEffect(() => {
-        get(searchText)
+        refreshExt(searchText)
     }, [searchText])
-
-    // useInterval(() => {
-    //     if (doingSearch({searchText})) return
-    //
-    //     get(searchText)
-    // }, 1000)
 
     return {
         extensions,
-        loading
+        loading,
+        refreshExt
     }
 }
 
@@ -38,7 +33,8 @@ const LocalExtensionItem = ({item}: { item: SearchResp<LocalExtension> }) => {
         }}
     >
         <img className="w-4" alt='img' src={item.item.icon}/>
-        <span>{item.item.name}</span>
+        <span className="">{item.item.name}</span>
+        <span className="absolute right-2 text-gray/80">{item.kind}</span>
     </Command.Item>)
 }
 

@@ -8,19 +8,20 @@ const useApplications = (searchText: string) => {
     const [loading, setLoading] = useState(true)
     const [apps, setApps] = useState<SearchResp<Application>[]>([])
 
-    const get = async (searchText: string) => {
+    const refreshApp = async (searchText: string) => {
         setLoading(true)
         const app = await getApplications(searchText)
         setApps(app)
         setLoading(false)
     }
     useEffect(() => {
-        get(searchText)
+        refreshApp(searchText)
     }, [searchText])
 
     return {
         apps,
-        loading
+        loading,
+        refreshApp
     }
 }
 
@@ -55,7 +56,8 @@ const ApplicationItem = (props: { item: SearchResp<Application> }) => {
             }}
         >
             <AppImage app={item.item}/>
-            <span>{item.item.name}</span>
+            <span className=''>{item.item.name}</span>
+            <span className="absolute right-2 text-gray/80">{item.kind}</span>
         </Command.Item>
     )
 }

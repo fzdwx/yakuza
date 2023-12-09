@@ -34,11 +34,11 @@ export interface SearchResp<T> {
 }
 
 export const IsApplication = (obj: SearchResp<SearchItem>): obj is SearchResp<Application> => {
-    return obj.kind === 'application'
+    return obj.kind === 'Application'
 }
 
 export const IsLocalExtension = (obj: SearchResp<SearchItem>): obj is SearchResp<LocalExtension> => {
-    return obj.kind === 'localExtension'
+    return obj.kind === 'Extension'
 }
 
 export type SearchItem = LocalExtension | Application

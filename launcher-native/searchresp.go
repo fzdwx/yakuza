@@ -42,7 +42,7 @@ func LocalToSearchResp(item *LocalExtension, _ int) *SearchResp[*LocalExtension]
 	return &SearchResp[*LocalExtension]{
 		Item:  item,
 		Score: 0,
-		Kind:  "localExtension",
+		Kind:  "Extension",
 	}
 }
 
@@ -50,6 +50,6 @@ func AppToSearchResp(item *Application, _ int) *SearchResp[*Application] {
 	return &SearchResp[*Application]{
 		Item:  item,
 		Score: 0,
-		Kind:  "application",
+		Kind:  "Application",
 	}
 }

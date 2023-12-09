@@ -7,6 +7,8 @@ import Builtin from "@/components/self/builtin";
 import {SearchItem, SearchResp} from "@/native/types";
 import {Application, LocalExtension} from "@/native";
 import RenderItem from "@/components/self/renderItem";
+import {useInterval} from "ahooks";
+import {doingSearch} from "@/components/self/helper";
 
 const sort = (extensions: SearchResp<LocalExtension>[], apps: SearchResp<Application>[]) => {
     const arr = [...extensions, ...apps]
@@ -24,8 +26,8 @@ export default function Self() {
     const [value, setValue] = React.useState('')
     const [items, setItems] = useState<SearchResp<SearchItem>[]>([])
 
-    const {extensions,} = useLocalExtensions(value)
-    const {apps,} = useApplications(value)
+    const {extensions, refreshExt,} = useLocalExtensions(value)
+    const {apps, refreshApp} = useApplications(value)
 
     React.useEffect(() => {
         inputRef.current?.focus()
@@ -35,6 +37,13 @@ export default function Self() {
         const arr = sort(extensions, apps)
         setItems(arr)
     }, [extensions, apps])
+
+    useInterval(() => {
+        if (doingSearch({searchText: value})) return
+        refreshExt(value)
+        refreshApp(value)
+    }, 1000)
+
 
     const onValueChange = (v: string) => {
         setValue(v)
