@@ -83,9 +83,13 @@ func (s *Server) doRefresh() {
 		},
 	).ToArray()
 
-	applications = lo.UniqBy(array, func(item *Application) string {
+	newApplications := lo.UniqBy(array, func(item *Application) string {
 		return item.Name
 	})
+
+	if len(newApplications) != len(applications) {
+		applications = newApplications
+	}
 }
 
 func entryIntoApplications(entry *desktop.Entry) []*Application {
