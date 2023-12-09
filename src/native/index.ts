@@ -1,4 +1,4 @@
-import {Application, addAppRunCount, getApplications, getIcon} from "./application";
+import {addAppRunCount, getApplications, getIcon} from "./application";
 import {getLocalExtensions, getRemoteExtensions, installExtension} from "./extension";
 
 export {
@@ -13,12 +13,5 @@ export {
 }
 
 
-export type {
-    Application
-}
-
-export type {
-    RemoteExtension,
-    LocalExtension,
-    RemoteExtensionResp
-} from "./extension"
+export type {Application, SearchItem, SearchResp, RemoteExtensionResp, RemoteExtension, LocalExtension} from './types'
+export * from './types'

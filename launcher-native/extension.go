@@ -37,20 +37,6 @@ type LocalExtension struct {
 	DirName  string `json:"dirName"`
 }
 
-type sortExtension []*LocalExtension
-
-func (s sortExtension) String(i int) string {
-	return s[i].Name
-}
-
-func (s sortExtension) Len() int {
-	return len(s)
-}
-
-func (s sortExtension) Swap(i, j int) {
-	s[i], s[j] = s[j], s[i]
-}
-
 var (
 	remoteExtensions []*RemoteExtension
 	localExtensions  []*LocalExtension
@@ -71,17 +57,21 @@ func (s *Server) ServeExtension(writer http.ResponseWriter, request *http.Reques
 }
 
 func (s *Server) ListLocalExtension(w http.ResponseWriter, r *http.Request) {
-	exts := sortExtension(localExtensions)
+	var resp = sortExtension(lo.Map(localExtensions, LocalToSearchResp))
 
 	text := r.URL.Query().Get("searchText")
 	if len(text) > 0 {
-		matches := fuzzy.FindFrom(text, exts)
-		exts = lo.Map(matches, func(item fuzzy.Match, index int) *LocalExtension {
-			return exts[item.Index]
+		matches := fuzzy.FindFrom(text, resp)
+		resp = lo.Map(matches, func(item fuzzy.Match, index int) *SearchResp[*LocalExtension] {
+			return &SearchResp[*LocalExtension]{
+				Item:  resp[item.Index].Item,
+				Kind:  resp[item.Index].Kind,
+				Score: item.Score,
+			}
 		})
 	}
 
-	_ = json.NewEncoder(w).Encode(exts)
+	_ = json.NewEncoder(w).Encode(resp)
 }
 
 func (s *Server) ListRemoteExtension(w http.ResponseWriter, r *http.Request) {

@@ -24,37 +24,24 @@ type Application struct {
 
 var applications []*Application
 
-type sortApplication []*Application
-
-func (s sortApplication) String(i int) string {
-	return s[i].Name
-}
-
-func (s sortApplication) Len() int {
-	return len(s)
-}
-
-func (s sortApplication) Less(i, j int) bool {
-	return (s[i].Count - s[j].Count) > 0
-}
-
-func (s sortApplication) Swap(i, j int) {
-	s[i], s[j] = s[j], s[i]
-}
-
 func (s *Server) ListApplication(w http.ResponseWriter, r *http.Request) {
-	apps := sortApplication(applications)
+	var resp = sortApplication(lo.Map(applications, AppToSearchResp))
 
 	text := r.URL.Query().Get("searchText")
 	if len(text) > 0 {
-		matches := fuzzy.FindFrom(text, apps)
-		apps = lo.Map(matches, func(item fuzzy.Match, index int) *Application {
-			return apps[item.Index]
+		matches := fuzzy.FindFrom(text, resp)
+		resp = lo.Map(matches, func(item fuzzy.Match, index int) *SearchResp[*Application] {
+			return &SearchResp[*Application]{
+				Item:  resp[item.Index].Item,
+				Kind:  resp[item.Index].Kind,
+				Score: item.Score,
+			}
 		})
+	} else {
+		sort.Sort(resp)
 	}
 
-	sort.Sort(apps)
-	_ = json.NewEncoder(w).Encode(apps)
+	_ = json.NewEncoder(w).Encode(resp)
 }
 
 func (s *Server) refreshApplication() {

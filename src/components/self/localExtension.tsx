@@ -1,12 +1,11 @@
 import {Command} from "launcher-api";
 import {useEffect, useState} from "react";
-import {getLocalExtensions, LocalExtension} from "@/native";
-import {doingSearch, searchResultIsEmpty} from "@/components/self/helper";
-import {useInterval} from "ahooks";
+import {Application, getLocalExtensions, LocalExtension} from "@/native";
+import {SearchResp} from "@/native/types";
 
 const useLocalExtensions = (searchText: string) => {
     const [loading, setLoading] = useState(true)
-    const [extensions, setExtensions] = useState<LocalExtension[]>([])
+    const [extensions, setExtensions] = useState<SearchResp<LocalExtension>[]>([])
 
     const get = async (searchText: string) => {
         setLoading(true)
@@ -18,11 +17,11 @@ const useLocalExtensions = (searchText: string) => {
         get(searchText)
     }, [searchText])
 
-    useInterval(() => {
-        if (doingSearch({searchText})) return
-
-        get(searchText)
-    }, 1000)
+    // useInterval(() => {
+    //     if (doingSearch({searchText})) return
+    //
+    //     get(searchText)
+    // }, 1000)
 
     return {
         extensions,
@@ -30,25 +29,19 @@ const useLocalExtensions = (searchText: string) => {
     }
 }
 
-const localExtension = (props: { searchText: string }) => {
-    const {extensions, loading} = useLocalExtensions(props.searchText)
-
-    if (searchResultIsEmpty(extensions, props)) return <></>
-    return (<Command.Group heading="Extensions">
-        {extensions ? extensions.map((item) => (
-            <Command.Item
-                key={item.name}
-                value={item.name}
-                onSelect={() => {
-                    // @ts-ignore
-                    window.launcher.openExtension(item)
-                }}
-            >
-                <img className="w-4" alt='img' src={item.icon}/>
-                {item.name}
-            </Command.Item>
-        )) : <></>}
-    </Command.Group>)
+const LocalExtensionItem = ({item}: { item: SearchResp<LocalExtension> }) => {
+    return (<Command.Item
+        value={item.item.name}
+        onSelect={() => {
+            // @ts-ignore
+            window.launcher.openExtension(item.item)
+        }}
+    >
+        <img className="w-4" alt='img' src={item.item.icon}/>
+        <span>{item.item.name}</span>
+    </Command.Item>)
 }
 
-export default localExtension
+export {useLocalExtensions}
+
+export default LocalExtensionItem

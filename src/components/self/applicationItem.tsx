@@ -1,12 +1,12 @@
-import {addAppRunCount, Application, getApplications, getIcon, getLocalExtensions} from "@/native"
+import {addAppRunCount, Application, getApplications, getIcon, getLocalExtensions, SearchItem} from "@/native"
 import {Command} from "launcher-api"
 import React, {useEffect, useState} from "react"
-import {useInterval} from "ahooks";
 import {searchResultIsEmpty} from "@/components/self/helper";
+import {SearchResp} from "@/native/types";
 
 const useApplications = (searchText: string) => {
     const [loading, setLoading] = useState(true)
-    const [apps, setApps] = useState<Application[]>([])
+    const [apps, setApps] = useState<SearchResp<Application>[]>([])
 
     const get = async (searchText: string) => {
         setLoading(true)
@@ -44,29 +44,22 @@ const runApplication = (app: Application) => {
     addAppRunCount(app)
 }
 
-const application = (props: { searchText: string }) => {
-    const {apps, loading} = useApplications(props.searchText)
-
-    if (searchResultIsEmpty(apps, props)) return <></>
+const ApplicationItem = (props: { item: SearchResp<Application> }) => {
+    const {item} = props
     return (
-        <>
-            <Command.Group heading="Applications">
-                {apps.map((item) => (
-                    <Command.Item
-                        key={item.name}
-                        value={item.name}
-                        data-value={item.count}
-                        onSelect={() => {
-                            runApplication(item)
-                        }}
-                    >
-                        <AppImage app={item}/>
-                        {item.name}
-                    </Command.Item>
-                ))}
-            </Command.Group>
-        </>
+        <Command.Item
+            value={item.item.name}
+            data-value={item.item}
+            onSelect={() => {
+                runApplication(item.item)
+            }}
+        >
+            <AppImage app={item.item}/>
+            <span>{item.item.name}</span>
+        </Command.Item>
     )
 }
 
-export default application
+export default ApplicationItem
+
+export {useApplications}

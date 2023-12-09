@@ -1,23 +1,4 @@
-import {Application} from "@/native";
-
-interface RemoteExtension {
-    name: string
-    description: string
-    author: string
-    icon: string
-    git_url: string
-}
-
-
-interface LocalExtension extends RemoteExtension {
-    fullPath: string
-    dirName: string
-}
-
-interface RemoteExtensionResp extends RemoteExtension {
-    installed: boolean
-    fullPath: string
-}
+import {RemoteExtensionResp, SearchResp, LocalExtension, RemoteExtension} from "@/native";
 
 
 const getRemoteExtensions = async () => {
@@ -27,7 +8,7 @@ const getRemoteExtensions = async () => {
 
 const getLocalExtensions = async (searchText: string) => {
     const resp = await fetch(`http://localhost:8080/api/extension/listLocal?searchText=${searchText}`)
-    return await resp.json() as LocalExtension[]
+    return await resp.json() as SearchResp<LocalExtension>[]
 };
 
 const installExtension = async (extension: RemoteExtension) => {

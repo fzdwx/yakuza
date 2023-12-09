@@ -1,4 +1,5 @@
 import * as fs from "node:fs";
+import {Application, SearchResp} from "@/native";
 
 const pattern = (path: string) => {
     return [
@@ -35,15 +36,6 @@ const pattern = (path: string) => {
     ];
 };
 
-interface Application {
-    name: string;
-    exec: string;
-    terminal: boolean;
-    type: string;
-    icon: string;
-    count: number;
-}
-
 const iconCache = new Map<string, string>();
 const getIcon = (app: Application) => {
     if (app.icon === "") {
@@ -68,7 +60,7 @@ const getIcon = (app: Application) => {
 
 const getApplications = async (searchText: string) => {
     const resp = await fetch(`http://localhost:8080/api/applications?searchText=${searchText}`)
-    return await resp.json() as Application[]
+    return await resp.json() as SearchResp<Application>[]
 };
 
 const addAppRunCount = async (app: Application) => {
