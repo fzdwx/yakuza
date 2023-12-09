@@ -150,6 +150,11 @@ func (s *Server) doInstallExtension(extension RemoteExtension) error {
 }
 
 func (s *Server) refreshExtension() {
+	go func() {
+		s.doRefreshLocal()
+		s.doRefreshRemote()
+	}()
+
 	ticker := time.NewTicker(1 * time.Second)
 	for {
 		select {
