@@ -2,6 +2,7 @@ import {Command} from "launcher-api";
 import {useEffect, useState} from "react";
 import {Application, getLocalExtensions, LocalExtension} from "@/native";
 import {SearchResp} from "@/native/types";
+import {useViewEvent} from "@/hooks/useView";
 
 const useLocalExtensions = (searchText: string) => {
     const [loading, setLoading] = useState(true)
@@ -24,6 +25,8 @@ const useLocalExtensions = (searchText: string) => {
     }
 }
 
+const {changeView} = useViewEvent()
+
 const LocalExtensionItem = ({item}: { item: SearchResp<LocalExtension> }) => {
     return (<Command.Item
         value={item.item.name}
@@ -31,6 +34,7 @@ const LocalExtensionItem = ({item}: { item: SearchResp<LocalExtension> }) => {
         onSelect={() => {
             // @ts-ignore
             window.launcher.openExtension(item.item)
+            changeView('extView')
         }}
     >
         <img className="w-4" alt='img' src={item.item.icon}/>

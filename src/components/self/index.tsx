@@ -36,6 +36,7 @@ function selectFirstItem(value: string) {
     }
 }
 
+window.launcher.exitExtension()
 export default function Self() {
     const commandRef = React.useRef<HTMLInputElement>(null)
     const inputRef = React.useRef<HTMLInputElement>(null)
@@ -61,7 +62,6 @@ export default function Self() {
         refreshExt(value)
         refreshApp(value)
     }, 1000)
-
 
     const onValueChange = (v: string) => {
         setValue(v)

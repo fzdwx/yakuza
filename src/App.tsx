@@ -2,8 +2,10 @@ import Self from '@/components/self';
 import {useViewEvent, ViewName} from "@/hooks/useView";
 import {useEffect, useState} from "react";
 import Store from "@/components/store";
+import ExtensionView from "@/components/extensionView";
+import {ipcRenderer} from "electron";
 
-const {emitter} = useViewEvent();
+const {emitter, changeView} = useViewEvent();
 
 function switchView(view: ViewName) {
     switch (view) {
@@ -11,10 +13,13 @@ function switchView(view: ViewName) {
             return <Self/>
         case 'store':
             return <Store/>
+        case "extView":
+            return <ExtensionView/>
         default:
             return <Self/>
     }
 }
+
 
 function App() {
     const [view, setView] = useState<ViewName>('self')

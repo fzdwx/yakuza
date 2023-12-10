@@ -6,7 +6,6 @@ export {
     getApplications, addAppRunCount, getIcon
 }
 
-
 export {
     getRemoteExtensions,
     getLocalExtensions,

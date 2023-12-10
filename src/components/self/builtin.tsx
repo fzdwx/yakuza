@@ -24,14 +24,14 @@ const useBuiltin = (searchText: string) => {
         refreshApp
     }
 }
+const {changeView} = useViewEvent();
 
 const StoreItem = () => {
-    const {emitter} = useViewEvent();
     return <Command.Item
         value='store'
         data-value='store'
         key="Store" onSelect={() => {
-        emitter.emit('changeView', 'store')
+        changeView("store")
     }}>
         <StoreIcon/>
         Store
@@ -44,6 +44,7 @@ const DevMode = () => {
         value='Dev Mode'
         data-value='Dev Mode'
         key="Dev Mode" onSelect={() => {
+        changeView("extView")
         window.launcher.loadDevView()
     }}>
         <span className="w-4">🛠</span>

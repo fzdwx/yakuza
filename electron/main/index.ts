@@ -1,9 +1,10 @@
 import {app} from "electron";
-import main from "./mainWin";
+import main, {preload} from "./mainWin";
 import {registerApi} from "../preload/api";
 import * as child_process from "child_process";
 import util from "node:util";
 import path from "node:path";
+import {createView} from "./extension";
 
 let exec = util.promisify(child_process.exec);
 let spawn = util.promisify(child_process.spawn);
@@ -23,6 +24,7 @@ class Launcher {
     createWindow() {
         this.init()
         registerApi(this.getWindow(), this.loadMainView)
+        createView(preload, this.getWindow())
     }
 
     async startBackend() {

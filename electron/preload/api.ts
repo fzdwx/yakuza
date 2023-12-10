@@ -4,6 +4,8 @@ import * as cmd from 'node:child_process'
 import util from 'node:util'
 import {execCommand, getConfig, setConfig} from "../../src/native";
 import {LauncherApiType} from "launcher-api";
+import {getView} from "../main/extension";
+import {Height, Width} from "../main/cons";
 
 const spawn = util.promisify(cmd.spawn)
 
@@ -29,16 +31,44 @@ class LauncherApi implements LauncherApiType {
     }
 
     public loadDevView() {
-        this.mainWindow.loadURL('http://localhost:35678')
+        const view = getView();
+        view.setBounds({
+            x: 0,
+            y: 0,
+            height: Height,
+            width: Width,
+        })
+        view.webContents.on('did-finish-load', () => {
+            view.webContents.focus()
+        })
+        view.webContents.loadURL(`http://localhost:35678`)
+        this.mainWindow.setBrowserView(view)
     }
 
     public openExtension({data}: { data: any }) {
         const {ext} = data
-        this.mainWindow.loadURL(`http://localhost:8080?ext=${ext.fullPath}`)
+        const view = getView();
+        view.setBounds({
+            x: 0,
+            y: 0,
+            height: Height,
+            width: Width,
+        })
+        view.webContents.on('did-finish-load', () => {
+            view.webContents.focus()
+        })
+        view.webContents.loadURL(`http://localhost:8080?ext=${ext.fullPath}`)
+        this.mainWindow.setBrowserView(view)
+    }
+
+    public exitExtension() {
+        this.mainWindow.setBrowserView(null)
+        this.mainWindow.webContents.focus()
     }
 
     public loadMainView() {
-        LoadMainView()
+        this.mainWindow.webContents.send('changeView', 'self')
+        this.exitExtension()
     }
 
     public show = () => {

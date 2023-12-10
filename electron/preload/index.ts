@@ -56,6 +56,10 @@ window.launcher = {
         })
     },
 
+    exitExtension(){
+        callApi('exitExtension')
+    },
+
 
     async getSelect() {
         return callApiWithRes('getSelect', {})
