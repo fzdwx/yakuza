@@ -27,7 +27,7 @@ class LauncherApi implements LauncherApiType {
     public hide = () => {
         this.mainWindow.blur()
         this.mainWindow.hide()
-        LoadMainView()
+        this.loadMainView()
     }
 
     public loadDevView() {

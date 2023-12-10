@@ -36,7 +36,6 @@ function selectFirstItem(value: string) {
     }
 }
 
-window.launcher.exitExtension()
 export default function Self() {
     const commandRef = React.useRef<HTMLInputElement>(null)
     const inputRef = React.useRef<HTMLInputElement>(null)
