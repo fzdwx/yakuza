@@ -31,34 +31,12 @@ class LauncherApi implements LauncherApiType {
     }
 
     public loadDevView() {
-        const view = getView();
-        view.setBounds({
-            x: 0,
-            y: 0,
-            height: Height,
-            width: Width,
-        })
-        view.webContents.on('did-finish-load', () => {
-            view.webContents.focus()
-        })
-        view.webContents.loadURL(`http://localhost:35678`)
-        this.mainWindow.setBrowserView(view)
+        this.loadView(`http://localhost:35678`);
     }
 
     public openExtension({data}: { data: any }) {
         const {ext} = data
-        const view = getView();
-        view.setBounds({
-            x: 0,
-            y: 0,
-            height: Height,
-            width: Width,
-        })
-        view.webContents.on('did-finish-load', () => {
-            view.webContents.focus()
-        })
-        view.webContents.loadURL(`http://localhost:8080?ext=${ext.fullPath}`)
-        this.mainWindow.setBrowserView(view)
+        this.loadView(`http://localhost:8080?ext=${ext.fullPath}`);
     }
 
     public exitExtension() {
@@ -118,6 +96,21 @@ class LauncherApi implements LauncherApiType {
     public get<T>({data}: { data: any }): Promise<T> {
         const {key} = data
         return getConfig(key)
+    }
+
+    private loadView(url: string) {
+        const view = getView();
+        view.setBounds({
+            x: 0,
+            y: 0,
+            height: Height,
+            width: Width,
+        })
+        view.webContents.on('did-finish-load', () => {
+            view.webContents.focus()
+        })
+        view.webContents.loadURL(url)
+        this.mainWindow.setBrowserView(view)
     }
 }
 
