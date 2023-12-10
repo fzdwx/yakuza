@@ -28,7 +28,7 @@ function App() {
     })
 
     return (
-        <div id='top' className='dark text-white backdrop-blur'>
+        <div id='top' className='dark text-white bg-dark backdrop-blur'>
             {switchView(view)}
         </div>
     )

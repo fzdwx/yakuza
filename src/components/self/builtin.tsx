@@ -45,6 +45,7 @@ const DevMode = () => {
         data-value='Dev Mode'
         key="Dev Mode" onSelect={() => {
         changeView("extView")
+        //@ts-ignore
         window.launcher.loadDevView()
     }}>
         <span className="w-4">🛠</span>

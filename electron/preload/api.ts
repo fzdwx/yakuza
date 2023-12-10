@@ -3,15 +3,15 @@ import {toCenter} from "../main/screen";
 import * as cmd from 'node:child_process'
 import util from 'node:util'
 import {execCommand, getConfig, setConfig} from "../../src/native";
-import {LauncherApiType} from "launcher-api";
 import {getView} from "../main/extension";
 import {Height, Width} from "../main/cons";
+import {sleep} from "ahooks/es/utils/testingHelpers";
 
 const spawn = util.promisify(cmd.spawn)
 
 let LoadMainView: () => void
 
-class LauncherApi implements LauncherApiType {
+class LauncherApi {
 
     private readonly mainWindow: BrowserWindow
 
@@ -88,12 +88,12 @@ class LauncherApi implements LauncherApiType {
         clipboard.writeText(text)
     }
 
-    public set({data}: { data: any }): Promise<void> {
+    public set({data}: { data: any }): Promise<string> {
         const {key, value} = data
         return setConfig(key, value)
     }
 
-    public get<T>({data}: { data: any }): Promise<T> {
+    public get({data}: { data: any }): Promise<string> {
         const {key} = data
         return getConfig(key)
     }
@@ -109,8 +109,16 @@ class LauncherApi implements LauncherApiType {
         view.webContents.on('did-finish-load', () => {
             view.webContents.focus()
         })
+        view.webContents.on('cursor-changed', () => {
+            for (let i = 0; i < 5; i++) {
+                view.webContents.focus()
+                sleep(20)
+            }
+        })
         view.webContents.loadURL(url)
         this.mainWindow.setBrowserView(view)
+        view.webContents.openDevTools()
+
     }
 }
 
