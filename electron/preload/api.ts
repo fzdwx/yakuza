@@ -1,11 +1,11 @@
-import {BrowserWindow, app, ipcMain, clipboard, shell} from "electron"
-import {toCenter} from "../main/screen";
+import { BrowserWindow, app, ipcMain, clipboard, shell } from "electron"
+import { toCenter } from "../main/screen";
 import * as cmd from 'node:child_process'
 import util from 'node:util'
-import {execCommand, getConfig, setConfig} from "../../src/native";
-import {getView} from "../main/extension";
-import {Height, Width} from "../main/cons";
-import {sleep} from "ahooks/es/utils/testingHelpers";
+import { execCommand, getConfig, setConfig } from "../../src/native";
+import { getView } from "../main/extension";
+import { Height, Width } from "../main/cons";
+import { sleep } from "ahooks/es/utils/testingHelpers";
 
 const spawn = util.promisify(cmd.spawn)
 
@@ -34,8 +34,8 @@ class LauncherApi {
         this.loadView(`http://localhost:35678`);
     }
 
-    public openExtension({data}: { data: any }) {
-        const {ext} = data
+    public openExtension({ data }: { data: any }) {
+        const { ext } = data
         this.loadView(`http://localhost:8080?ext=${ext.fullPath}`);
     }
 
@@ -55,23 +55,23 @@ class LauncherApi {
         this.mainWindow.focus()
     }
 
-    public openUrl = async ({data}: { data: any }) => {
-        const {url} = data
+    public openUrl = async ({ data }: { data: any }) => {
+        const { url } = data
         return await shell.openExternal(url)
     }
 
-    public async execCommand({data}: { data: any }) {
-        const {command, args, terminal} = data
+    public async execCommand({ data }: { data: any }) {
+        const { command, args, terminal } = data
         return await execCommand(command, args ? args : [], terminal)
     }
 
-    public async spawn({data}: { data: any }) {
-        const {command, args} = data
+    public async spawn({ data }: { data: any }) {
+        const { command, args } = data
         return await spawn(command, args ? args : [], {})
     }
 
-    public getPath({data}: { data: any }) {
-        const {name} = data
+    public getPath({ data }: { data: any }) {
+        const { name } = data
         return app.getPath(name)
     }
 
@@ -83,18 +83,18 @@ class LauncherApi {
         return clipboard.readText()
     }
 
-    public setClipText({data}: { data: any }) {
-        const {text} = data
+    public setClipText({ data }: { data: any }) {
+        const { text } = data
         clipboard.writeText(text)
     }
 
-    public set({data}: { data: any }): Promise<string> {
-        const {key, value} = data
+    public set({ data }: { data: any }): Promise<string> {
+        const { key, value } = data
         return setConfig(key, value)
     }
 
-    public get({data}: { data: any }): Promise<string> {
-        const {key} = data
+    public get({ data }: { data: any }): Promise<string> {
+        const { key } = data
         return getConfig(key)
     }
 
@@ -117,8 +117,6 @@ class LauncherApi {
         })
         view.webContents.loadURL(url)
         this.mainWindow.setBrowserView(view)
-        view.webContents.openDevTools()
-
     }
 }
 
@@ -139,4 +137,4 @@ const registerApi = (mainWindow: Electron.BrowserWindow, loadMainView: () => voi
     })
 }
 
-export {registerApi, LauncherApi}
+export { registerApi, LauncherApi }

@@ -1,11 +1,11 @@
-import {BrowserWindow} from "electron"
-import {Height, Width} from "./cons"
-import {join} from 'node:path'
-import {release} from 'node:os'
-import {app} from 'electron'
-import {update} from "./update"
-import {toCenter} from "./screen"
-import {initShortCut} from "./shortcut"
+import { BrowserWindow } from "electron"
+import { Height, Width } from "./cons"
+import { join } from 'node:path'
+import { release } from 'node:os'
+import { app } from 'electron'
+import { update } from "./update"
+import { toCenter } from "./screen"
+import { initShortCut } from "./shortcut"
 
 process.env.DIST_ELECTRON = join(__dirname, '../')
 process.env.DIST = join(process.env.DIST_ELECTRON, '../dist')
@@ -51,7 +51,6 @@ export default () => {
             icon: join(process.env.VITE_PUBLIC, 'favicon.ico'),
             webPreferences: {
                 webSecurity: false,
-                transparent: true,
                 backgroundThrottling: false,
                 experimentalFeatures: true,
                 contextIsolation: false,

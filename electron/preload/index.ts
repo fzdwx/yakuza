@@ -1,5 +1,5 @@
-import {ipcRenderer} from "electron"
-import {LocalExtension} from "@/native";
+import { ipcRenderer } from "electron"
+import { LocalExtension } from "@/native";
 
 const callApi = (type: string, data: any) => {
     ipcRenderer.send('launcher-api', {
@@ -56,8 +56,8 @@ window.launcher = {
         })
     },
 
-    exitExtension(){
-        callApi('exitExtension')
+    exitExtension() {
+        callApi('exitExtension', {})
     },
 
 
