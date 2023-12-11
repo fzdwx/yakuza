@@ -12,6 +12,7 @@ import React, {useEffect, useState} from "react"
 import {searchResultIsEmpty} from "@/components/self/helper";
 import {SearchResp} from "@/native/types";
 import {Terser} from "vite";
+import {useHover} from "@/components/self/hooks";
 
 const useApplications = (searchText: string) => {
     const [loading, setLoading] = useState(true)
@@ -57,14 +58,20 @@ const runApplication = (app: Application) => {
     addAppRunCount(app)
 }
 
+const {change} = useHover()
 const ApplicationItem = (props: { item: SearchResp<Application> }) => {
     const {item} = props
     return (
         <Command.Item
             value={item.item.name}
             data-value={item.item.name}
+            key={item.id}
+            launcher-id={item.id}
             onSelect={() => {
                 runApplication(item.item)
+            }}
+            onHover={() => {
+                change(item)
             }}
         >
             <AppImage app={item.item}/>

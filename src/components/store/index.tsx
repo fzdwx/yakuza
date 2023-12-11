@@ -1,7 +1,7 @@
 import {Command, useCommandState} from 'launcher-api'
 import {useInterval, useKeyPress} from 'ahooks'
 import React, {useEffect, useState} from 'react'
-import {SubCommand} from "@/components/subCommand";
+import {SubCommand} from "@/components/store/subCommand";
 import RemoteExtension from "@/components/store/remoteExtension";
 import StoreIcon from "@/components/store/storeIcon";
 import {

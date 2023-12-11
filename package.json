@@ -25,6 +25,7 @@
     "jotai": "^2.6.0",
     "lowdb": "^6.1.1",
     "mitt": "^3.0.1",
+    "nanoid": "^5.0.4",
     "sass": "^1.69.5"
   },
   "devDependencies": {

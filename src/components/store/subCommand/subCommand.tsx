@@ -1,7 +1,7 @@
 import {Command, WindowIcon, FinderIcon, StarIcon} from 'launcher-api'
 import React from 'react'
 import * as Popover from '@radix-ui/react-popover'
-import {SubItem} from '.'
+import {SubItem} from './index'
 
 function SubCommand({
                         inputRef,
@@ -16,6 +16,7 @@ function SubCommand({
 
     React.useEffect(() => {
         function listener(e: KeyboardEvent) {
+            console.log("12313")
             if (e.key === 'k' && e.metaKey) {
                 e.preventDefault()
                 setOpen((o) => !o)

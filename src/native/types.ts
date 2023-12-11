@@ -31,6 +31,7 @@ export interface SearchResp<T> {
     score: number
     item: T
     kind: string
+    id: string
 }
 
 export const IsApplication = (obj: SearchResp<SearchItem>): obj is SearchResp<Application> => {

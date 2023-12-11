@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {Application, getLocalExtensions, LocalExtension} from "@/native";
 import {SearchResp} from "@/native/types";
 import {useViewEvent} from "@/hooks/useView";
+import {useHover} from "@/components/self/hooks";
 
 const useLocalExtensions = (searchText: string) => {
     const [loading, setLoading] = useState(true)
@@ -27,10 +28,16 @@ const useLocalExtensions = (searchText: string) => {
 
 const {changeView} = useViewEvent()
 
+const {change} = useHover()
 const LocalExtensionItem = ({item}: { item: SearchResp<LocalExtension> }) => {
     return (<Command.Item
         value={item.item.name}
         data-value={item.item.name}
+        key={item.id}
+        launcher-id={item.id}
+        onHover={() => {
+            change(item)
+        }}
         onSelect={() => {
             // @ts-ignore
             window.launcher.openExtension(item.item)

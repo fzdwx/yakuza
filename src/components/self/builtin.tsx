@@ -3,6 +3,7 @@ import {Command} from "launcher-api";
 import StoreIcon from "@/components/store/storeIcon";
 import {useEffect, useState} from "react";
 import {Application, getApplications, getBuiltin, LocalExtension, SearchResp} from "@/native";
+import {useHover} from "@/components/self/hooks";
 
 const useBuiltin = (searchText: string) => {
     const [loading, setLoading] = useState(true)
@@ -26,47 +27,59 @@ const useBuiltin = (searchText: string) => {
 }
 const {changeView} = useViewEvent();
 
-const StoreItem = () => {
+const StoreItem = (props: { item: SearchResp<string> }) => {
     return <Command.Item
         value='store'
         data-value='store'
-        key="Store" onSelect={() => {
-        changeView("store")
-    }}>
+        key={props.item.id}
+        launcher-id={props.item.id}
+        onHover={() => {
+            change(props.item)
+        }}
+        onSelect={() => {
+            changeView("store")
+        }}>
         <StoreIcon/>
         Store
         <span className="absolute right-2 text-gray/80">Builtin</span>
     </Command.Item>
 }
 
-const DevMode = () => {
+const {change} = useHover()
+const DevMode = (props: { item: SearchResp<string> }) => {
     return <Command.Item
         value='Dev Mode'
         data-value='Dev Mode'
-        key="Dev Mode" onSelect={() => {
-        changeView("extView")
-        //@ts-ignore
-        window.launcher.loadDevView()
-    }}>
+        key={props.item.id}
+        launcher-id={props.item.id}
+        onHover={() => {
+            change(props.item)
+        }}
+        onSelect={() => {
+            changeView("extView")
+            //@ts-ignore
+            window.launcher.loadDevView()
+        }}>
         <span className="w-4">🛠</span>
         Dev Mode
         <span className="absolute right-2 text-gray/80">Builtin</span>
     </Command.Item>
 }
 
-const items = {
-    "Store": <StoreItem/>,
-    "Dev Mode": <DevMode/>
-}
-const itemNames = Object.keys(items)
-const getItem = (name: string) => {
-    // @ts-ignore
-    return items[name]
+const getItem = (item: SearchResp<string>) => {
+    switch (item.item) {
+        case "Store":
+            return <StoreItem item={item}/>
+        case "Dev Mode":
+            return <DevMode item={item}/>
+        default:
+            return <></>
+    }
 }
 
 const Builtin = ({item}: { item: SearchResp<string> }) => {
     return <>
-        {getItem(item.item)}
+        {getItem(item)}
     </>
 }
 
