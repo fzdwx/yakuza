@@ -14,11 +14,32 @@ import {nanoid} from "nanoid";
 import {useHover} from "@/components/self/hooks";
 import Fuse from "fuse.js";
 
-const sort = (value: string, extensions: LocalExtension[], apps: Application[], builtins: string[]) => {
-    const arr = [...extToResp(extensions), ...appsToResp(apps), ...builtinToResp(builtins)]
-    const fuse = new Fuse(arr)
+function setId(array: SearchResp<SearchItem>[]) {
+    return array.map(a => {
+        a.id = nanoid()
+        return a
+    })
+}
 
-    return arr
+const sort = (value: string, extensions: LocalExtension[], apps: Application[], builtins: string[]) => {
+    const arr = setId([...extToResp(extensions), ...appsToResp(apps), ...builtinToResp(builtins)])
+    if (value.length === 0) {
+        return arr
+    }
+
+    const fuse = new Fuse(arr, {
+        includeScore: true,
+        keys: [
+            "item.name"
+        ]
+    })
+
+    const resp = fuse.search(value);
+    return resp.map(v => {
+        const item = v.item;
+        item.score = v.score
+        return item
+    }).slice(0, 5);
 }
 
 function getHeader(value: string) {
@@ -29,12 +50,10 @@ function getHeader(value: string) {
 }
 
 function selectFirstItem(value: string) {
-    if (value.length == 0) {
-        sleep(50).then(() => {
-            const event = new KeyboardEvent('keydown', {code: 'Home'})
-            window.dispatchEvent(event)
-        })
-    }
+    sleep(20).then(() => {
+        const event = new KeyboardEvent('keydown', {code: 'Home'})
+        window.dispatchEvent(event)
+    })
 }
 
 const {on} = useHover()
@@ -60,6 +79,9 @@ export default function Self() {
 
     React.useEffect(() => {
         const arr = sort(value, extensions, apps, builtins)
+        if (arr.length === 0) {
+            setCurrentItem(undefined)
+        }
         setItems(arr)
     }, [extensions, apps, builtins, value])
 
@@ -94,8 +116,16 @@ export default function Self() {
                 <div className='icon'>🖖</div>
 
                 <button cmdk-raycast-open-trigger="">
-                    <span className='mr-1'>Open {getItemName(currentItem)}</span>
-                    <kbd>↵</kbd>
+                    {
+
+                        currentItem ?
+                            (<>
+                                <span className='mr-1'>Open+ {getItemName(currentItem)}</span>
+                                <kbd>↵</kbd>
+                            </>)
+
+                            : "Not Found"
+                    }
                 </button>
 
                 <hr/>

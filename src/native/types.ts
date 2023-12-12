@@ -30,7 +30,7 @@ export interface RemoteExtensionResp extends RemoteExtension {
 }
 
 export interface SearchResp<T> {
-    score: number
+    score?: number
     item: T
     kind: string
     id: string
