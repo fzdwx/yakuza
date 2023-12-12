@@ -1,8 +1,8 @@
 import {Application as AppType, IsApplication, IsBuiltin, IsLocalExtension, SearchItem, SearchResp} from "@/native";
 import React from "react";
-import ApplicationItem from "@/components/self/applicationItem";
-import LocalExtensionItem from "@/components/self/localExtension";
-import Builtin from "@/components/self/builtin";
+import ApplicationItem from "@/components/self/item/applicationItem";
+import LocalExtensionItem from "@/components/self/item/localExtension";
+import Builtin from "@/components/self/item/builtin";
 import {useCommandState} from "launcher-api";
 
 const RenderItem = (props: { item: SearchResp<SearchItem> }) => {

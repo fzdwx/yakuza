@@ -3,8 +3,7 @@ import React, {useState} from 'react'
 import * as Popover from '@radix-ui/react-popover'
 import {SubItem} from './index'
 import {useKeyPress} from "ahooks";
-import {SearchItem, SearchResp} from "@/native";
-
+import {IsApplication, IsBuiltin, IsLocalExtension, SearchItem, SearchResp} from "@/native";
 
 function SubCommand({
                         inputRef,
@@ -22,8 +21,6 @@ function SubCommand({
     useKeyPress('ctrl.k', () => {
         setOpen((o) => !o)
     })
-
-    console.log(currentItem?.item)
 
     React.useEffect(() => {
         const el = listRef.current
