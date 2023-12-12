@@ -4,7 +4,7 @@ import {useApplications} from './item/applicationItem'
 import {useLocalExtensions} from "@/components/self/item/localExtension";
 import {SubCommand} from "@/components/self/subCommand";
 import {useBuiltin} from "@/components/self/item/builtin";
-import {SearchItem, SearchResp} from "@/native/types";
+import {appsToResp, builtinToResp, extToResp, SearchItem, SearchResp} from "@/native/types";
 import {Application, LocalExtension} from "@/native";
 import RenderItem from "@/components/self/item/renderItem";
 import {useInterval} from "ahooks";
@@ -12,15 +12,11 @@ import {doingSearch, getItemName, getText} from "@/components/self/helper";
 import {sleep} from "ahooks/es/utils/testingHelpers";
 import {nanoid} from "nanoid";
 import {useHover} from "@/components/self/hooks";
+import Fuse from "fuse.js";
 
-const sort = (extensions: SearchResp<LocalExtension>[], apps: SearchResp<Application>[], builtins: SearchResp<string>[]) => {
-    const arr = [...extensions, ...apps, ...builtins]
-    arr.map(item => {
-        item.id = nanoid()
-        return item
-    }).sort((a, b) => {
-        return b.score - a.score
-    })
+const sort = (value: string, extensions: LocalExtension[], apps: Application[], builtins: string[]) => {
+    const arr = [...extToResp(extensions), ...appsToResp(apps), ...builtinToResp(builtins)]
+    const fuse = new Fuse(arr)
 
     return arr
 }
@@ -50,9 +46,9 @@ export default function Self() {
     const [items, setItems] = useState<SearchResp<SearchItem>[]>([])
     const [currentItem, setCurrentItem] = useState<SearchResp<SearchItem>>()
 
-    const {extensions, refreshExt,} = useLocalExtensions(value)
-    const {apps, refreshApp} = useApplications(value)
-    const {builtins} = useBuiltin(value)
+    const {extensions, refreshExt,} = useLocalExtensions()
+    const {apps, refreshApp} = useApplications()
+    const {builtins} = useBuiltin()
 
     React.useEffect(() => {
         inputRef.current?.focus()
@@ -60,13 +56,12 @@ export default function Self() {
 
     on((item) => {
         setCurrentItem(item)
-        console.log(item)
     })
 
     React.useEffect(() => {
-        const arr = sort(extensions, apps, builtins)
+        const arr = sort(value, extensions, apps, builtins)
         setItems(arr)
-    }, [extensions, apps, builtins])
+    }, [extensions, apps, builtins, value])
 
     // useInterval(() => {
     //     if (doingSearch({searchText: value})) return

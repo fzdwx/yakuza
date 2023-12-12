@@ -5,19 +5,19 @@ import {SearchResp} from "@/native/types";
 import {useViewEvent} from "@/hooks/useView";
 import {useHover} from "@/components/self/hooks";
 
-const useLocalExtensions = (searchText: string) => {
+const useLocalExtensions = () => {
     const [loading, setLoading] = useState(true)
-    const [extensions, setExtensions] = useState<SearchResp<LocalExtension>[]>([])
+    const [extensions, setExtensions] = useState<LocalExtension[]>([])
 
-    const refreshExt = async (searchText: string) => {
+    const refreshExt = async () => {
         setLoading(true)
-        const ext = await getLocalExtensions(searchText)
+        const ext = await getLocalExtensions()
         setExtensions(ext)
         setLoading(false)
     }
     useEffect(() => {
-        refreshExt(searchText)
-    }, [searchText])
+        refreshExt()
+    }, [])
 
     return {
         extensions,

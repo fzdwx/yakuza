@@ -5,24 +5,13 @@ import {useEffect, useState} from "react";
 import {Application, getApplications, getBuiltin, LocalExtension, SearchResp} from "@/native";
 import {useHover} from "@/components/self/hooks";
 
-const useBuiltin = (searchText: string) => {
+const useBuiltin = () => {
     const [loading, setLoading] = useState(true)
-    const [builtins, setBuiltin] = useState<SearchResp<string>[]>([])
-
-    const refreshApp = async (searchText: string) => {
-        setLoading(true)
-        const builtin = await getBuiltin(searchText)
-        setBuiltin(builtin)
-        setLoading(false)
-    }
-    useEffect(() => {
-        refreshApp(searchText)
-    }, [searchText])
+    const [builtins, setBuiltin] = useState<string[]>(["Store", "Dev Mode"])
 
     return {
         builtins,
         loading,
-        refreshApp
     }
 }
 const {changeView} = useViewEvent();

@@ -1,3 +1,5 @@
+import {nanoid} from "nanoid";
+
 export interface Application {
     name: string;
     exec: string;
@@ -34,6 +36,41 @@ export interface SearchResp<T> {
     id: string
 }
 
+export function extToResp(extensions: LocalExtension[]) {
+    return extensions.map(
+        ext => {
+            return {
+                item: ext,
+                kind: 'Extension'
+            } as SearchResp<SearchItem>
+        }
+    );
+}
+
+export function appsToResp(apps: Application[]) {
+    return apps.map(
+        a => {
+            return {
+                item: a,
+                kind: 'Application'
+            } as SearchResp<SearchItem>
+        }
+    );
+}
+
+export function builtinToResp(bs: string[]) {
+    return bs.map(
+        b => {
+            return {
+                item: {
+                    name: b
+                } as Builtin,
+                kind: 'Application'
+            } as SearchResp<SearchItem>
+        }
+    );
+}
+
 export const IsApplication = (obj: SearchResp<SearchItem>): obj is SearchResp<Application> => {
     return obj.kind === 'Application'
 }
@@ -42,8 +79,12 @@ export const IsLocalExtension = (obj: SearchResp<SearchItem>): obj is SearchResp
     return obj.kind === 'Extension'
 }
 
-export const IsBuiltin = (obj: SearchResp<SearchItem>): obj is SearchResp<string> => {
+export const IsBuiltin = (obj: SearchResp<SearchItem>): obj is SearchResp<Builtin> => {
     return obj.kind === 'Builtin'
 }
 
-export type SearchItem = LocalExtension | Application | string
+export type Builtin = {
+    name: string
+}
+
+export type SearchItem = LocalExtension | Application | Builtin

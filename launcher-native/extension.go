@@ -7,7 +7,6 @@ import (
 	"fmt"
 	"github.com/fzdwx/launcher/launcher-native/fileutil"
 	"github.com/go-git/go-git/v5"
-	"github.com/sahilm/fuzzy"
 	"github.com/samber/lo"
 	"io/fs"
 	"net/http"
@@ -57,45 +56,11 @@ func (s *Server) ServeExtension(writer http.ResponseWriter, request *http.Reques
 }
 
 func (s *Server) ListLocalExtension(w http.ResponseWriter, r *http.Request) {
-	var resp = sortExtension(lo.Map(localExtensions, LocalToSearchResp))
-
-	text := r.URL.Query().Get("searchText")
-	if len(text) > 0 {
-		matches := fuzzy.FindFrom(text, resp)
-		resp = lo.Map(matches, func(item fuzzy.Match, index int) *SearchResp[*LocalExtension] {
-			return &SearchResp[*LocalExtension]{
-				Item:  resp[item.Index].Item,
-				Kind:  resp[item.Index].Kind,
-				Score: item.Score,
-			}
-		})
-	}
-
-	_ = json.NewEncoder(w).Encode(resp)
+	_ = json.NewEncoder(w).Encode(localExtensions)
 }
 
 func (s *Server) ListRemoteExtension(w http.ResponseWriter, r *http.Request) {
-	resps := lo.Map(remoteExtensions, func(extension *RemoteExtension, i int) *RemoteExtensionResp {
-		localExtension, has := lo.Find(localExtensions, func(localExtension *LocalExtension) bool {
-			return localExtension.Name == extension.Name
-		})
-
-		if has {
-			return &RemoteExtensionResp{
-				RemoteExtension: *extension,
-				Installed:       has,
-				FullPath:        localExtension.FullPath,
-			}
-		}
-		return &RemoteExtensionResp{RemoteExtension: *extension}
-	})
-
-	err := json.NewEncoder(w).Encode(resps)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprintf(w, "encode json:%v", err)
-		return
-	}
+	_ = json.NewEncoder(w).Encode(remoteExtensions)
 }
 
 func (s *Server) InstallExtension(w http.ResponseWriter, r *http.Request) {

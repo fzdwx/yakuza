@@ -14,19 +14,23 @@ import {SearchResp} from "@/native/types";
 import {Terser} from "vite";
 import {useHover} from "@/components/self/hooks";
 
-const useApplications = (searchText: string) => {
+const useApplications = () => {
     const [loading, setLoading] = useState(true)
-    const [apps, setApps] = useState<SearchResp<Application>[]>([])
+    const [apps, setApps] = useState<Application[]>([])
 
-    const refreshApp = async (searchText: string) => {
+    const refreshApp = async () => {
         setLoading(true)
-        const app = await getApplications(searchText)
-        setApps(app)
+        const app = await getApplications()
+        setApps(app.sort(
+            (a,b)=>{
+                return b.count - a.count
+            }
+        ))
         setLoading(false)
     }
     useEffect(() => {
-        refreshApp(searchText)
-    }, [searchText])
+        refreshApp()
+    }, [])
 
     return {
         apps,

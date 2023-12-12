@@ -1,5 +1,5 @@
 import {
-    Application,
+    Application, Builtin,
     IsApplication,
     IsBuiltin,
     IsLocalExtension,
@@ -26,7 +26,7 @@ function getItemName(item: SearchResp<SearchItem> | undefined) {
     }
 
     if (IsBuiltin(item)) {
-        return (item as SearchResp<string>).item;
+        return (item as SearchResp<Builtin>).item.name;
     }
 
     return (item as SearchResp<LocalExtension>).item.name;
@@ -44,7 +44,7 @@ const getText = (item: SearchResp<SearchItem> | undefined) => {
         return `Open ${item.item.name}`
     }
     if (IsBuiltin(item)) {
-        return `Open ${item.item}`
+        return `Open ${item.item.name}`
     }
 }
 

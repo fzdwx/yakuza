@@ -57,10 +57,6 @@ func (s *Server) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 		s.InstallExtension(writer, request)
 		return
 	}
-	if request.URL.Path == "/api/builtin" {
-		s.ListBuiltin(writer, request)
-		return
-	}
 	if request.URL.Path == "/api/exec/command" {
 		s.ExecCommand(writer, request)
 		return

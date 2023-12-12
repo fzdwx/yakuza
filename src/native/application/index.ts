@@ -58,9 +58,9 @@ const getIcon = (app: Application) => {
     return null;
 };
 
-const getApplications = async (searchText: string) => {
-    const resp = await fetch(`http://localhost:35677/api/applications?searchText=${searchText}`)
-    return await resp.json() as SearchResp<Application>[]
+const getApplications = async () => {
+    const resp = await fetch(`http://localhost:35677/api/applications`)
+    return await resp.json() as Application[]
 };
 
 const addAppRunCount = async (app: Application) => {
