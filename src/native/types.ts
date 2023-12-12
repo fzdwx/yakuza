@@ -34,6 +34,7 @@ export interface SearchResp<T> {
     item: T
     kind: string
     id: string
+    count: number,
 }
 
 export function extToResp(extensions: LocalExtension[]) {
@@ -41,7 +42,8 @@ export function extToResp(extensions: LocalExtension[]) {
         ext => {
             return {
                 item: ext,
-                kind: 'Extension'
+                kind: 'Extension',
+                count: 0
             } as SearchResp<SearchItem>
         }
     );
@@ -52,7 +54,8 @@ export function appsToResp(apps: Application[]) {
         a => {
             return {
                 item: a,
-                kind: 'Application'
+                kind: 'Application',
+                count: a.count,
             } as SearchResp<SearchItem>
         }
     );
@@ -65,7 +68,8 @@ export function builtinToResp(bs: string[]) {
                 item: {
                     name: b
                 } as Builtin,
-                kind: 'Application'
+                kind: 'Application',
+                count: 0,
             } as SearchResp<SearchItem>
         }
     );

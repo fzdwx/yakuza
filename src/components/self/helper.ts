@@ -7,6 +7,7 @@ import {
     SearchItem,
     SearchResp
 } from "@/native";
+import {sleep} from "ahooks/es/utils/testingHelpers";
 
 function searchResultIsEmpty<T>(arr: T[], props: { searchText: string }) {
     return doingSearch(props) && arr.length == 0;
@@ -46,6 +47,20 @@ const getText = (item: SearchResp<SearchItem> | undefined) => {
     if (IsBuiltin(item)) {
         return `Open ${item.item.name}`
     }
+}
+
+export function getHeader(value: string) {
+    if (value.length == 0) {
+        return 'Recommend'
+    }
+    return 'Results';
+}
+
+export function selectFirstItem(value: string) {
+    sleep(20).then(() => {
+        const event = new KeyboardEvent('keydown', {code: 'Home'})
+        window.dispatchEvent(event)
+    })
 }
 
 export {getText}

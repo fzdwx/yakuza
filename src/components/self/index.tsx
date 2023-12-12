@@ -8,7 +8,7 @@ import {appsToResp, builtinToResp, extToResp, SearchItem, SearchResp} from "@/na
 import {Application, LocalExtension} from "@/native";
 import RenderItem from "@/components/self/item/renderItem";
 import {useInterval} from "ahooks";
-import {doingSearch, getItemName, getText} from "@/components/self/helper";
+import {doingSearch, getHeader, getItemName, getText, selectFirstItem} from "@/components/self/helper";
 import {sleep} from "ahooks/es/utils/testingHelpers";
 import {nanoid} from "nanoid";
 import {useHover} from "@/components/self/hooks";
@@ -40,20 +40,6 @@ const sort = (value: string, extensions: LocalExtension[], apps: Application[], 
         item.score = v.score
         return item
     }).slice(0, 5);
-}
-
-function getHeader(value: string) {
-    if (value.length == 0) {
-        return 'Recommend'
-    }
-    return 'Results';
-}
-
-function selectFirstItem(value: string) {
-    sleep(20).then(() => {
-        const event = new KeyboardEvent('keydown', {code: 'Home'})
-        window.dispatchEvent(event)
-    })
 }
 
 const {on} = useHover()

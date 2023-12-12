@@ -4,6 +4,7 @@ import * as Popover from '@radix-ui/react-popover'
 import {SubItem} from './index'
 import {useKeyPress} from "ahooks";
 import {IsApplication, IsBuiltin, IsLocalExtension, SearchItem, SearchResp} from "@/native";
+import {shell} from "electron";
 
 function SubCommand({
                         inputRef,
@@ -59,7 +60,13 @@ function SubCommand({
                                 <WindowIcon/>
                                 Open Application
                             </SubItem>
-                            <SubItem shortcut="⌘ ↵">
+                            <SubItem shortcut="⌘ ↵" s={() => {
+                                if (currentItem) {
+                                    if (IsLocalExtension(currentItem)) {
+                                        shell.openPath(currentItem.item.fullPath)
+                                    }
+                                }
+                            }}>
                                 <FinderIcon/>
                                 Show in Finder
                             </SubItem>
