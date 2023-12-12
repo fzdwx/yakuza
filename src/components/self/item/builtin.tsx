@@ -2,7 +2,7 @@ import {useViewEvent} from "@/hooks/useView";
 import {Command} from "launcher-api";
 import StoreIcon from "@/components/store/storeIcon";
 import {useEffect, useState} from "react";
-import {Application, getApplications, getBuiltin, LocalExtension, SearchResp} from "@/native";
+import {Application, Builtin, getApplications, getBuiltin, LocalExtension, SearchResp} from "@/native";
 import {useHover} from "@/components/self/hooks";
 
 const useBuiltin = () => {
@@ -16,7 +16,7 @@ const useBuiltin = () => {
 }
 const {changeView} = useViewEvent();
 
-const StoreItem = (props: { item: SearchResp<string> }) => {
+const StoreItem = (props: { item: SearchResp<Builtin> }) => {
     return <Command.Item
         value='store'
         data-value='store'
@@ -35,7 +35,7 @@ const StoreItem = (props: { item: SearchResp<string> }) => {
 }
 
 const {change} = useHover()
-const DevMode = (props: { item: SearchResp<string> }) => {
+const DevMode = (props: { item: SearchResp<Builtin> }) => {
     return <Command.Item
         value='Dev Mode'
         data-value='Dev Mode'
@@ -55,8 +55,8 @@ const DevMode = (props: { item: SearchResp<string> }) => {
     </Command.Item>
 }
 
-const getItem = (item: SearchResp<string>) => {
-    switch (item.item) {
+const getItem = (item: SearchResp<Builtin>) => {
+    switch (item.item.name) {
         case "Store":
             return <StoreItem item={item}/>
         case "Dev Mode":
@@ -66,7 +66,7 @@ const getItem = (item: SearchResp<string>) => {
     }
 }
 
-const Builtin = ({item}: { item: SearchResp<string> }) => {
+const Builtin = ({item}: { item: SearchResp<Builtin> }) => {
     return <>
         {getItem(item)}
     </>
