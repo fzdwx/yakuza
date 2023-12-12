@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	port := flag.Int("port", 8080, "port to listen on")
+	port := flag.Int("port", 35677, "port to listen on")
 
 	server := NewServer(port)
 	err := server.ListenAndServe()

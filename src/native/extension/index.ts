@@ -2,17 +2,17 @@ import {RemoteExtensionResp, SearchResp, LocalExtension, RemoteExtension} from "
 
 
 const getRemoteExtensions = async () => {
-    const resp = await fetch("http://localhost:8080/api/extension/listRemote")
+    const resp = await fetch("http://localhost:35677/api/extension/listRemote")
     return await resp.json() as RemoteExtensionResp[]
 };
 
 const getLocalExtensions = async (searchText: string) => {
-    const resp = await fetch(`http://localhost:8080/api/extension/listLocal?searchText=${searchText}`)
+    const resp = await fetch(`http://localhost:35677/api/extension/listLocal?searchText=${searchText}`)
     return await resp.json() as SearchResp<LocalExtension>[]
 };
 
 const installExtension = async (extension: RemoteExtension) => {
-    const resp = await fetch("http://localhost:8080/api/extension/install", {
+    const resp = await fetch("http://localhost:35677/api/extension/install", {
         method: 'POST',
         body: JSON.stringify(extension)
     })
