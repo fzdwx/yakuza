@@ -6,6 +6,7 @@ import RenderItem from "@/components/self/item/renderItem";
 import {getHeader, getItemName, selectFirstItem} from "@/components/self/helper";
 import {useHover} from "@/components/self/hooks";
 import {useMatch} from "@/components/self/hooks/useMatch";
+import {nanoid} from "nanoid";
 
 export default function Self() {
     const commandRef = React.useRef<HTMLInputElement>(null)
@@ -48,7 +49,7 @@ export default function Self() {
                 <Command.Group heading={getHeader(value)}>
                     {
                         items.map((item) => {
-                            return (<RenderItem item={item}/>)
+                            return (<RenderItem key={nanoid()} item={item}/>)
                         })
                     }
                 </Command.Group>

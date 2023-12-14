@@ -4,7 +4,7 @@ import {nanoid} from "nanoid";
 import {useLocalExtensions} from "@/components/self/item/localExtension";
 import {useApplications} from "@/components/self/item/applicationItem";
 import {useBuiltin} from "@/components/self/item/builtin";
-import {useEffect, useState} from "react";
+import {useMemo} from "react";
 
 const fuseOptions: IFuseOptions<SearchResp<SearchItem>> = {
     keys: [
@@ -17,7 +17,7 @@ const fuseOptions: IFuseOptions<SearchResp<SearchItem>> = {
     shouldSort: true,
     findAllMatches: false,
     location: 0,
-    threshold: 0.0,
+    threshold: 0.5,
     distance: 100,
     ignoreLocation: true,
     useExtendedSearch: true,
@@ -40,24 +40,22 @@ const sort = (value: string, extensions: LocalExtension[], apps: Application[], 
     }
 
     fuse.setCollection(arr)
-    const resp = fuse.search(value);
+    const resp = fuse.search(value, {limit: 5});
     return resp.map(v => {
         const item = v.item;
         item.score = v.score
         return item
-    }).slice(0, 5);
+    });
 }
 
 const useMatch = (value: string) => {
     const {extensions, refreshExt,} = useLocalExtensions()
     const {apps, refreshApp} = useApplications()
     const {builtins} = useBuiltin()
-    const [items, setItems] = useState<SearchResp<SearchItem>[]>([])
 
-    useEffect(() => {
-        setItems(sort(value, extensions, apps, builtins))
+    const items = useMemo(() => {
+        return sort(value, extensions, apps, builtins)
     }, [extensions, apps, builtins, value])
-
 
     return [items]
 }
