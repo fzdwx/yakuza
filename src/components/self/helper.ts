@@ -40,13 +40,13 @@ const getText = (item: SearchResp<SearchItem> | undefined) => {
     }
 
     if (IsApplication(item)) {
-        return `Open ${item.item.name}`
+        return "Open"
     }
     if (IsLocalExtension(item)) {
-        return `Open ${item.item.name}`
+        return `Open`
     }
     if (IsBuiltin(item)) {
-        return `Open ${item.item.name}`
+        return `Open`
     }
 }
 

@@ -40,7 +40,7 @@ export default function Self() {
     }
 
     return (
-        <Command ref={commandRef} shouldFilter={false} className='raycast' label="Global Command Menu">
+        <Command vimBindings={false} loop ref={commandRef} shouldFilter={false} className='raycast' label="Global Command Menu">
             <div cmdk-raycast-top-shine=""/>
             <Command.Input value={value} onValueChange={onValueChange} autoFocus ref={inputRef}/>
             <Command.List ref={listRef}>

@@ -35,7 +35,7 @@
     "@vitejs/plugin-react": "^4.2.1",
     "electron": "^28.0.0",
     "electron-builder": "^24.9.1",
-    "launcher-api": "^0.7.2",
+    "launcher-api": "^0.7.25",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "tree-kill": "^1.2.2",

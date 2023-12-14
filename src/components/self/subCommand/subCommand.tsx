@@ -5,6 +5,7 @@ import {SubItem} from './index'
 import {useKeyPress} from "ahooks";
 import {IsApplication, IsBuiltin, IsLocalExtension, SearchItem, SearchResp} from "@/native";
 import {shell} from "electron";
+import {getText} from "@/components/self/helper";
 
 function SubCommand({
                         inputRef,
@@ -19,7 +20,8 @@ function SubCommand({
 }) {
     const [open, setOpen] = React.useState(false)
 
-    useKeyPress('ctrl.k', () => {
+    useKeyPress('ctrl.k', (e) => {
+        e.preventDefault()
         setOpen((o) => !o)
     })
 
@@ -58,22 +60,9 @@ function SubCommand({
                         <Command.Group heading={selectedValue}>
                             <SubItem shortcut="↵">
                                 <WindowIcon/>
-                                Open Application
+                                {getText(currentItem)}
                             </SubItem>
-                            <SubItem shortcut="⌘ ↵" s={() => {
-                                if (currentItem) {
-                                    if (IsLocalExtension(currentItem)) {
-                                        shell.openPath(currentItem.item.fullPath)
-                                    }
-                                }
-                            }}>
-                                <FinderIcon/>
-                                Show in Finder
-                            </SubItem>
-                            <SubItem shortcut="⌘ I">
-                                <FinderIcon/>
-                                Show Info in Finder
-                            </SubItem>
+                            {openInFolder(currentItem)}
                             <SubItem shortcut="⌘ ⇧ F">
                                 <StarIcon/>
                                 Add to Favorites
@@ -85,6 +74,20 @@ function SubCommand({
             </Popover.Content>
         </Popover.Root>
     )
+}
+
+
+const openInFolder = (currentItem: SearchResp<SearchItem> | undefined) => {
+    if (currentItem && IsLocalExtension(currentItem))
+        return (<SubItem shortcut="⌘ ↵" s={() => {
+            if (currentItem) {
+                shell.openPath(currentItem.item.fullPath)
+            }
+        }}>
+            <FinderIcon/>
+            Show in Finder
+        </SubItem>)
+    return (<></>)
 }
 
 export default SubCommand;
