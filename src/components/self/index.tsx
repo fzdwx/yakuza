@@ -1,5 +1,5 @@
-import {Command, useCommandState} from 'launcher-api'
-import React, {useEffect, useState} from 'react'
+import {Command} from 'launcher-api'
+import React, {useState} from 'react'
 import {useApplications} from './item/applicationItem'
 import {useLocalExtensions} from "@/components/self/item/localExtension";
 import {SubCommand} from "@/components/self/subCommand";
@@ -7,9 +7,7 @@ import {useBuiltin} from "@/components/self/item/builtin";
 import {appsToResp, builtinToResp, extToResp, SearchItem, SearchResp} from "@/native/types";
 import {Application, LocalExtension} from "@/native";
 import RenderItem from "@/components/self/item/renderItem";
-import {useInterval} from "ahooks";
-import {doingSearch, getHeader, getItemName, getText, selectFirstItem} from "@/components/self/helper";
-import {sleep} from "ahooks/es/utils/testingHelpers";
+import {getHeader, getItemName, selectFirstItem} from "@/components/self/helper";
 import {nanoid} from "nanoid";
 import {useHover} from "@/components/self/hooks";
 import Fuse from "fuse.js";
@@ -42,7 +40,6 @@ const sort = (value: string, extensions: LocalExtension[], apps: Application[], 
     }).slice(0, 5);
 }
 
-const {on} = useHover()
 export default function Self() {
     const commandRef = React.useRef<HTMLInputElement>(null)
     const inputRef = React.useRef<HTMLInputElement>(null)
@@ -54,10 +51,15 @@ export default function Self() {
     const {extensions, refreshExt,} = useLocalExtensions()
     const {apps, refreshApp} = useApplications()
     const {builtins} = useBuiltin()
+    const {on} = useHover()
 
     React.useEffect(() => {
         inputRef.current?.focus()
     })
+
+    React.useEffect(()=>{
+        selectFirstItem();
+    },[])
 
     on((item) => {
         setCurrentItem(item)
@@ -79,7 +81,7 @@ export default function Self() {
 
     const onValueChange = (v: string) => {
         setValue(v)
-        selectFirstItem(v);
+        selectFirstItem();
     }
 
     return (
@@ -106,7 +108,7 @@ export default function Self() {
 
                         currentItem ?
                             (<>
-                                <span className='mr-1'>Open+ {getItemName(currentItem)}</span>
+                                <span className='mr-1'>Open {getItemName(currentItem)}</span>
                                 <kbd>↵</kbd>
                             </>)
 

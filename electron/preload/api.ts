@@ -1,4 +1,4 @@
-import {BrowserWindow, app, ipcMain, clipboard, shell} from "electron"
+import {app, BrowserWindow, clipboard, ipcMain, shell} from "electron"
 import {toCenter} from "../main/screen";
 import * as cmd from 'node:child_process'
 import util from 'node:util'
@@ -6,6 +6,7 @@ import {execCommand, getConfig, setConfig} from "../../src/native";
 import {getView} from "../main/extension";
 import {Height, Width} from "../main/cons";
 import {sleep} from "ahooks/es/utils/testingHelpers";
+import {ViewName} from "@/hooks/useView";
 
 const spawn = util.promisify(cmd.spawn)
 
@@ -47,7 +48,7 @@ class LauncherApi {
     }
 
     public loadMainView() {
-        this.mainWindow.webContents.send('changeView', 'self')
+        this.changeView('self')
         this.exitExtension()
     }
 
@@ -108,6 +109,7 @@ class LauncherApi {
             height: Height,
             width: Width,
         })
+
         view.webContents.on('did-finish-load', () => {
             view.webContents.focus()
         })
@@ -117,10 +119,17 @@ class LauncherApi {
                 sleep(20)
             }
         })
-        view.webContents.loadURL(url)
         this.mainWindow.setBrowserView(view)
+        this.changeView('extViewTransport')
+        view.webContents.loadURL(url)
+    }
+
+
+    private changeView(view: ViewName) {
+        this.mainWindow.webContents.send('changeView', view)
     }
 }
+
 
 const registerApi = (mainWindow: Electron.BrowserWindow, loadMainView: () => void) => {
     const a = new LauncherApi(mainWindow, loadMainView)

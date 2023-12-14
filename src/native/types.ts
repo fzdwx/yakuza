@@ -68,7 +68,7 @@ export function builtinToResp(bs: string[]) {
                 item: {
                     name: b
                 } as Builtin,
-                kind: 'Application',
+                kind: 'Builtin',
                 count: 0,
             } as SearchResp<SearchItem>
         }

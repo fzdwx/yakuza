@@ -1,6 +1,7 @@
 import {addAppRunCount, getApplications, getIcon} from "./application";
 import {getBuiltin} from "./builtin";
 import {getLocalExtensions, getRemoteExtensions, installExtension} from "./extension";
+import {ipcRenderer} from "electron";
 
 export {
     getApplications, addAppRunCount, getIcon

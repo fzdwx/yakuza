@@ -1,5 +1,6 @@
 import {
-    Application, Builtin,
+    Application,
+    Builtin,
     IsApplication,
     IsBuiltin,
     IsLocalExtension,
@@ -56,8 +57,8 @@ export function getHeader(value: string) {
     return 'Results';
 }
 
-export function selectFirstItem(value: string) {
-    sleep(20).then(() => {
+export function selectFirstItem(timeout: number = 20) {
+    sleep(timeout).then(() => {
         const event = new KeyboardEvent('keydown', {code: 'Home'})
         window.dispatchEvent(event)
     })

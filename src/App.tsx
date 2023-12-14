@@ -1,9 +1,8 @@
 import Self from '@/components/self';
 import {useViewEvent, ViewName} from "@/hooks/useView";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import Store from "@/components/store";
 import ExtensionView from "@/components/extensionView";
-import {ipcRenderer} from "electron";
 
 const {emitter, changeView} = useViewEvent();
 
@@ -14,7 +13,9 @@ function switchView(view: ViewName) {
         case 'store':
             return <Store/>
         case "extView":
-            return <ExtensionView/>
+            return <ExtensionView transport={false}/>
+        case "extViewTransport":
+            return <ExtensionView transport={true}/>
         default:
             return <Self/>
     }
