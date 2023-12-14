@@ -6,6 +6,8 @@ import {useKeyPress} from "ahooks";
 import {IsApplication, IsBuiltin, IsLocalExtension, SearchItem, SearchResp} from "@/native";
 import {shell} from "electron";
 import {getText} from "@/components/self/helper";
+import {KeyboardIcon} from "@/components/icons";
+import useSetShortcut from "@/components/self/hooks/useSetShortcut";
 
 function SubCommand({
                         inputRef,
@@ -63,10 +65,7 @@ function SubCommand({
                                 {getText(currentItem)}
                             </SubItem>
                             {openInFolder(currentItem)}
-                            <SubItem shortcut="⌘ ⇧ F">
-                                <StarIcon/>
-                                Add to Favorites
-                            </SubItem>
+                            {setShortcut(currentItem)}
                         </Command.Group>
                     </Command.List>
                     <Command.Input placeholder="Search for actions..."/>
@@ -87,6 +86,19 @@ const openInFolder = (currentItem: SearchResp<SearchItem> | undefined) => {
             <FinderIcon/>
             Show in Finder
         </SubItem>)
+    return (<></>)
+}
+
+const setShortcut = (currentItem: SearchResp<SearchItem> | undefined) => {
+    const {changeVal,changeVis}= useSetShortcut()
+    if (currentItem && (IsApplication(currentItem) || IsBuiltin(currentItem) || IsLocalExtension(currentItem))) {
+        return (<SubItem shortcut="⌘ ⇧ S" s={() => {
+            changeVal("hello world")
+        }}>
+            <KeyboardIcon/>
+            Set Shortcut
+        </SubItem>)
+    }
     return (<></>)
 }
 
