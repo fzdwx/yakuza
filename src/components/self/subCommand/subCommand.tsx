@@ -7,7 +7,6 @@ import {IsApplication, IsBuiltin, IsLocalExtension, SearchItem, SearchResp} from
 import {shell} from "electron";
 import {getText} from "@/components/self/helper";
 import {KeyboardIcon} from "@/components/icons";
-import useSetShortcut from "@/components/self/hooks/useSetShortcut";
 
 function SubCommand({
                         inputRef,
@@ -90,10 +89,8 @@ const openInFolder = (currentItem: SearchResp<SearchItem> | undefined) => {
 }
 
 const setShortcut = (currentItem: SearchResp<SearchItem> | undefined) => {
-    const {changeVal,changeVis}= useSetShortcut()
     if (currentItem && (IsApplication(currentItem) || IsBuiltin(currentItem) || IsLocalExtension(currentItem))) {
         return (<SubItem shortcut="⌘ ⇧ S" s={() => {
-            changeVal("hello world")
         }}>
             <KeyboardIcon/>
             Set Shortcut

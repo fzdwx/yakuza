@@ -5,7 +5,6 @@ import Store from "@/components/store";
 import ExtensionView from "@/components/extensionView";
 import {Provider} from "jotai";
 import {createStore} from "jotai";
-import useSetShortcut from "@/components/self/hooks/useSetShortcut";
 
 const {emitter, changeView} = useViewEvent();
 const jotaiStore = createStore()
@@ -31,13 +30,11 @@ function App() {
     emitter.on('changeView', (view: ViewName) => {
         setView(view)
     })
-    const {SetShortcutModel} = useSetShortcut()
 
     return (
         <Provider store={jotaiStore}>
             <div id='top' className='dark text-white bg-dark/90 backdrop-blur'>
                 {switchView(view)}
-                <SetShortcutModel/>
             </div>
         </Provider>
     )
