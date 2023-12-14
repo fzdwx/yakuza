@@ -1,10 +1,14 @@
 import Self from '@/components/self';
 import {useViewEvent, ViewName} from "@/hooks/useView";
-import {useState} from "react";
+import React, {useState} from "react";
 import Store from "@/components/store";
 import ExtensionView from "@/components/extensionView";
+import {Provider} from "jotai";
+import {createStore} from "jotai";
+import useSetShortcut from "@/components/self/hooks/useSetShortcut";
 
 const {emitter, changeView} = useViewEvent();
+const jotaiStore = createStore()
 
 function switchView(view: ViewName) {
     switch (view) {
@@ -27,11 +31,15 @@ function App() {
     emitter.on('changeView', (view: ViewName) => {
         setView(view)
     })
+    const {SetShortcutModel} = useSetShortcut()
 
     return (
-        <div id='top' className='dark text-white bg-dark/90 backdrop-blur'>
-            {switchView(view)}
-        </div>
+        <Provider store={jotaiStore}>
+            <div id='top' className='dark text-white bg-dark/90 backdrop-blur'>
+                {switchView(view)}
+                <SetShortcutModel/>
+            </div>
+        </Provider>
     )
 }
 
