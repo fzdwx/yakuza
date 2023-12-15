@@ -7,18 +7,21 @@ import {getView} from "../main/extension";
 import {Height, Width} from "../main/cons";
 import {sleep} from "ahooks/es/utils/testingHelpers";
 import {ViewName} from "@/hooks/useView";
+import {WinManager} from "../main/mainWin";
 
 const spawn = util.promisify(cmd.spawn)
 
-let LoadMainView: () => void
 
 class LauncherApi {
 
-    private readonly mainWindow: BrowserWindow
+    private m: WinManager;
 
-    constructor(mainWindow: Electron.BrowserWindow, loadMainView: () => void) {
-        this.mainWindow = mainWindow
-        LoadMainView = loadMainView
+    constructor(m: WinManager) {
+        this.m = m
+    }
+
+    public getMain = () => {
+        return this.m.getWindow()
     }
 
     public hello = () => {
@@ -26,8 +29,8 @@ class LauncherApi {
     }
 
     public hide = () => {
-        this.mainWindow.blur()
-        this.mainWindow.hide()
+        this.getMain().blur()
+        this.getMain().hide()
         this.loadMainView()
     }
 
@@ -43,8 +46,8 @@ class LauncherApi {
 
     public exitExtension() {
         getView().webContents.loadURL('about:blank')
-        this.mainWindow.setBrowserView(null)
-        this.mainWindow.webContents.focus()
+        this.getMain().setBrowserView(null)
+        this.getMain().webContents.focus()
     }
 
     public loadMainView() {
@@ -53,9 +56,9 @@ class LauncherApi {
     }
 
     public show = () => {
-        this.mainWindow.show()
-        toCenter(this.mainWindow)
-        this.mainWindow.focus()
+        this.getMain().show()
+        toCenter(this.getMain())
+        this.getMain().focus()
     }
 
     public openUrl = async ({data}: { data: any }) => {
@@ -119,29 +122,28 @@ class LauncherApi {
                 sleep(20)
             }
         })
-        this.mainWindow.setBrowserView(view)
+        this.getMain().setBrowserView(view)
         this.changeView('extViewTransport')
         view.webContents.loadURL(url)
     }
 
 
     private changeView(view: ViewName) {
-        this.mainWindow.webContents.send('changeView', view)
+        this.getMain().webContents.send('changeView', view)
     }
 }
 
 
-const registerApi = (mainWindow: Electron.BrowserWindow, loadMainView: () => void) => {
-    const a = new LauncherApi(mainWindow, loadMainView)
+const registerApi = (a: LauncherApi) => {
 
     ipcMain.handle('launcher-api', async (event, arg) => {
-        const window = arg.winId ? BrowserWindow.fromId(arg.winId) : mainWindow;
+        const window = arg.winId ? BrowserWindow.fromId(arg.winId) : a.getMain();
         //@ts-ignore
         return await a[arg.type](arg, window, event);
     })
 
     ipcMain.on('launcher-api', async (event, arg) => {
-        const window = arg.winId ? BrowserWindow.fromId(arg.winId) : mainWindow;
+        const window = arg.winId ? BrowserWindow.fromId(arg.winId) : a.getMain();
         //@ts-ignore
         const data = await a[arg.type](arg, window, event);
         event.returnValue = data;

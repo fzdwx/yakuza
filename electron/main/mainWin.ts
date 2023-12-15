@@ -1,11 +1,9 @@
-import { BrowserWindow } from "electron"
-import { Height, Width } from "./cons"
-import { join } from 'node:path'
-import { release } from 'node:os'
-import { app } from 'electron'
-import { update } from "./update"
-import { toCenter } from "./screen"
-import { initShortCut } from "./shortcut"
+import {app, BrowserWindow} from "electron"
+import {Height, Width} from "./cons"
+import {join} from 'node:path'
+import {release} from 'node:os'
+import {update} from "./update"
+import {toCenter} from "./screen"
 
 process.env.DIST_ELECTRON = join(__dirname, '../')
 process.env.DIST = join(process.env.DIST_ELECTRON, '../dist')
@@ -26,13 +24,62 @@ if (!app.requestSingleInstanceLock()) {
 export const preload = join(__dirname, '../preload/index.js')
 const url = process.env.VITE_DEV_SERVER_URL
 const indexHtml = join(process.env.DIST, 'index.html')
+const settingsHtml = join(process.env.DIST, 'settings.html')
 
-
-export default () => {
+export default (): WinManager => {
     let mainWin: BrowserWindow
+    let settingsWin: BrowserWindow
 
     const init = () => {
         createWindow()
+    }
+
+    const closeSettings = () => {
+        if (settingsWin) {
+            settingsWin.close()
+        }
+    }
+
+    const openSettings = () => {
+        if (settingsWin) {
+            settingsWin.close()
+        }
+
+        settingsWin = new BrowserWindow({
+            title: 'Settings',
+            focusable: true,
+            resizable: false,
+            width: Width,
+            height: Height,
+            titleBarStyle: 'hiddenInset',
+            vibrancy: 'under-window',
+            visualEffectState: "followWindow",
+            alwaysOnTop: true,
+            transparent: true,
+            frame: false,
+            icon: join(process.env.VITE_PUBLIC, 'favicon.ico'),
+            webPreferences: {
+                webSecurity: false,
+                backgroundThrottling: false,
+                experimentalFeatures: true,
+                contextIsolation: false,
+                webviewTag: true,
+                nodeIntegration: true,
+                spellcheck: false,
+                preload
+            },
+        })
+
+        if (url) { // electron-vite-vue#298
+            settingsWin.loadURL(`${url}/settings.html`)
+        } else {
+            settingsWin.loadFile(settingsHtml)
+        }
+
+        settingsWin.on('close', () => {
+            //@ts-ignore
+            settingsWin = null
+        })
     }
 
     const createWindow = () => {
@@ -81,19 +128,6 @@ export default () => {
         mainWin.setMaximumSize(Width, Height)
         mainWin.setMinimumSize(Width, Height)
         toCenter(mainWin)
-        initShortCut(mainWin, loadMainView)
-
-        // // Test actively push message to the Electron-Renderer
-        // mainWin.webContents.on('did-finish-load', () => {
-        //   mainWin?.webContents.send('main-process-message', new Date().toLocaleString())
-        // })
-
-        // // Make all links open with the browser, not with the application
-        // mainWin.webContents.setWindowOpenHandler(({ url }) => {
-        //   if (url.startsWith('https:')) shell.openExternal(url)
-        //   return { action: 'deny' }
-        // })
-
     }
 
     const getWindow = () => {
@@ -113,8 +147,19 @@ export default () => {
     return {
         init,
         getWindow,
-        loadMainView
+        loadMainView,
+        openSettings,
+        closeSettings
     }
 }
 
 
+interface WinManager {
+    init: () => void;
+    loadMainView: () => void;
+    getWindow: () => Electron.CrossProcessExports.BrowserWindow;
+    openSettings: () => void
+    closeSettings: () => void
+}
+
+export type {WinManager}

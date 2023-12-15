@@ -1,30 +1,27 @@
 import {app} from "electron";
-import main, {preload} from "./mainWin";
-import {registerApi} from "../preload/api";
+import main, {preload, WinManager} from "./mainWin";
+import {LauncherApi, registerApi} from "../preload/api";
 import * as child_process from "child_process";
 import util from "node:util";
 import path from "node:path";
 import {createView} from "./extension";
+import {initShortCut} from "./shortcut";
 
 let exec = util.promisify(child_process.exec);
-let spawn = util.promisify(child_process.spawn);
 
 class Launcher {
-    init: () => void;
-    getWindow: () => Electron.BrowserWindow;
-    loadMainView: () => void;
+    public m: WinManager
 
     constructor() {
-        const {init, getWindow, loadMainView} = main()
-        this.init = init
-        this.getWindow = getWindow
-        this.loadMainView = loadMainView
+        this.m = main()
     }
 
     createWindow() {
-        this.init()
-        registerApi(this.getWindow(), this.loadMainView)
-        createView(preload, this.getWindow())
+        this.m.init()
+        const a = new LauncherApi(this.m)
+        registerApi(a)
+        initShortCut(a)
+        createView(preload, this.m.getWindow())
     }
 
     async startBackend() {
@@ -46,7 +43,7 @@ app.whenReady().then(async () => {
 })
 
 app.on('activate', () => {
-    if (launcher.getWindow() === null) {
+    if (launcher.m.getWindow() === null) {
         launcher.createWindow()
     }
 })

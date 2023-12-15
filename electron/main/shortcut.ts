@@ -1,15 +1,14 @@
-import {BrowserWindow, globalShortcut} from "electron";
-import { LauncherApi } from "../preload/api";
+import {globalShortcut} from "electron";
+import {LauncherApi} from "../preload/api";
 
-const initShortCut = (win: BrowserWindow, loadMainView: () => void) => {
-  const a = new LauncherApi(win,loadMainView)
-  globalShortcut.register('Alt+Space', () => {
-    if (win.isVisible()) {
-      a.hide()
-    } else {
-      a.show()
-    }
-  })
+const initShortCut = (api: LauncherApi) => {
+    globalShortcut.register('Alt+Space', () => {
+        if (api.getMain().isVisible()) {
+            api.hide()
+        } else {
+            api.show()
+        }
+    })
 }
 
-export { initShortCut }
+export {initShortCut}
