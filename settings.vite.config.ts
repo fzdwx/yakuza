@@ -20,7 +20,7 @@ export default defineConfig({
         emptyOutDir: false,
         minify: false,
         rollupOptions: {
-            input: path.join(__dirname, 'src/settings.html'),
+            input: path.join(__dirname, 'settings.html'),
         },
     },
     esbuild: {
