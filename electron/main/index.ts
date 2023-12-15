@@ -6,6 +6,7 @@ import util from "node:util";
 import path from "node:path";
 import {createView} from "./extension";
 import {initShortCut} from "./shortcut";
+import {handleChangeView} from "./handleChangeView";
 
 let exec = util.promisify(child_process.exec);
 
@@ -20,6 +21,7 @@ class Launcher {
         this.m.init()
         const a = new LauncherApi(this.m)
         registerApi(a)
+        handleChangeView(a)
         initShortCut(a)
         createView(preload, this.m.getWindow())
     }

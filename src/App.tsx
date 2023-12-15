@@ -5,6 +5,7 @@ import Store from "@/components/store";
 import ExtensionView from "@/components/extensionView";
 import {Provider} from "jotai";
 import {createStore} from "jotai";
+import Settings from "@/components/settings";
 
 const {emitter, changeView} = useViewEvent();
 
@@ -18,6 +19,8 @@ function switchView(view: ViewName) {
             return <ExtensionView transport={false}/>
         case "extViewTransport":
             return <ExtensionView transport={true}/>
+        case "settings":
+            return <Settings/>
         default:
             return <Self/>
     }

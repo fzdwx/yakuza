@@ -1,15 +1,17 @@
 import mitt from 'mitt'
 import {useState} from "react";
+import {ipcRenderer} from "electron";
 
 type ViewEvent = {
     changeView: ViewName
 }
 
-type ViewName = 'self' | 'store' | 'extView' | 'extViewTransport'
+type ViewName = 'self' | 'store' | 'extView' | 'extViewTransport' | 'settings'
 const emitter = mitt<ViewEvent>()
 
 const useViewEvent = () => {
     const changeView = (viewName: ViewName) => {
+        ipcRenderer.postMessage('changeView', viewName)
         emitter.emit('changeView', viewName)
     }
 
