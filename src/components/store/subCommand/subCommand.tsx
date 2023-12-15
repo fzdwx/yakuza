@@ -46,7 +46,7 @@ function SubCommand({
         <Popover.Root open={open} onOpenChange={setOpen} modal>
             <Popover.Trigger cmdk-raycast-subcommand-trigger="" onClick={() => setOpen(true)} aria-expanded={open}>
                 Actions
-                <kbd>⌘</kbd>
+                <kbd>ctrl</kbd>
                 <kbd>K</kbd>
             </Popover.Trigger>
             <Popover.Content
@@ -67,15 +67,15 @@ function SubCommand({
                                 <WindowIcon/>
                                 Open Application
                             </SubItem>
-                            <SubItem shortcut="⌘ ↵">
+                            <SubItem shortcut="ctrl ↵">
                                 <FinderIcon/>
                                 Show in Finder
                             </SubItem>
-                            <SubItem shortcut="⌘ I">
+                            <SubItem shortcut="ctrl I">
                                 <FinderIcon/>
                                 Show Info in Finder
                             </SubItem>
-                            <SubItem shortcut="⌘ ⇧ F">
+                            <SubItem shortcut="ctrl ⇧ F">
                                 <StarIcon/>
                                 Add to Favorites
                             </SubItem>

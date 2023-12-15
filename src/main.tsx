@@ -7,8 +7,6 @@ import {Theme} from '@radix-ui/themes'
 import './native/handleEvent'
 import '@/assets/global.scss'
 import 'launcher-api/dist/index.css'
-import {useCommandState} from "launcher-api";
-import {ipcRenderer} from "electron";
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>

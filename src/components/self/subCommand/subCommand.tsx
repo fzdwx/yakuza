@@ -1,5 +1,5 @@
-import {Command, WindowIcon, FinderIcon, StarIcon, useCommandState} from 'launcher-api'
-import React, {useState} from 'react'
+import {Command, FinderIcon, WindowIcon} from 'launcher-api'
+import React from 'react'
 import * as Popover from '@radix-ui/react-popover'
 import {SubItem} from './index'
 import {useKeyPress} from "ahooks";
@@ -20,10 +20,11 @@ function SubCommand({
     currentItem: SearchResp<SearchItem> | undefined
 }) {
     const [open, setOpen] = React.useState(false)
+    const changeVisible = () => setOpen((o) => !o)
 
     useKeyPress('ctrl.k', (e) => {
         e.preventDefault()
-        setOpen((o) => !o)
+        changeVisible()
     })
 
     React.useEffect(() => {
@@ -42,8 +43,8 @@ function SubCommand({
         <Popover.Root open={open} onOpenChange={setOpen} modal>
             <Popover.Trigger cmdk-raycast-subcommand-trigger="" onClick={() => setOpen(true)} aria-expanded={open}>
                 Actions
-                <kbd>⌘</kbd>
-                <kbd>K</kbd>
+                <kbd>ctrl</kbd>
+                <kbd>k</kbd>
             </Popover.Trigger>
             <Popover.Content
                 side="top"
@@ -63,8 +64,8 @@ function SubCommand({
                                 <WindowIcon/>
                                 {getText(currentItem)}
                             </SubItem>
-                            {openInFolder(currentItem)}
-                            {setShortcut(currentItem)}
+                            {openInFolder(currentItem, changeVisible)}
+                            {openSetting(currentItem, changeVisible)}
                         </Command.Group>
                     </Command.List>
                     <Command.Input placeholder="Search for actions..."/>
@@ -75,25 +76,35 @@ function SubCommand({
 }
 
 
-const openInFolder = (currentItem: SearchResp<SearchItem> | undefined) => {
-    if (currentItem && IsLocalExtension(currentItem))
-        return (<SubItem shortcut="⌘ ↵" s={() => {
+const openInFolder = (currentItem: SearchResp<SearchItem> | undefined, changeVisible: () => void) => {
+    useKeyPress('ctrl.enter', (e) => {
+        e.preventDefault()
+        if (currentItem && IsLocalExtension(currentItem)) {
+            shell.openPath(currentItem.item.fullPath)
+            changeVisible()
+        }
+    })
+    if (currentItem && IsLocalExtension(currentItem)) {
+        return (<SubItem shortcut="ctrl ↵" s={() => {
             if (currentItem) {
                 shell.openPath(currentItem.item.fullPath)
+                changeVisible()
             }
         }}>
             <FinderIcon/>
-            Show in Finder
+            Show in Folder
         </SubItem>)
+    }
+
     return (<></>)
 }
 
-const setShortcut = (currentItem: SearchResp<SearchItem> | undefined) => {
+const openSetting = (currentItem: SearchResp<SearchItem> | undefined, changeVisible: () => void) => {
     if (currentItem && (IsApplication(currentItem) || IsBuiltin(currentItem) || IsLocalExtension(currentItem))) {
-        return (<SubItem shortcut="⌘ ⇧ S" s={() => {
+        return (<SubItem shortcut="ctrl ⇧ S" s={() => {
         }}>
             <KeyboardIcon/>
-            Set Shortcut
+            Setting
         </SubItem>)
     }
     return (<></>)
