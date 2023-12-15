@@ -7,7 +7,6 @@ import {getHeader, getItemName, selectFirstItem} from "@/components/self/helper"
 import {useHover} from "@/components/self/hooks";
 import {useMatch} from "@/components/self/hooks/useMatch";
 import {nanoid} from "nanoid";
-import useSetShortcut from "@/components/self/hooks/useSetShortcut";
 
 export default function Self() {
     const commandRef = React.useRef<HTMLInputElement>(null)
