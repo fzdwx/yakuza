@@ -24,62 +24,12 @@ if (!app.requestSingleInstanceLock()) {
 export const preload = join(__dirname, '../preload/index.js')
 const url = process.env.VITE_DEV_SERVER_URL
 const indexHtml = join(process.env.DIST, 'index.html')
-const settingsHtml = join(process.env.DIST, 'settings.html')
 
 export default (): WinManager => {
     let mainWin: BrowserWindow
-    let settingsWin: BrowserWindow
 
     const init = () => {
         createWindow()
-    }
-
-    const closeSettings = () => {
-        if (settingsWin) {
-            settingsWin.close()
-        }
-    }
-
-    const openSettings = () => {
-        if (settingsWin) {
-            settingsWin.close()
-        }
-
-        settingsWin = new BrowserWindow({
-            title: 'Settings',
-            focusable: true,
-            resizable: false,
-            width: Width,
-            height: Height,
-            titleBarStyle: 'hiddenInset',
-            vibrancy: 'under-window',
-            visualEffectState: "followWindow",
-            alwaysOnTop: true,
-            transparent: true,
-            frame: false,
-            icon: join(process.env.VITE_PUBLIC, 'favicon.ico'),
-            webPreferences: {
-                webSecurity: false,
-                backgroundThrottling: false,
-                experimentalFeatures: true,
-                contextIsolation: false,
-                webviewTag: true,
-                nodeIntegration: true,
-                spellcheck: false,
-                preload
-            },
-        })
-
-        if (url) { // electron-vite-vue#298
-            settingsWin.loadURL(`${url}/settings.html`)
-        } else {
-            settingsWin.loadFile(settingsHtml)
-        }
-
-        settingsWin.on('close', () => {
-            //@ts-ignore
-            settingsWin = null
-        })
     }
 
     const createWindow = () => {
@@ -148,8 +98,6 @@ export default (): WinManager => {
         init,
         getWindow,
         loadMainView,
-        openSettings,
-        closeSettings
     }
 }
 
@@ -158,8 +106,6 @@ interface WinManager {
     init: () => void;
     loadMainView: () => void;
     getWindow: () => Electron.CrossProcessExports.BrowserWindow;
-    openSettings: () => void
-    closeSettings: () => void
 }
 
 export type {WinManager}

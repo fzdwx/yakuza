@@ -1,5 +1,5 @@
 {
-  "name": "Launcher",
+  "name": "launcher",
   "version": "0.1.0",
   "main": "dist-electron/main/index.js",
   "description": "Application launcher",
@@ -27,8 +27,7 @@
     "lowdb": "^6.1.1",
     "mitt": "^3.0.1",
     "nanoid": "^5.0.4",
-    "sass": "^1.69.5",
-    "vite-plugin-multiple": "^0.2.0"
+    "sass": "^1.69.5"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

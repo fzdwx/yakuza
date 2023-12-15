@@ -8,7 +8,7 @@ i: install
 
 install: build
     sudo rm -rf /usr/local/bin/launcher
-    sudo mv ./release/0.1.0/Launcher-0.1.0.AppImage /usr/local/bin/launcher
+    sudo mv ./release/0.1.0/launcher-0.1.0.AppImage /usr/local/bin/launcher
 
 air:
     cd launcher-native && air

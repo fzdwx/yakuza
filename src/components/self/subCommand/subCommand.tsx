@@ -102,6 +102,8 @@ const openInFolder = (currentItem: SearchResp<SearchItem> | undefined, changeVis
 const openSetting = (currentItem: SearchResp<SearchItem> | undefined, changeVisible: () => void) => {
     if (currentItem && (IsApplication(currentItem) || IsBuiltin(currentItem) || IsLocalExtension(currentItem))) {
         return (<SubItem shortcut="ctrl ⇧ S" s={() => {
+            // @ts-ignore
+            changeVisible()
         }}>
             <KeyboardIcon/>
             Setting

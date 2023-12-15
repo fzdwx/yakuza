@@ -7,7 +7,6 @@ import {Provider} from "jotai";
 import {createStore} from "jotai";
 
 const {emitter, changeView} = useViewEvent();
-const jotaiStore = createStore()
 
 function switchView(view: ViewName) {
     switch (view) {
@@ -32,11 +31,9 @@ function App() {
     })
 
     return (
-        <Provider store={jotaiStore}>
             <div id='top' className='dark text-white bg-dark/90 backdrop-blur'>
                 {switchView(view)}
             </div>
-        </Provider>
     )
 }
 

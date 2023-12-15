@@ -1,5 +1,5 @@
 import { ipcRenderer } from "electron"
-import { LocalExtension } from "@/native";
+import {LocalExtension, SearchItem} from "@/native";
 
 const callApi = (type: string, data: any) => {
     ipcRenderer.send('launcher-api', {
@@ -15,7 +15,6 @@ const callApiWithRes = <I, O>(type: string, data: I) => {
     }) as O
 }
 
-// @ts-ignore
 // @ts-ignore
 window.launcher = {
     hello() {
