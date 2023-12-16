@@ -15,13 +15,14 @@ export interface RemoteExtension {
     description: string
     author: string
     icon: string
-    git_url: string
+    github: string
 }
 
 
 export interface LocalExtension extends RemoteExtension {
     fullPath: string
     dirName: string
+    hotkey: string
 }
 
 export interface RemoteExtensionResp extends RemoteExtension {

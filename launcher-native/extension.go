@@ -20,7 +20,7 @@ type RemoteExtension struct {
 	Description string `json:"description"`
 	Author      string `json:"author"`
 	Icon        string `json:"icon"`
-	GitUrl      string `json:"giturl"`
+	Github      string `json:"github"`
 }
 
 type RemoteExtensionResp struct {
@@ -34,6 +34,7 @@ type LocalExtension struct {
 
 	FullPath string `json:"fullPath"`
 	DirName  string `json:"dirName"`
+	Hotkey   string `json:"hotkey"`
 }
 
 var (
@@ -60,7 +61,27 @@ func (s *Server) ListLocalExtension(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) ListRemoteExtension(w http.ResponseWriter, r *http.Request) {
-	_ = json.NewEncoder(w).Encode(remoteExtensions)
+	resps := lo.Map(remoteExtensions, func(extension *RemoteExtension, i int) *RemoteExtensionResp {
+		localExtension, has := lo.Find(localExtensions, func(localExtension *LocalExtension) bool {
+			return localExtension.Name == extension.Name
+		})
+
+		if has {
+			return &RemoteExtensionResp{
+				RemoteExtension: *extension,
+				Installed:       has,
+				FullPath:        localExtension.FullPath,
+			}
+		}
+		return &RemoteExtensionResp{RemoteExtension: *extension}
+	})
+
+	err := json.NewEncoder(w).Encode(resps)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		fmt.Fprintf(w, "encode json:%v", err)
+		return
+	}
 }
 
 func (s *Server) InstallExtension(w http.ResponseWriter, r *http.Request) {
@@ -83,11 +104,11 @@ func (s *Server) InstallExtension(w http.ResponseWriter, r *http.Request) {
 }
 
 func (s *Server) doInstallExtension(extension RemoteExtension) error {
-	sum := md5.Sum([]byte(extension.GitUrl + extension.Author + extension.Name))
+	sum := md5.Sum([]byte(extension.Github + extension.Author + extension.Name))
 	dest := filepath.Join(fileutil.Extensions(), hex.EncodeToString(sum[:]))
 	err := func() error {
 		_, err := git.PlainClone(dest, false, &git.CloneOptions{
-			URL: extension.GitUrl,
+			URL: extension.Github,
 		})
 		if err != nil {
 			return err
@@ -124,8 +145,8 @@ func (s *Server) refreshExtension() {
 	for {
 		select {
 		case <-ticker.C:
-			s.doRefreshRemote()
-			s.doRefreshLocal()
+			go s.doRefreshRemote()
+			go s.doRefreshLocal()
 		}
 	}
 }

@@ -8,6 +8,7 @@ import {shell} from "electron";
 import {getText} from "@/components/self/helper";
 import {KeyboardIcon} from "@/components/icons";
 import {useViewEvent} from "@/hooks/useView";
+import {useSettingsStore} from "@/hooks/useSettingsStore";
 
 function SubCommand({
                         inputRef,
@@ -102,9 +103,11 @@ const openInFolder = (currentItem: SearchResp<SearchItem> | undefined, changeVis
 
 const openSetting = (currentItem: SearchResp<SearchItem> | undefined, changeVisible: () => void) => {
     const {changeView} = useViewEvent()
+    const {setCurrentItem} = useSettingsStore()
     if (currentItem && (IsApplication(currentItem) || IsBuiltin(currentItem) || IsLocalExtension(currentItem))) {
         return (<SubItem shortcut="ctrl ⇧ S" s={() => {
             changeView("settings")
+            setCurrentItem(currentItem)
             changeVisible()
         }}>
             <KeyboardIcon/>

@@ -12,6 +12,10 @@ const useLocalExtensions = () => {
     const refreshExt = async () => {
         setLoading(true)
         const ext = await getLocalExtensions()
+        if (ext == undefined) {
+            setExtensions([])
+            return
+        }
         setExtensions(ext)
         setLoading(false)
     }
