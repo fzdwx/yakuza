@@ -30,12 +30,30 @@ export interface RemoteExtensionResp extends RemoteExtension {
     fullPath: string
 }
 
+export type kind = "Application" | "Extension" | "Builtin"
+
 export interface SearchResp<T> {
     score?: number
     item: T
-    kind: string
+    kind: kind
     id: string
     count: number,
+}
+
+export interface Shortcut {
+    kind: kind
+    shortcut: string
+    name: string
+    item: SearchItem
+}
+
+export const newShortcut = (shortcut: string, item: LocalExtension) => {
+    return {
+        kind: 'Extension',
+        shortcut: shortcut,
+        name: `${item.author}-${item.name}`,
+        item: item
+    } as Shortcut
 }
 
 export function extToResp(extensions: LocalExtension[]) {

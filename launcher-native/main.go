@@ -19,12 +19,14 @@ func main() {
 type Server struct {
 	port int
 	*ExtensionManager
+	*ShortCutsManager
 }
 
 func NewServer(port *int) *Server {
 	s := &Server{
 		port:             *port,
 		ExtensionManager: NewExtensionManager(),
+		ShortCutsManager: NewShortCutsManager(),
 	}
 
 	go s.refreshApplication()
@@ -69,6 +71,14 @@ func (s *Server) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 	}
 	if request.URL.Path == "/api/config/get" {
 		s.Get(writer, request)
+		return
+	}
+	if request.URL.Path == "/api/shortcut/set" {
+		s.SetShortCut(writer, request)
+		return
+	}
+	if request.URL.Path == "/api/shortcut/get" {
+		s.GetShortCuts(writer, request)
 		return
 	}
 

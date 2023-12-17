@@ -1,5 +1,5 @@
-import { ipcRenderer } from "electron"
-import {LocalExtension, SearchItem} from "@/native";
+import {ipcRenderer} from "electron"
+import {LocalExtension, SearchItem, Shortcut} from "@/native";
 
 const callApi = (type: string, data: any) => {
     ipcRenderer.send('launcher-api', {
@@ -59,7 +59,6 @@ window.launcher = {
         callApi('exitExtension', {})
     },
 
-
     async getSelect() {
         return callApiWithRes('getSelect', {})
     },
@@ -100,6 +99,12 @@ window.launcher = {
     get<T>(key: string): Promise<T> {
         return callApiWithRes('get', {
             key
+        })
+    },
+
+    setShortcut(shortcut: Shortcut) {
+        callApi('setShortcut', {
+            shortcut
         })
     }
 }

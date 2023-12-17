@@ -2,6 +2,7 @@ import {addAppRunCount, getApplications, getIcon} from "./application";
 import {getBuiltin} from "./builtin";
 import {getLocalExtensions, getRemoteExtensions, installExtension} from "./extension";
 import {ipcRenderer} from "electron";
+import {Shortcut} from "@/native/types";
 
 export {
     getApplications, addAppRunCount, getIcon
@@ -32,6 +33,13 @@ const getConfig = async (key: string) => {
         method: "POST",
         body: JSON.stringify({key})
     })).text()
+}
+
+export const setShortcut = async (shortcut: Shortcut) => {
+    return (await fetch("http://localhost:35677/api/shortcut/set", {
+        method: "POST",
+        body: JSON.stringify(shortcut)
+    })).json()
 }
 
 export {

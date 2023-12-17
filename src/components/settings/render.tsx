@@ -3,9 +3,9 @@ import {
     IsApplication,
     IsBuiltin,
     IsLocalExtension,
-    LocalExtension,
+    LocalExtension, newShortcut,
     SearchItem,
-    SearchResp
+    SearchResp, setShortcut, Shortcut
 } from "@/native";
 import {shell} from "electron";
 import React, {useEffect, useState} from "react";
@@ -59,7 +59,10 @@ function RenderLocalExtension(app: SearchResp<LocalExtension>) {
             <HotkeyRecorder
                 value={hotkey}
                 onBlur={() => {
-                    console.log(hotkey)
+                    if (hotkey.length > 0 && hotkey !== app.item.hotkey) {
+                        //@ts-ignore
+                        window.launcher.setShortcut(newShortcut(hotkey, app.item))
+                    }
                 }}
                 onChange={setHotkey}/>
         </div>
@@ -108,6 +111,7 @@ function HotkeyRecorder({value, onChange, onBlur}: {
     useEffect(() => {
         if (!isRecording) {
             onChange?.(hotKeys.join('+'))
+            onBlur?.()
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [hotKeys, isRecording])
@@ -116,7 +120,6 @@ function HotkeyRecorder({value, onChange, onBlur}: {
         const stopRecording = () => {
             if (isRecording) {
                 stop()
-                onBlur?.()
             }
         }
         document.addEventListener('click', stopRecording)

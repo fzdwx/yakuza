@@ -1,8 +1,8 @@
-import {app, BrowserWindow, clipboard, ipcMain, shell} from "electron"
+import {app, BrowserWindow, clipboard, globalShortcut, ipcMain, shell} from "electron"
 import {toCenter} from "../main/screen";
 import * as cmd from 'node:child_process'
 import util from 'node:util'
-import {execCommand, getConfig, setConfig} from "../../src/native";
+import {execCommand, getConfig, setConfig, setShortcut, Shortcut} from "../../src/native";
 import {getView} from "../main/extension";
 import {Height, Width} from "../main/cons";
 import {sleep} from "ahooks/es/utils/testingHelpers";
@@ -102,6 +102,24 @@ class LauncherApi {
     public get({data}: { data: any }): Promise<string> {
         const {key} = data
         return getConfig(key)
+    }
+
+    public async setShortcut({data}: {
+        data: {
+            shortcut: Shortcut
+        }
+    }) {
+        const {shortcut} = data
+        const oldShortcut = (await setShortcut(shortcut)) as Shortcut
+        if (oldShortcut.shortcut.length != 0 && oldShortcut.name.length != 0 && oldShortcut.kind.length != 0) {
+            globalShortcut.isRegistered(oldShortcut.shortcut) && globalShortcut.unregister(oldShortcut.shortcut)
+        }
+        
+        globalShortcut.register(shortcut.shortcut, () => {
+            if (shortcut.kind == 'Extension') {
+                this.openExtension({data: {ext: shortcut.item}})
+            }
+        })
     }
 
     private loadView(url: string) {
