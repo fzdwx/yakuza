@@ -29,19 +29,19 @@ func NewShortCutsManager() *ShortCutsManager {
 
 func (s *ShortCutsManager) SetShortCut(w http.ResponseWriter, r *http.Request) {
 	var sc ShortCut
-	err := json.DecodeTo(r.Body, &sc)
+	err := json.DecodeFrom(r.Body, &sc)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	res := s.setShortCut(sc)
-	_, _ = fmt.Fprint(w, json.ToJson(&res))
+	_, _ = fmt.Fprint(w, json.Encode(&res))
 }
 
 func (s *ShortCutsManager) GetShortCuts(w http.ResponseWriter, r *http.Request) {
 	s.load()
-	_, _ = fmt.Fprint(w, json.ToJson(s.Shortcuts))
+	_, _ = fmt.Fprint(w, json.Encode(s.Shortcuts))
 }
 
 func (s *ShortCutsManager) setShortCut(sc ShortCut) *ShortCut {
