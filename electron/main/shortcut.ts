@@ -1,5 +1,5 @@
 import {globalShortcut} from "electron";
-import {LauncherApi} from "../preload/api";
+import {LauncherApi} from "../api";
 
 const initShortCut = (api: LauncherApi) => {
     globalShortcut.register('Alt+Space', () => {

@@ -1,4 +1,4 @@
-import {LauncherApi} from "../preload/api";
+import {LauncherApi} from "../api";
 import {ipcMain} from "electron";
 import {ViewName} from "@/hooks/useView";
 

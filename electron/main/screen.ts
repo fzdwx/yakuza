@@ -1,5 +1,5 @@
 import { BrowserWindow, screen } from 'electron'
-import { Height, Width } from './cons'
+import { Height, Width } from '../cons'
 
 const getScreenSize = () => {
   const p = screen.getCursorScreenPoint()

@@ -1,6 +1,6 @@
 import {app} from "electron";
 import main, {preload, WinManager} from "./mainWin";
-import {LauncherApi, registerApi} from "../preload/api";
+import {LauncherApi, registerApi} from "../api";
 import * as child_process from "child_process";
 import util from "node:util";
 import path from "node:path";

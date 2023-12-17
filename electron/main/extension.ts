@@ -1,5 +1,5 @@
 import { BrowserView, BrowserWindow } from "electron";
-import { Height, Width } from "./cons";
+import { Height, Width } from "../cons";
 
 let view: BrowserView
 
