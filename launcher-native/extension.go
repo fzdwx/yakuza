@@ -34,7 +34,7 @@ type LocalExtension struct {
 
 	FullPath string `json:"fullPath"`
 	DirName  string `json:"dirName"`
-	Hotkey   string `json:"hotkey"`
+	Shortcut string `json:"shortcut"`
 }
 
 type ExtensionManager struct {
@@ -63,8 +63,11 @@ func (e *ExtensionManager) ServeExtension(writer http.ResponseWriter, request *h
 	http.FileServer(http.Dir(dir)).ServeHTTP(writer, request)
 }
 
-func (e *ExtensionManager) ListLocalExtension(w http.ResponseWriter, r *http.Request) {
-	_ = json.NewEncoder(w).Encode(e.localExtensions)
+func (s *Server) ListLocalExtension(w http.ResponseWriter, r *http.Request) {
+	_ = json.NewEncoder(w).Encode(lo.Map(s.localExtensions, func(item *LocalExtension, index int) *LocalExtension {
+		item.Shortcut = s.getShortCut("Extension", fmt.Sprintf("%s-%s", item.Author, item.Name))
+		return item
+	}))
 }
 
 func (e *ExtensionManager) ListRemoteExtension(w http.ResponseWriter, r *http.Request) {

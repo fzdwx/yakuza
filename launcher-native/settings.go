@@ -49,16 +49,27 @@ func (s *ShortCutsManager) setShortCut(sc ShortCut) *ShortCut {
 	defer s.lock.Unlock()
 
 	var old = new(ShortCut)
+	var shouldRemove = sc.ShortCut == ""
 	if lo.ContainsBy(s.Shortcuts, func(item ShortCut) bool {
 		return item.Kind == sc.Kind && item.Name == sc.Name
 	}) {
-		s.Shortcuts = lo.Map(s.Shortcuts, func(item ShortCut, index int) ShortCut {
-			if item.Kind == sc.Kind && item.Name == sc.Name {
-				old = &s.Shortcuts[index]
-				return sc
-			}
-			return item
-		})
+		if shouldRemove {
+			s.Shortcuts = lo.Filter(s.Shortcuts, func(item ShortCut, index int) bool {
+				is := item.Kind == sc.Kind && item.Name == sc.Name
+				if is {
+					old = &s.Shortcuts[index]
+				}
+				return !is
+			})
+		} else {
+			s.Shortcuts = lo.Map(s.Shortcuts, func(item ShortCut, index int) ShortCut {
+				if item.Kind == sc.Kind && item.Name == sc.Name {
+					old = &s.Shortcuts[index]
+					return sc
+				}
+				return item
+			})
+		}
 	} else {
 		s.Shortcuts = append(s.Shortcuts, sc)
 	}

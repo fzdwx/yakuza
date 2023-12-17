@@ -85,3 +85,16 @@ func (s *Server) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 	s.ServeExtension(writer, request)
 	return
 }
+
+func (s *Server) getShortCut(kind, name string) string {
+	var res string
+
+	for i := range s.Shortcuts {
+		if s.Shortcuts[i].Name == name && s.Shortcuts[i].Kind == kind {
+			res = s.Shortcuts[i].ShortCut
+			break
+		}
+	}
+
+	return res
+}

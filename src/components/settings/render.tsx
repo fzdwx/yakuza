@@ -40,8 +40,8 @@ function RenderApplication(app: SearchResp<Application>) {
 }
 
 function RenderLocalExtension(app: SearchResp<LocalExtension>) {
-    const [hotkey, setHotkey] = useState(app.item.hotkey)
-
+    const [hotkey, setHotkey] = useState(app.item.shortcut)
+    console.log(app)
     return <div className='flex-row p-2 h-540px'>
         <div className='flex cursor-default'>
             <img className='w-10 h-10' src={app.item.icon} alt='icon'></img>
@@ -58,11 +58,9 @@ function RenderLocalExtension(app: SearchResp<LocalExtension>) {
         <div>
             <HotkeyRecorder
                 value={hotkey}
-                onBlur={() => {
-                    if (hotkey.length > 0 && hotkey !== app.item.hotkey) {
-                        //@ts-ignore
-                        window.launcher.setShortcut(newShortcut(hotkey, app.item))
-                    }
+                onStop={() => {
+                    //@ts-ignore
+                    window.launcher.setShortcut(newShortcut(hotkey, app.item))
                 }}
                 onChange={setHotkey}/>
         </div>
@@ -78,10 +76,10 @@ function RenderBuiltin(app: SearchResp<Builtin>) {
 
 
 // inspired by https://github.com/openai-translator/openai-translator/blob/a93506c0137d5e44b4ea50ebe7ee496463343dd1/src/common/components/Settings.tsx#L1114
-function HotkeyRecorder({value, onChange, onBlur}: {
+function HotkeyRecorder({value, onChange,onStop}: {
     value?: string,
-    onBlur?: () => void,
     onChange?: (value: string) => void
+    onStop?: () => void
 }) {
     const [keys, {start, stop, isRecording}] = useRecordHotkeys()
 
@@ -111,7 +109,6 @@ function HotkeyRecorder({value, onChange, onBlur}: {
     useEffect(() => {
         if (!isRecording) {
             onChange?.(hotKeys.join('+'))
-            onBlur?.()
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [hotKeys, isRecording])
@@ -120,13 +117,14 @@ function HotkeyRecorder({value, onChange, onBlur}: {
         const stopRecording = () => {
             if (isRecording) {
                 stop()
+                onStop?.()
             }
         }
         document.addEventListener('click', stopRecording)
         return () => {
             document.removeEventListener('click', stopRecording)
         }
-    }, [isRecording, onBlur, stop])
+    }, [isRecording, onStop, stop])
 
     function clearHotkey() {
         onChange?.('')

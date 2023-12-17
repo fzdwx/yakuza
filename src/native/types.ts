@@ -22,7 +22,7 @@ export interface RemoteExtension {
 export interface LocalExtension extends RemoteExtension {
     fullPath: string
     dirName: string
-    hotkey: string
+    shortcut: string
 }
 
 export interface RemoteExtensionResp extends RemoteExtension {
