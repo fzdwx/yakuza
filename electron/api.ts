@@ -123,6 +123,8 @@ class LauncherApi {
             if (shortcut.kind == 'Extension') {
                 if (!this.getMain().isVisible()) {
                     this.show()
+                } else {
+                    this.getMain().focus()
                 }
                 this.openExtension({data: {ext: shortcut.item}})
             }
