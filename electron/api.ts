@@ -2,7 +2,7 @@ import {app, BrowserWindow, clipboard, globalShortcut, ipcMain, shell} from "ele
 import {toCenter} from "./main/screen";
 import * as cmd from 'node:child_process'
 import util from 'node:util'
-import {execCommand, getConfig, setConfig, setShortcut, Shortcut} from "@/native";
+import {execCommand, getConfig, setConfig, setShortcut, Shortcut} from "../src/native";
 import {getView} from "./main/extension";
 import {Height, Width} from "./cons";
 import {sleep} from "ahooks/es/utils/testingHelpers";
@@ -121,7 +121,9 @@ class LauncherApi {
     public registerShortcut(shortcut: Shortcut) {
         globalShortcut.register(shortcut.shortcut, () => {
             if (shortcut.kind == 'Extension') {
-                this.show()
+                if (!this.getMain().isVisible()) {
+                    this.show()
+                }
                 this.openExtension({data: {ext: shortcut.item}})
             }
         })
