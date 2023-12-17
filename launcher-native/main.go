@@ -18,11 +18,13 @@ func main() {
 
 type Server struct {
 	port int
+	*ExtensionManager
 }
 
 func NewServer(port *int) *Server {
 	s := &Server{
-		port: *port,
+		port:             *port,
+		ExtensionManager: NewExtensionManager(),
 	}
 
 	go s.refreshApplication()

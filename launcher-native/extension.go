@@ -37,32 +37,39 @@ type LocalExtension struct {
 	Hotkey   string `json:"hotkey"`
 }
 
-var (
+type ExtensionManager struct {
 	remoteExtensions []*RemoteExtension
 	localExtensions  []*LocalExtension
 	currentExtension *LocalExtension
-)
+}
 
-func (s *Server) ServeExtension(writer http.ResponseWriter, request *http.Request) {
+func NewExtensionManager() *ExtensionManager {
+	return &ExtensionManager{
+		remoteExtensions: []*RemoteExtension{},
+		localExtensions:  []*LocalExtension{},
+	}
+}
+
+func (e *ExtensionManager) ServeExtension(writer http.ResponseWriter, request *http.Request) {
 	fullPath := request.URL.Query().Get("ext")
 	if len(fullPath) > 0 {
-		changeExtension(fullPath)
+		e.changeExtension(fullPath)
 	}
-	if currentExtension == nil {
+	if e.currentExtension == nil {
 		return
 	}
 
-	dir := filepath.Join(currentExtension.FullPath, "dist")
+	dir := filepath.Join(e.currentExtension.FullPath, "dist")
 	http.FileServer(http.Dir(dir)).ServeHTTP(writer, request)
 }
 
-func (s *Server) ListLocalExtension(w http.ResponseWriter, r *http.Request) {
-	_ = json.NewEncoder(w).Encode(localExtensions)
+func (e *ExtensionManager) ListLocalExtension(w http.ResponseWriter, r *http.Request) {
+	_ = json.NewEncoder(w).Encode(e.localExtensions)
 }
 
-func (s *Server) ListRemoteExtension(w http.ResponseWriter, r *http.Request) {
-	resps := lo.Map(remoteExtensions, func(extension *RemoteExtension, i int) *RemoteExtensionResp {
-		localExtension, has := lo.Find(localExtensions, func(localExtension *LocalExtension) bool {
+func (e *ExtensionManager) ListRemoteExtension(w http.ResponseWriter, r *http.Request) {
+	resps := lo.Map(e.remoteExtensions, func(extension *RemoteExtension, i int) *RemoteExtensionResp {
+		localExtension, has := lo.Find(e.localExtensions, func(localExtension *LocalExtension) bool {
 			return localExtension.Name == extension.Name
 		})
 
@@ -84,7 +91,7 @@ func (s *Server) ListRemoteExtension(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func (s *Server) InstallExtension(w http.ResponseWriter, r *http.Request) {
+func (e *ExtensionManager) InstallExtension(w http.ResponseWriter, r *http.Request) {
 	var remoteExtension RemoteExtension
 	err := json.NewDecoder(r.Body).Decode(&remoteExtension)
 	if err != nil {
@@ -93,7 +100,7 @@ func (s *Server) InstallExtension(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = s.doInstallExtension(remoteExtension)
+	err = e.doInstallExtension(remoteExtension)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Fprintf(w, "install extension:%v", err)
@@ -103,7 +110,7 @@ func (s *Server) InstallExtension(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "install success")
 }
 
-func (s *Server) doInstallExtension(extension RemoteExtension) error {
+func (e *ExtensionManager) doInstallExtension(extension RemoteExtension) error {
 	sum := md5.Sum([]byte(extension.Github + extension.Author + extension.Name))
 	dest := filepath.Join(fileutil.Extensions(), hex.EncodeToString(sum[:]))
 	err := func() error {
@@ -135,23 +142,23 @@ func (s *Server) doInstallExtension(extension RemoteExtension) error {
 	return nil
 }
 
-func (s *Server) refreshExtension() {
+func (e *ExtensionManager) refreshExtension() {
 	go func() {
-		s.doRefreshLocal()
-		s.doRefreshRemote()
+		e.doRefreshLocal()
+		e.doRefreshRemote()
 	}()
 
 	ticker := time.NewTicker(1 * time.Second)
 	for {
 		select {
 		case <-ticker.C:
-			go s.doRefreshRemote()
-			go s.doRefreshLocal()
+			go e.doRefreshRemote()
+			go e.doRefreshLocal()
 		}
 	}
 }
 
-func (s *Server) doRefreshRemote() {
+func (e *ExtensionManager) doRefreshRemote() {
 	resp, err := http.Get("https://raw.githubusercontent.com/fzdwx/launcher-extension/main/extensions.json")
 	if err != nil {
 		fmt.Println(err)
@@ -169,10 +176,10 @@ func (s *Server) doRefreshRemote() {
 		return
 	}
 
-	remoteExtensions = extensions
+	e.remoteExtensions = extensions
 }
 
-func (s *Server) doRefreshLocal() {
+func (e *ExtensionManager) doRefreshLocal() {
 	dir := fileutil.Extensions()
 	entries, err := fs.ReadDir(os.DirFS(dir), ".")
 	if err != nil {
@@ -201,13 +208,13 @@ func (s *Server) doRefreshLocal() {
 		extensions = append(extensions, &extension)
 	}
 
-	localExtensions = extensions
+	e.localExtensions = extensions
 }
 
-func changeExtension(path string) {
-	find, _ := lo.Find(localExtensions, func(localExtension *LocalExtension) bool {
+func (e *ExtensionManager) changeExtension(path string) {
+	find, _ := lo.Find(e.localExtensions, func(localExtension *LocalExtension) bool {
 		return localExtension.FullPath == path
 	})
 
-	currentExtension = find
+	e.currentExtension = find
 }
