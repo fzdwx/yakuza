@@ -110,9 +110,6 @@ class LauncherApi {
         }
     }) {
         const {shortcut} = data
-        if (shortcut.shortcut.length == 0) {
-        }
-
         const oldShortcut = (await setShortcut(shortcut)) as Shortcut
         if (oldShortcut.shortcut.length != 0 && oldShortcut.name.length != 0 && oldShortcut.kind.length != 0) {
             globalShortcut.isRegistered(oldShortcut.shortcut) && globalShortcut.unregister(oldShortcut.shortcut)
