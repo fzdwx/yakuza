@@ -27,6 +27,8 @@ ls release
 
 ## Related
 
-- [launcher sample extension](https://github.com/fzdwx/launcher-extension-sample)
+- [launcher extension sample](https://github.com/fzdwx/launcher-extension-sample)
 - [launcher api](https://github.com/fzdwx/launcher-api)
-- [launcher extension collect](https://github.com/fzdwx/launcher-extension)
+- [how to build your extension](https://github.com/fzdwx/launcher-extension)
+
+or https://github.com/topics/launcher-extension
