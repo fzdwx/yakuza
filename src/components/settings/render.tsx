@@ -42,7 +42,7 @@ function RenderApplication(app: SearchResp<Application>) {
 function RenderLocalExtension(app: SearchResp<LocalExtension>) {
     const [hotkey, setHotkey] = useState(app.item.shortcut)
     console.log(app)
-    return <div className='flex-row p-2 h-540px'>
+    return <div className='flex-row p-4 h-540px'>
         <div className='flex cursor-default'>
             <img className='w-10 h-10' src={app.item.icon} alt='icon'></img>
             <h1 className='ml-4'>{app.item.name}</h1>
@@ -55,14 +55,18 @@ function RenderLocalExtension(app: SearchResp<LocalExtension>) {
                 }}>Open in Github</span>
             </div>
         </div>
-        <div>
-            <HotkeyRecorder
-                value={hotkey}
-                onStop={() => {
-                    //@ts-ignore
-                    window.launcher.setShortcut(newShortcut(hotkey, app.item))
-                }}
-                onChange={setHotkey}/>
+        <div className=''>
+            <div className='m-2'>
+                <div className='font-bold pb-1'>快捷键</div>
+                <HotkeyRecorder
+                    value={hotkey}
+                    onStop={() => {
+                        //@ts-ignore
+                        window.launcher.setShortcut(newShortcut(hotkey, app.item))
+                    }}
+                    onChange={setHotkey}
+                />
+            </div>
         </div>
 
     </div>
@@ -76,7 +80,7 @@ function RenderBuiltin(app: SearchResp<Builtin>) {
 
 
 // inspired by https://github.com/openai-translator/openai-translator/blob/a93506c0137d5e44b4ea50ebe7ee496463343dd1/src/common/components/Settings.tsx#L1114
-function HotkeyRecorder({value, onChange,onStop}: {
+function HotkeyRecorder({value, onChange, onStop}: {
     value?: string,
     onChange?: (value: string) => void
     onStop?: () => void
@@ -136,7 +140,7 @@ function HotkeyRecorder({value, onChange,onStop}: {
             <div
                 className='h-32px p-[0,14px]
                  w-200px rounded-4px border-dashed border-transparent
-                 bg-white text-dark cursor-pointer'
+                 bg-white/70 text-dark cursor-pointer'
                 onClick={(e) => {
                     e.stopPropagation()
                     e.currentTarget.focus()
@@ -157,7 +161,7 @@ function HotkeyRecorder({value, onChange,onStop}: {
                     />
                 ) : null}
             </div>
-            <div className=''>
+            <div className='text-gray/80 text-sm pt-1'>
                 {isRecording ? '请按您要设置的快捷键。' : '点击上面设置快捷键。'}
             </div>
         </div>

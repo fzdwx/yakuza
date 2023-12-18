@@ -59,6 +59,7 @@ class LauncherApi {
         this.getMain().show()
         toCenter(this.getMain())
         this.getMain().focus()
+        this.getMain().webContents.focus()
     }
 
     public openUrl = async ({data}: { data: any }) => {
