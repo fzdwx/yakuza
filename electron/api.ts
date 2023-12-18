@@ -32,6 +32,7 @@ class LauncherApi {
         this.getMain().blur()
         this.getMain().hide()
         this.loadMainView()
+        this.getMain().webContents.reload()
     }
 
     public loadDevView() {
