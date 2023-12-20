@@ -1,6 +1,7 @@
 import {globalShortcut} from "electron";
 import {LauncherApi} from "../api";
 import {getShortcut, Shortcut} from "../../src/native";
+import {sleep} from "ahooks/es/utils/testingHelpers";
 
 const initShortCut = (api: LauncherApi) => {
     globalShortcut.register('Alt+Space', () => {
@@ -18,7 +19,8 @@ const initShortCut = (api: LauncherApi) => {
         })
     }
 
-    registerShortcut()
+    // after backend start
+    sleep(1000).then(registerShortcut)
 }
 
 export {initShortCut}
