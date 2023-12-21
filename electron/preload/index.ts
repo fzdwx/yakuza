@@ -102,6 +102,12 @@ window.launcher = {
         })
     },
 
+    executeJs(js: string): Promise<any> {
+        return callApiWithRes('executeJs', {
+            js
+        })
+    },
+
     setShortcut(shortcut: Shortcut) {
         callApi('setShortcut', {
             shortcut

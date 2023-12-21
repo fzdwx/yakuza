@@ -106,6 +106,15 @@ class LauncherApi {
         return getConfig(key)
     }
 
+    public executeJs({data}: { data: any }) {
+        const {js} = data
+        if (this.getMain().getBrowserView()) {
+            this.getMain().getBrowserView()?.webContents.executeJavaScript(js)
+        } else {
+            this.getMain().webContents.executeJavaScript(js)
+        }
+    }
+
     public async setShortcut({data}: {
         data: {
             shortcut: Shortcut
