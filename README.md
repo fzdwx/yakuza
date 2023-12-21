@@ -4,6 +4,8 @@
 
 ## Run the project
 
+requires [go 1.21.4+](https://golang.org/) and [pnpm](https://pnpm.io/)
+
 ```shell
 # start frontend
 pnpm install
@@ -16,13 +18,17 @@ cd launcher-native && air
 
 ## Build the project
 
-requires [go](https://golang.org/) and [pnpm](https://pnpm.io/)
-
 ```shell
 mkdir bin
 cd launcher-native && go build . && mv launcher-native ../bin/launcher-native
 pnpm run build
 ls release
+```
+
+## Install ctrl cli
+
+```shell
+go install github.com/fzdwx/launcher/launcher-native/cmd/ray@main
 ```
 
 ## Related

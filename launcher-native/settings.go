@@ -44,6 +44,19 @@ func (s *ShortCutsManager) GetShortCuts(w http.ResponseWriter, r *http.Request) 
 	_, _ = fmt.Fprint(w, json.Encode(s.Shortcuts))
 }
 
+func (s *ShortCutsManager) GetShortCut(kind, name string) string {
+	var res string
+
+	for i := range s.Shortcuts {
+		if s.Shortcuts[i].Name == name && s.Shortcuts[i].Kind == kind {
+			res = s.Shortcuts[i].ShortCut
+			break
+		}
+	}
+
+	return res
+}
+
 func (s *ShortCutsManager) setShortCut(sc ShortCut) *ShortCut {
 	s.lock.Lock()
 	defer s.lock.Unlock()

@@ -20,8 +20,8 @@ func (s *Server) Set(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(req.Key, req.Value)
 
 	fullPath := "dev"
-	if s.currentExtension != nil {
-		fullPath = s.currentExtension.FullPath
+	if s.extManager.CurrentExt() != nil {
+		fullPath = s.extManager.CurrentExt().FullPath
 	}
 	destDir := filepath.Join(fileutil.Config(), fullPath)
 	err := os.MkdirAll(destDir, os.ModePerm)
@@ -48,8 +48,8 @@ func (s *Server) Get(w http.ResponseWriter, r *http.Request) {
 	_ = json.NewDecoder(r.Body).Decode(&req)
 
 	fullPath := "dev"
-	if s.currentExtension != nil {
-		fullPath = s.currentExtension.FullPath
+	if s.extManager.CurrentExt() != nil {
+		fullPath = s.extManager.CurrentExt().FullPath
 	}
 	destDir := filepath.Join(fileutil.Config(), fullPath)
 	value, err := os.ReadFile(filepath.Join(destDir, req.Key))

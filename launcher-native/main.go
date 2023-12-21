@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/fzdwx/launcher/launcher-native/pkg/extension"
 	"net/http"
 )
 
@@ -17,20 +18,21 @@ func main() {
 }
 
 type Server struct {
-	port int
-	*ExtensionManager
-	*ShortCutsManager
+	port            int
+	extManager      *extension.Manager
+	shortcutsManger *ShortCutsManager
 }
 
 func NewServer(port *int) *Server {
+	shortcutsManger := NewShortCutsManager()
 	s := &Server{
-		port:             *port,
-		ExtensionManager: NewExtensionManager(),
-		ShortCutsManager: NewShortCutsManager(),
+		port:            *port,
+		extManager:      extension.NewManager(shortcutsManger),
+		shortcutsManger: shortcutsManger,
 	}
 
 	go s.refreshApplication()
-	go s.refreshExtension()
+	go s.extManager.RefreshExtension()
 
 	return s
 }
@@ -74,27 +76,14 @@ func (s *Server) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 	if request.URL.Path == "/api/shortcut/set" {
-		s.SetShortCut(writer, request)
+		s.shortcutsManger.SetShortCut(writer, request)
 		return
 	}
 	if request.URL.Path == "/api/shortcut/get" {
-		s.GetShortCuts(writer, request)
+		s.shortcutsManger.GetShortCuts(writer, request)
 		return
 	}
 
 	s.ServeExtension(writer, request)
 	return
-}
-
-func (s *Server) getShortCut(kind, name string) string {
-	var res string
-
-	for i := range s.Shortcuts {
-		if s.Shortcuts[i].Name == name && s.Shortcuts[i].Kind == kind {
-			res = s.Shortcuts[i].ShortCut
-			break
-		}
-	}
-
-	return res
 }
