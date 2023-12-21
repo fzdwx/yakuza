@@ -33,8 +33,8 @@ go install github.com/fzdwx/launcher/launcher-native/cmd/ray@main
 
 ## Related
 
-- [launcher extension sample](https://github.com/fzdwx/launcher-extension-sample)
+- [build your own extension](https://github.com/fzdwx/launcher-extension-sample)
 - [launcher api](https://github.com/fzdwx/launcher-api)
-- [build your own extension](https://github.com/fzdwx/launcher-extension)
+- [share your extension](https://github.com/fzdwx/launcher-extension)
 
 or https://github.com/topics/launcher-extension
