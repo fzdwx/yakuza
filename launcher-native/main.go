@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"github.com/fzdwx/launcher/launcher-native/pkg/extension"
+	"github.com/fzdwx/launcher/launcher-native/pkg/shortcuts"
 	"net/http"
 )
 
@@ -20,11 +21,11 @@ func main() {
 type Server struct {
 	port            int
 	extManager      *extension.Manager
-	shortcutsManger *ShortCutsManager
+	shortcutsManger *shortcuts.Manager
 }
 
 func NewServer(port *int) *Server {
-	shortcutsManger := NewShortCutsManager()
+	shortcutsManger := shortcuts.NewManager()
 	s := &Server{
 		port:            *port,
 		extManager:      extension.NewManager(shortcutsManger),
@@ -76,11 +77,11 @@ func (s *Server) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 	if request.URL.Path == "/api/shortcut/set" {
-		s.shortcutsManger.SetShortCut(writer, request)
+		s.SetShortCut(writer, request)
 		return
 	}
 	if request.URL.Path == "/api/shortcut/get" {
-		s.shortcutsManger.GetShortCuts(writer, request)
+		s.GetShortCuts(writer, request)
 		return
 	}
 
