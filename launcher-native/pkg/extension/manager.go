@@ -99,6 +99,11 @@ func (e *Manager) RefreshExtension() {
 	}
 }
 
+func (e *Manager) Refresh() {
+	e.doRefreshLocal()
+	e.doRefreshRemote()
+}
+
 func (e *Manager) doRefreshRemote() {
 	resp, err := http.Get("https://raw.githubusercontent.com/fzdwx/launcher-extension/main/extensions.json")
 	if err != nil {
