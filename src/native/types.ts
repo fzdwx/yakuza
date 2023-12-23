@@ -18,11 +18,16 @@ export interface RemoteExtension {
     github: string
 }
 
+export interface RemoteAction {
+    name: string
+    command: string
+}
 
 export interface LocalExtension extends RemoteExtension {
     fullPath: string
     dirName: string
     shortcut: string
+    action?: RemoteAction
 }
 
 export interface RemoteExtensionResp extends RemoteExtension {

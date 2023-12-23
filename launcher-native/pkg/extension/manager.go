@@ -34,9 +34,23 @@ func (e *Manager) ListRemoteExtension() []*RemoteExtensionResp {
 }
 
 func (e *Manager) ListLocalExtension() []*LocalExtension {
-	return lo.Map(e.localExtensions, func(item *LocalExtension, index int) *LocalExtension {
+	return lo.FlatMap(lo.Map(e.localExtensions, func(item *LocalExtension, index int) *LocalExtension {
 		item.Shortcut = e.shortManager.GetShortCut("Extension", fmt.Sprintf("%s-%s", item.Author, item.Name))
 		return item
+	}), func(item *LocalExtension, index int) []*LocalExtension {
+		var extensions = []*LocalExtension{item}
+		extensions = append(extensions, lo.Map(item.Actions, func(action RemoteAction, i int) *LocalExtension {
+			ext := &LocalExtension{
+				RemoteExtension: item.RemoteExtension,
+				FullPath:        item.FullPath,
+				DirName:         item.DirName,
+				Action:          action,
+			}
+			ext.Name = action.Name
+			ext.Shortcut = e.shortManager.GetShortCut("Extension", fmt.Sprintf("%s-%s", item.Author, item.Name))
+			return ext
+		})...)
+		return extensions
 	})
 }
 

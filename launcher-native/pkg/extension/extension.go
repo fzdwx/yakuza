@@ -1,11 +1,17 @@
 package extension
 
 type RemoteExtension struct {
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	Author      string `json:"author"`
-	Icon        string `json:"icon"`
-	Github      string `json:"github"`
+	Name        string         `json:"name"`
+	Description string         `json:"description"`
+	Author      string         `json:"author"`
+	Icon        string         `json:"icon"`
+	Github      string         `json:"github"`
+	Actions     []RemoteAction `json:"actions"`
+}
+
+type RemoteAction struct {
+	Name    string `json:"name"`
+	Command string `json:"command"`
 }
 
 type RemoteExtensionResp struct {
@@ -17,9 +23,10 @@ type RemoteExtensionResp struct {
 type LocalExtension struct {
 	RemoteExtension
 
-	FullPath string `json:"fullPath"`
-	DirName  string `json:"dirName"`
-	Shortcut string `json:"shortcut"`
+	FullPath string       `json:"fullPath"`
+	DirName  string       `json:"dirName"`
+	Shortcut string       `json:"shortcut"`
+	Action   RemoteAction `json:"action"`
 }
 
 type Manager struct {
