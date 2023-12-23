@@ -25,13 +25,16 @@ func localUpgradeCmd() *cobra.Command {
 				spinner.WithDisableOutputResult(),
 			).
 				Display(func(sp *spinner.Spinner) {
-					e.RefreshLocal()
-					lo.ForEach(e.ListLocalExtension(), func(item *extension.LocalExtension, index int) {
+					e.Refresh()
+					lo.ForEach(e.ListLocalExtensionWithoutAction(), func(item *extension.LocalExtension, index int) {
 						sp.Refreshf(" Upgrading %s", item.Name)
-
 						commit, err := e.Upgrade(item)
-						if errors.Is(err, git.NoErrAlreadyUpToDate) {
-							sp.Info(fmt.Sprintf("%s is already up-to-date", item.Name))
+						if err != nil {
+							if errors.Is(err, git.NoErrAlreadyUpToDate) {
+								sp.Info(fmt.Sprintf("%s is already up-to-date", item.Name))
+								return
+							}
+							sp.Error(fmt.Sprintf("Failed to upgrade %s: %s", item.Name, err))
 							return
 						}
 

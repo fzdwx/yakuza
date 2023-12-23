@@ -36,6 +36,18 @@ type Manager struct {
 	shortManager     ShortManager
 }
 
+func (e *Manager) getRemoteExtension(local *LocalExtension) *RemoteExtension {
+	var res *RemoteExtension
+	for _, remote := range e.remoteExtensions {
+		if remote.Name == local.Name && remote.Author == local.Author {
+			res = remote
+			break
+		}
+	}
+
+	return res
+}
+
 type ShortManager interface {
 	GetShortCut(kind, name string) string
 }

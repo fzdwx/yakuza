@@ -43,7 +43,6 @@ class LauncherApi {
     public openExtension({data}: { data: any }) {
         const {ext} = data
         this.loadView(`http://localhost:35677?ext=${ext.fullPath}&ts=${Date.now()}&command=${ext.action?.command}`);
-        getView().webContents.openDevTools()
     }
 
     public exitExtension() {

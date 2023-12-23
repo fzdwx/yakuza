@@ -17,10 +17,10 @@ func (s *Server) SetShortCut(w http.ResponseWriter, r *http.Request) {
 
 	res, err := s.shortcutsManger.SetShortCut(sc)
 	if err != nil {
-		_, _ = fmt.Fprint(w, json.Encode(&res))
+		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	http.Error(w, err.Error(), http.StatusBadRequest)
+	_, _ = fmt.Fprint(w, json.Encode(&res))
 }
 
 func (s *Server) GetShortCuts(w http.ResponseWriter, r *http.Request) {

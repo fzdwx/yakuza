@@ -33,6 +33,13 @@ func (e *Manager) ListRemoteExtension() []*RemoteExtensionResp {
 	})
 }
 
+func (e *Manager) ListLocalExtensionWithoutAction() []*LocalExtension {
+	return lo.Map(e.localExtensions, func(item *LocalExtension, index int) *LocalExtension {
+		item.Shortcut = e.shortManager.GetShortCut("Extension", fmt.Sprintf("%s-%s", item.Author, item.Name))
+		return item
+	})
+}
+
 func (e *Manager) ListLocalExtension() []*LocalExtension {
 	return lo.FlatMap(lo.Map(e.localExtensions, func(item *LocalExtension, index int) *LocalExtension {
 		item.Shortcut = e.shortManager.GetShortCut("Extension", fmt.Sprintf("%s-%s", item.Author, item.Name))
@@ -99,6 +106,11 @@ func (e *Manager) InstallExtension(extension RemoteExtension) error {
 }
 
 func (e *Manager) Upgrade(ext *LocalExtension) (*object.Commit, error) {
+	err := e.upgradeExtensionJson(ext)
+	if err != nil {
+		return nil, err
+	}
+
 	r, err := git.PlainOpen(ext.FullPath)
 	if err != nil {
 		return nil, err
@@ -125,6 +137,24 @@ func (e *Manager) Upgrade(ext *LocalExtension) (*object.Commit, error) {
 	}
 
 	return commit, nil
+}
+
+func (e *Manager) upgradeExtensionJson(ext *LocalExtension) error {
+	remote := e.getRemoteExtension(ext)
+	if remote == nil {
+		return fmt.Errorf("remote extension not found")
+	}
+	extensionFile := filepath.Join(ext.FullPath, ".git", "extension.json")
+	f, err := os.OpenFile(extensionFile, os.O_RDWR, 0644)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+	if err != nil {
+		return err
+	}
+
+	return json.NewEncoder(f).Encode(remote)
 }
 
 func (e *Manager) RefreshExtension() {
