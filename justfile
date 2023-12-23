@@ -13,6 +13,9 @@ install: build
 air:
     cd launcher-native && air
 
+ray:
+    cd launcher-native/cmd/ray && go install .
+
 clean:
     rm -rf bin
     rm -rf dist
