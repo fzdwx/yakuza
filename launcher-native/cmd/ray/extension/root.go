@@ -14,6 +14,7 @@ func RootCmd() *cobra.Command {
 	}
 
 	root.AddCommand(listRemoteCmd())
+	root.AddCommand(listLocalCmd())
 
 	return root
 }

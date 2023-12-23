@@ -17,7 +17,7 @@ func listRemoteCmd() *cobra.Command {
 		Aliases: []string{"r"},
 		Short:   "List remote extensions",
 		Run: func(cmd *cobra.Command, args []string) {
-			e := newExtensionManager()
+			var e = newExtensionManager()
 
 			if err := infinite.NewSpinner(
 				spinner.WithPrompt(" Loading extension..."),
@@ -40,8 +40,8 @@ func listRemoteCmd() *cobra.Command {
 				return !item.Installed
 			})
 			if len(resps) == 0 {
-				fmt.Println("No remote extensions found")
-				os.Exit(1)
+				fmt.Println("You have installed all remote extensions !")
+				return
 			}
 
 			choices := lo.Map(resps, func(item *extension.RemoteExtensionResp, index int) string {

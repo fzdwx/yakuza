@@ -85,7 +85,7 @@ func (e *Manager) InstallExtension(extension RemoteExtension) error {
 
 func (e *Manager) RefreshExtension() {
 	go func() {
-		e.doRefreshLocal()
+		e.RefreshLocal()
 		e.doRefreshRemote()
 	}()
 
@@ -94,13 +94,13 @@ func (e *Manager) RefreshExtension() {
 		select {
 		case <-ticker.C:
 			go e.doRefreshRemote()
-			go e.doRefreshLocal()
+			go e.RefreshLocal()
 		}
 	}
 }
 
 func (e *Manager) Refresh() {
-	e.doRefreshLocal()
+	e.RefreshLocal()
 	e.doRefreshRemote()
 }
 
@@ -125,7 +125,7 @@ func (e *Manager) doRefreshRemote() {
 	e.remoteExtensions = extensions
 }
 
-func (e *Manager) doRefreshLocal() {
+func (e *Manager) RefreshLocal() {
 	dir := fileutil.Extensions()
 	entries, err := fs.ReadDir(os.DirFS(dir), ".")
 	if err != nil {
