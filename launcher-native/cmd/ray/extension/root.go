@@ -13,8 +13,8 @@ func RootCmd() *cobra.Command {
 		Short:   "Manage extensions",
 	}
 
-	root.AddCommand(listRemoteCmd())
-	root.AddCommand(listLocalCmd())
+	root.AddCommand(remoteCmd())
+	root.AddCommand(localCmd())
 
 	return root
 }

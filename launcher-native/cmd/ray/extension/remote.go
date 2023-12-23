@@ -3,7 +3,6 @@ package extension
 import (
 	"fmt"
 	"github.com/fzdwx/infinite"
-	"github.com/fzdwx/infinite/components/selection/multiselect"
 	"github.com/fzdwx/infinite/components/spinner"
 	"github.com/fzdwx/launcher/launcher-native/pkg/extension"
 	"github.com/samber/lo"
@@ -11,7 +10,7 @@ import (
 	"os"
 )
 
-func listRemoteCmd() *cobra.Command {
+func remoteCmd() *cobra.Command {
 	var cmd = &cobra.Command{
 		Use:     "remote",
 		Aliases: []string{"r"},
@@ -44,27 +43,10 @@ func listRemoteCmd() *cobra.Command {
 				return
 			}
 
-			choices := lo.Map(resps, func(item *extension.RemoteExtensionResp, index int) string {
-				return fmt.Sprintf("%s - %s - %s", item.Name, item.Description, item.Author)
+			lo.ForEach(resps, func(item *extension.RemoteExtensionResp, index int) {
+				fmt.Fprintf(os.Stdout, "%s - %s - %s", item.Name, item.Description, item.Author)
 			})
 
-			var (
-				selected []int
-				err      error
-			)
-
-			if selected, err = infinite.NewMultiSelect(choices,
-				multiselect.WithPageSize(10),
-			).
-				Display("Install extensions"); err != nil {
-				fmt.Println(err)
-				os.Exit(1)
-			}
-
-			lo.ForEach(selected, func(item int, index int) {
-				fmt.Println(resps[item])
-			})
-			// todo: install extensions
 		},
 	}
 

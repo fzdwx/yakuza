@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/fzdwx/launcher/launcher-native/fileutil"
 	"github.com/go-git/go-git/v5"
+	"github.com/go-git/go-git/v5/plumbing/object"
 	"github.com/samber/lo"
 	"io/fs"
 	"net/http"
@@ -62,7 +63,7 @@ func (e *Manager) InstallExtension(extension RemoteExtension) error {
 			return err
 		}
 
-		file, err := os.Create(filepath.Join(dest, "extension.json"))
+		file, err := os.Create(filepath.Join(dest, ".git", "extension.json"))
 		if err != nil {
 			return err
 		}
@@ -81,6 +82,35 @@ func (e *Manager) InstallExtension(extension RemoteExtension) error {
 	}
 
 	return nil
+}
+
+func (e *Manager) Upgrade(ext *LocalExtension) (*object.Commit, error) {
+	r, err := git.PlainOpen(ext.FullPath)
+	if err != nil {
+		return nil, err
+	}
+
+	w, err := r.Worktree()
+	if err != nil {
+		return nil, err
+	}
+
+	err = w.Pull(&git.PullOptions{RemoteName: "origin"})
+	if err != nil {
+		return nil, err
+	}
+
+	// Print the latest commit that was just pulled
+	ref, err := r.Head()
+	if err != nil {
+		return nil, err
+	}
+	commit, err := r.CommitObject(ref.Hash())
+	if err != nil {
+		return nil, err
+	}
+
+	return commit, nil
 }
 
 func (e *Manager) RefreshExtension() {
@@ -136,7 +166,7 @@ func (e *Manager) RefreshLocal() {
 	var extensions []*LocalExtension
 	for i := range entries {
 		entry := entries[i]
-		fullPath := filepath.Join(dir, entry.Name(), "extension.json")
+		fullPath := filepath.Join(dir, entry.Name(), ".git", "extension.json")
 		file, err := os.Open(fullPath)
 		if err != nil {
 			fmt.Println(err)

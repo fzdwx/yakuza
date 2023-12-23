@@ -8,7 +8,7 @@ import (
 	"os"
 )
 
-func localCMd() *cobra.Command {
+func localCmd() *cobra.Command {
 	var cmd = &cobra.Command{
 		Use:     "local",
 		Aliases: []string{"l"},
@@ -22,6 +22,8 @@ func localCMd() *cobra.Command {
 			})
 		},
 	}
+
+	cmd.AddCommand(localUpgradeCmd())
 
 	return cmd
 }
