@@ -8,11 +8,6 @@ import (
 	"strings"
 )
 
-type ListFileSystemReq struct {
-	Initial bool   `json:"initial"`
-	Search  string `json:"search"`
-}
-
 type File struct {
 	Name  string    `json:"name"`
 	IsDir bool      `json:"isDir"`
@@ -23,11 +18,6 @@ type FileInfo struct {
 	Size    int64  `json:"size"`
 	Mode    string `json:"mode"`
 	ModTime int64  `json:"modTime"`
-}
-
-type ListFileSystemResp struct {
-	Files []File `json:"files"`
-	Path  string `json:"path"`
 }
 
 type FsManager struct {
@@ -63,7 +53,7 @@ func (m *FsManager) list() {
 	}
 }
 
-func (m *FsManager) toResp() ListFileSystemResp {
+func (m *FsManager) toResp() SearchFileSystemResp {
 	var files = []File{}
 	for _, file := range m.files {
 		f := File{
@@ -84,7 +74,7 @@ func (m *FsManager) toResp() ListFileSystemResp {
 		}
 	}
 
-	return ListFileSystemResp{
+	return SearchFileSystemResp{
 		Files: files,
 		Path:  m.path,
 	}
@@ -92,8 +82,18 @@ func (m *FsManager) toResp() ListFileSystemResp {
 
 var fm = &FsManager{}
 
-func (s *Server) List(w http.ResponseWriter, r *http.Request) {
-	var req ListFileSystemReq
+type SearchFileSystemReq struct {
+	Initial bool   `json:"initial"`
+	Search  string `json:"search"`
+}
+
+type SearchFileSystemResp struct {
+	Files []File `json:"files"`
+	Path  string `json:"path"`
+}
+
+func (s *Server) SearchFs(w http.ResponseWriter, r *http.Request) {
+	var req SearchFileSystemReq
 	err := json.DecodeFrom(r.Body, &req)
 	if err != nil {
 		s.writeErr(w, err)
@@ -120,6 +120,26 @@ func (s *Server) List(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	err = json.EncodeTo(w, fm.toResp())
+	if err != nil {
+		s.writeErr(w, err)
+	}
+}
+
+type ListFileSystemReq struct {
+	Path string `json:"path"`
+}
+
+func (s *Server) ListFs(w http.ResponseWriter, r *http.Request) {
+	var fm = &FsManager{}
+	var req ListFileSystemReq
+	err := json.DecodeFrom(r.Body, &req)
+	if err != nil {
+		s.writeErr(w, err)
+		return
+	}
+	fm.path = req.Path
+	fm.list()
 	err = json.EncodeTo(w, fm.toResp())
 	if err != nil {
 		s.writeErr(w, err)

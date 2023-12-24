@@ -84,8 +84,11 @@ func (s *Server) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 		s.GetShortCuts(writer, request)
 		return
 	}
+	if request.URL.Path == "/api/fs/search" {
+		s.SearchFs(writer, request)
+	}
 	if request.URL.Path == "/api/fs/list" {
-		s.List(writer, request)
+		s.ListFs(writer, request)
 	}
 
 	s.ServeExtension(writer, request)

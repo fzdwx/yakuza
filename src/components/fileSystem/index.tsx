@@ -7,9 +7,11 @@ import {getIcon} from "@/components/fileSystem/icons";
 import {File, FileInfo} from "./types"
 import {useKeyPress} from "ahooks";
 import {selectFirstItem} from "@/components/self/helper";
+import RenderFile from "@/components/fileSystem/renderFile";
+import {sort} from "@/components/fileSystem/sort";
 
-const listFs = async (value: string, init: boolean): Promise<any> => {
-    return (await fetch("http://localhost:35677/api/fs/list", {
+const searchFs = async (value: string, init: boolean): Promise<any> => {
+    return (await fetch("http://localhost:35677/api/fs/search", {
         method: "POST",
         body: JSON.stringify({search: value, initial: init})
     })).json()
@@ -23,23 +25,8 @@ export default () => {
     const [files, setFiles] = React.useState<File[] | undefined>([])
     const [currentFile, setCurrentFile] = React.useState<File | undefined>(undefined)
 
-    const sortFiles = (files: File[]) => {
-        return setFiles(files.sort((a, b) => {
-            if (a.isDir && b.isDir) {
-                if (a.name.startsWith(".") && !b.name.startsWith(".")) {
-                    return 1
-                } else if (!a.name.startsWith(".") && b.name.startsWith(".")) {
-                    return -1
-                }
-            }
-            if (a.isDir && !b.isDir) {
-                return -1
-            } else if (!a.isDir && b.isDir) {
-                return 1
-            } else {
-                return 0
-            }
-        }))
+    const sortAndSetFiles = (files: File[]) => {
+        return setFiles(sort(files))
     }
 
     const handleFsResp = (resp: { files: File[], path: string } | undefined) => {
@@ -48,9 +35,9 @@ export default () => {
         }
 
         if (resp === undefined || resp.files === undefined || resp.files === null) {
-            sortFiles([])
+            sortAndSetFiles([])
         } else {
-            sortFiles(resp.files)
+            sortAndSetFiles(resp.files)
             setPath(resp.path)
         }
         if (resp) {
@@ -79,15 +66,15 @@ export default () => {
     }
 
     useEffect(() => {
-        listFs("", true).then(({files, path}) => {
+        searchFs("", true).then(({files, path}) => {
             setPath(path)
-            sortFiles(files)
+            sortAndSetFiles(files)
             setValue(path)
         })
     }, [inputRef])
 
     useEffect(() => {
-        listFs(value, false).then(handleFsResp)
+        searchFs(value, false).then(handleFsResp)
     }, [value])
 
     useKeyPress("leftarrow", (e) => {
@@ -124,15 +111,15 @@ export default () => {
                                     }}
                                     key={nanoid()}>
                                     {getIcon(item)}
-                                    {item.name}
+                                    <span className='truncate' >{item.name}</span>
                                 </Command.Item>)
                             })
                         }
                     </Command.List>
                 </div>
 
-                <div>
-                    123123
+                <div className='h-400px w-60% p-10px m-10px border shadow shadow-white/10'>
+                    <RenderFile file={currentFile} path={path}/>
                 </div>
             </div>
 
