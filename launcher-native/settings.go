@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/fzdwx/launcher/launcher-native/json"
+	"github.com/fzdwx/launcher/launcher-native/pkg/json"
 	"github.com/fzdwx/launcher/launcher-native/pkg/shortcuts"
 	"net/http"
 )

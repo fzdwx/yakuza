@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	"github.com/fzdwx/launcher/launcher-native/fileutil"
+	fileutil2 "github.com/fzdwx/launcher/launcher-native/pkg/fileutil"
 	"net/http"
 	"os"
 	"strings"
@@ -41,7 +41,7 @@ func (s *Server) AddRunHistory(writer http.ResponseWriter, request *http.Request
 		return
 	}
 
-	err = os.WriteFile(fileutil.RunHistory(), bytes, os.ModePerm)
+	err = os.WriteFile(fileutil2.RunHistory(), bytes, os.ModePerm)
 	if err != nil {
 		http.Error(writer, err.Error(), http.StatusInternalServerError)
 		return
@@ -49,10 +49,10 @@ func (s *Server) AddRunHistory(writer http.ResponseWriter, request *http.Request
 }
 
 func GetHistory() (*RunHistory, error) {
-	path := fileutil.RunHistory()
+	path := fileutil2.RunHistory()
 	history := &RunHistory{}
 
-	err := fileutil.Read(path, history)
+	err := fileutil2.Read(path, history)
 	if err != nil {
 		return nil, err
 	}

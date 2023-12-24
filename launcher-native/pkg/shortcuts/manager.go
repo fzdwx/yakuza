@@ -1,7 +1,7 @@
 package shortcuts
 
 import (
-	"github.com/fzdwx/launcher/launcher-native/fileutil"
+	fileutil2 "github.com/fzdwx/launcher/launcher-native/pkg/fileutil"
 	"github.com/samber/lo"
 	"sync"
 )
@@ -67,7 +67,7 @@ func (s *Manager) SetShortCut(sc ShortCut) (*ShortCut, error) {
 }
 
 func (s *Manager) Save() error {
-	return fileutil.Write(fileutil.Shortcuts(), s.Shortcuts)
+	return fileutil2.Write(fileutil2.Shortcuts(), s.Shortcuts)
 }
 
 func (s *Manager) Load() {

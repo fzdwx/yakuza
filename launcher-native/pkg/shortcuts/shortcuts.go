@@ -1,7 +1,7 @@
 package shortcuts
 
 import (
-	"github.com/fzdwx/launcher/launcher-native/fileutil"
+	fileutil2 "github.com/fzdwx/launcher/launcher-native/pkg/fileutil"
 )
 
 type ShortCut struct {
@@ -13,7 +13,7 @@ type ShortCut struct {
 
 func load() []ShortCut {
 	var sc []ShortCut
-	err := fileutil.Read(fileutil.Shortcuts(), &sc)
+	err := fileutil2.Read(fileutil2.Shortcuts(), &sc)
 	if err != nil {
 		return []ShortCut{}
 	}

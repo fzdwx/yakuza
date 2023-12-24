@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/fzdwx/launcher/launcher-native/fileutil"
+	"github.com/fzdwx/launcher/launcher-native/pkg/fileutil"
 	"net/http"
 	"os"
 	"path/filepath"

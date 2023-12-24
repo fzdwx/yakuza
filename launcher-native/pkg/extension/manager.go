@@ -5,7 +5,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
-	"github.com/fzdwx/launcher/launcher-native/fileutil"
+	"github.com/fzdwx/launcher/launcher-native/pkg/fileutil"
 	"github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing/object"
 	"github.com/samber/lo"
