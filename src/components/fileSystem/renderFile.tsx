@@ -38,7 +38,7 @@ const imgInclude = ["png", "jpg", "jpeg", "gif", "webp"]
 const RenderFile = ({file, path}: Props) => {
     if (imgInclude.includes(file?.name.split(".").pop() || "")) {
         return <div className=''>
-            <img className='max-w-500px max-h-400px' src={`file://${path}`} alt={file?.name}/>
+            <img className='max-w-500px max-h-380px' src={`file://${path}`} alt={file?.name}/>
         </div>
     }
     return <div>
