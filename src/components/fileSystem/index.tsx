@@ -65,7 +65,9 @@ export default () => {
     }
 
     const goPrevDir = () => {
-        const p = path.split("/").slice(0, -2).join("/");
+        let p = path
+        p = p.split("/").slice(0, -2).join("/");
+        p = `${p}/`
         setValue(p)
         selectFirstItem(50)
     }
@@ -105,26 +107,35 @@ export default () => {
         <Command className='raycast' label="File System" shouldFilter={true}>
             <div cmdk-raycast-top-shine=""/>
             <Command.Input value={value} onValueChange={onValueChange} autoFocus ref={inputRef}/>
-            <Command.List ref={listRef}>
-                {
-                    files?.map((item) => {
-                        return (<Command.Item
-                            data-value={`${path}${item.name}`}
-                            value={`${path}${item.name}`}
-                            onHover={() => {
-                                setCurrentFile(item)
-                            }}
-                            onSelect={() => {
-                                enterDir(item);
-                            }}
-                            key={nanoid()}>
-                            {getIcon(item)}
-                            {item.name}
-                        </Command.Item>)
-                    })
-                }
 
-            </Command.List>
+            <div className='flex'>
+                <div className='w-40%'>
+                    <Command.List ref={listRef}>
+                        {
+                            files?.map((item) => {
+                                return (<Command.Item
+                                    data-value={`${path}${item.name}`}
+                                    value={`${path}${item.name}`}
+                                    onHover={() => {
+                                        setCurrentFile(item)
+                                    }}
+                                    onSelect={() => {
+                                        enterDir(item);
+                                    }}
+                                    key={nanoid()}>
+                                    {getIcon(item)}
+                                    {item.name}
+                                </Command.Item>)
+                            })
+                        }
+                    </Command.List>
+                </div>
+
+                <div>
+                    123123
+                </div>
+            </div>
+
 
             <div cmdk-raycast-footer="">
                 <FileSystemIcon/>
