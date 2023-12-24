@@ -32,8 +32,10 @@
     "sass": "^1.69.5"
   },
   "devDependencies": {
+    "@iconify-json/vscode-icons": "^1.1.32",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
+    "@unocss/preset-icons": "^0.58.0",
     "@vitejs/plugin-react": "^4.2.1",
     "electron": "^28.0.0",
     "electron-builder": "^24.9.1",

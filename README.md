@@ -38,4 +38,6 @@ go install github.com/fzdwx/launcher/launcher-native/cmd/ray@main
 - [share your extension](https://github.com/fzdwx/launcher-extension)
 - [为 launcher 开发插件](https://fzdwx.vercel.app/blog/2023-12-24-wei-kai-fa-cha-jian)
 
+file system
+
 or https://github.com/topics/launcher-extension

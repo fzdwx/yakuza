@@ -1,5 +1,4 @@
 import {addAppRunCount, getApplications, getIcon} from "./application";
-import {getBuiltin} from "./builtin";
 import {getLocalExtensions, getRemoteExtensions, installExtension} from "./extension";
 import {Shortcut} from "@/native/types";
 
@@ -46,7 +45,6 @@ export const getShortcut = async () => {
 }
 
 export {
-    getBuiltin,
     setConfig, getConfig,
     execCommand
 }

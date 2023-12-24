@@ -1,3 +1,5 @@
+import Fs from "@/assets/file-system.svg";
+
 const KeyboardIcon = () => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 16 16">
@@ -8,4 +10,8 @@ const KeyboardIcon = () => {
     )
 }
 
-export {KeyboardIcon}
+const FileSystemIcon = () => {
+    return <img className='w-4' src={Fs} alt='fs-svg'/>
+}
+
+export {KeyboardIcon, FileSystemIcon}

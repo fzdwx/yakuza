@@ -84,7 +84,15 @@ func (s *Server) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 		s.GetShortCuts(writer, request)
 		return
 	}
+	if request.URL.Path == "/api/fs/list" {
+		s.List(writer, request)
+	}
 
 	s.ServeExtension(writer, request)
 	return
+}
+
+func (s *Server) writeErr(w http.ResponseWriter, err error) {
+	w.WriteHeader(http.StatusInternalServerError)
+	_, _ = w.Write([]byte(err.Error()))
 }
