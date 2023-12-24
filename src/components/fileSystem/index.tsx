@@ -23,15 +23,34 @@ export default () => {
     const [files, setFiles] = React.useState<File[] | undefined>([])
     const [currentFile, setCurrentFile] = React.useState<File | undefined>(undefined)
 
+    const sortFiles = (files: File[]) => {
+        return setFiles(files.sort((a, b) => {
+            if (a.isDir && b.isDir) {
+                if (a.name.startsWith(".") && !b.name.startsWith(".")) {
+                    return 1
+                } else if (!a.name.startsWith(".") && b.name.startsWith(".")) {
+                    return -1
+                }
+            }
+            if (a.isDir && !b.isDir) {
+                return -1
+            } else if (!a.isDir && b.isDir) {
+                return 1
+            } else {
+                return 0
+            }
+        }))
+    }
+
     const handleFsResp = (resp: { files: File[], path: string } | undefined) => {
         if (resp !== undefined && resp.path !== undefined && value.length === 0) {
             setPath(resp.path)
         }
 
         if (resp === undefined || resp.files === undefined || resp.files === null) {
-            setFiles([])
+            sortFiles([])
         } else {
-            setFiles(resp.files)
+            sortFiles(resp.files)
             setPath(resp.path)
         }
         if (resp) {
@@ -60,7 +79,7 @@ export default () => {
     useEffect(() => {
         listFs("", true).then(({files, path}) => {
             setPath(path)
-            setFiles(files)
+            sortFiles(files)
             setValue(path)
         })
     }, [inputRef])
