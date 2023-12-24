@@ -36,5 +36,6 @@ go install github.com/fzdwx/launcher/launcher-native/cmd/ray@main
 - [build your own extension](https://github.com/fzdwx/launcher-extension-sample)
 - [launcher api](https://github.com/fzdwx/launcher-api)
 - [share your extension](https://github.com/fzdwx/launcher-extension)
+- [为 launcher 开发插件](https://fzdwx.vercel.app/blog/2023-12-24-wei-kai-fa-cha-jian)
 
 or https://github.com/topics/launcher-extension
