@@ -56,6 +56,9 @@ func (m *FsManager) list() {
 func (m *FsManager) toResp() SearchFileSystemResp {
 	var files = []File{}
 	for _, file := range m.files {
+		if file == nil {
+			continue
+		}
 		f := File{
 			Name:  file.Name(),
 			IsDir: file.IsDir(),
