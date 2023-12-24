@@ -20,7 +20,7 @@ const searchFs = async (value: string, init: boolean): Promise<any> => {
 export default () => {
     const inputRef = React.useRef<HTMLInputElement>(null)
     const listRef = React.useRef<HTMLInputElement>(null)
-    const [value, setValue] = React.useState('')
+    const [value, setValue] = React.useState('~/')
     const [path, setPath] = React.useState('')
     const [files, setFiles] = React.useState<File[] | undefined>([])
     const [currentFile, setCurrentFile] = React.useState<File | undefined>(undefined)
@@ -111,7 +111,7 @@ export default () => {
                                     }}
                                     key={nanoid()}>
                                     {getIcon(item)}
-                                    <span className='truncate' >{item.name}</span>
+                                    <span className='truncate'>{item.name}</span>
                                 </Command.Item>)
                             })
                         }
