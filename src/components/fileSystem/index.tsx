@@ -45,6 +45,8 @@ export default () => {
                 setValue(resp.path)
             }
         }
+
+        selectFirstItem(50)
     }
 
     const onValueChange = (v: string) => {
@@ -63,13 +65,11 @@ export default () => {
             p = `${p}/`
         }
         setValue(p)
-        selectFirstItem(50)
     }
 
     const enterDir = (item: File) => {
         if (item.isDir) {
             setValue(`${path}${item.name}/`)
-            selectFirstItem(50)
         }
     }
 

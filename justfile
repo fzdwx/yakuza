@@ -1,5 +1,7 @@
 build:
   rm -rf bin
+  rm -rf dist
+  rm -rf dist-electron
   mkdir bin
   cd launcher-native && go build . && mv launcher-native ../bin/launcher-native
   pnpm run build
