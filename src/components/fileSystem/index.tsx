@@ -4,7 +4,7 @@ import {SubCommand} from "@/components/store/subCommand";
 import {FileSystemIcon} from "@/components/icons";
 import {nanoid} from "nanoid";
 import {getIcon} from "@/components/fileSystem/icons";
-import {File, FileInfo} from "./types"
+import {File} from "./types"
 import {useKeyPress} from "ahooks";
 import {selectFirstItem} from "@/components/self/helper";
 import RenderFile from "@/components/fileSystem/renderFile";
@@ -49,13 +49,19 @@ export default () => {
 
     const onValueChange = (v: string) => {
         setValue(v)
-        selectFirstItem(50)
     }
 
     const goPrevDir = () => {
-        let p = path
-        p = p.split("/").slice(0, -2).join("/");
-        p = `${p}/`
+        let p = value
+        if (!p.endsWith("/")) {
+            p = p.slice(0, p.lastIndexOf("/"))
+        } else {
+            p = p.split("/").slice(0, -2).join("/");
+        }
+
+        if (!p.endsWith("/")) {
+            p = `${p}/`
+        }
         setValue(p)
         selectFirstItem(50)
     }
@@ -93,7 +99,7 @@ export default () => {
 
 
     return (
-        <Command className='raycast' label="File System" shouldFilter={false}>
+        <Command className='raycast' label="File System" shouldFilter={false} loop={true}>
             <div cmdk-raycast-top-shine=""/>
             <Command.Input value={value} onValueChange={onValueChange} autoFocus ref={inputRef}/>
 
