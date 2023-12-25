@@ -71,9 +71,7 @@ func (s *Server) doRefresh() {
 		return item.Name
 	})
 
-	if len(newApplications) != len(applications) {
-		applications = newApplications
-	}
+	applications = newApplications
 }
 
 func entryIntoApplications(entry *desktop.Entry) []*Application {
