@@ -35,12 +35,20 @@ const RenderDir = ({file, path}: Props) => {
 }
 
 const imgInclude = ["png", "jpg", "jpeg", "gif", "webp"]
+const videoInclude = ["mp4"]
 const RenderFile = ({file, path}: Props) => {
     if (imgInclude.includes(file?.name.split(".").pop() || "")) {
         return <div className=''>
             <img className='max-w-500px max-h-380px' src={`file://${path}`} alt={file?.name}/>
         </div>
     }
+
+    if (videoInclude.includes(file?.name.split(".").pop() || "")) {
+        return <div className=''>
+            <video autoPlay={true} className='max-w-500px max-h-380px' src={`file://${path}`} controls/>
+        </div>
+    }
+
     return <div>
         {file?.name}
     </div>

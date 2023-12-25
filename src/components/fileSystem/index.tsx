@@ -49,6 +49,7 @@ export default () => {
 
     const onValueChange = (v: string) => {
         setValue(v)
+        selectFirstItem(50)
     }
 
     const goPrevDir = () => {
