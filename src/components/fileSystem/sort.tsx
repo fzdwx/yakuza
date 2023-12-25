@@ -1,6 +1,9 @@
 import {File} from "@/components/fileSystem/types";
 
 const sort = (files: File[]) => {
+    if (!files) {
+        return []
+    }
     return files.sort((a, b) => {
         if (a.isDir && b.isDir) {
             if (a.name.startsWith(".") && !b.name.startsWith(".")) {

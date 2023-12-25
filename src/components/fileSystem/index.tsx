@@ -62,6 +62,7 @@ export default () => {
     const enterDir = (item: File) => {
         if (item.isDir) {
             setValue(`${path}${item.name}/`)
+            selectFirstItem(50)
         }
     }
 
@@ -91,7 +92,7 @@ export default () => {
 
 
     return (
-        <Command className='raycast' label="File System" shouldFilter={true}>
+        <Command className='raycast' label="File System" shouldFilter={false}>
             <div cmdk-raycast-top-shine=""/>
             <Command.Input value={value} onValueChange={onValueChange} autoFocus ref={inputRef}/>
 

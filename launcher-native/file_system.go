@@ -2,9 +2,12 @@ package main
 
 import (
 	"github.com/fzdwx/launcher/launcher-native/pkg/json"
+	"github.com/sahilm/fuzzy"
+	"github.com/samber/lo"
 	"io/fs"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -53,9 +56,21 @@ func (m *FsManager) list() {
 	}
 }
 
-func (m *FsManager) toResp() SearchFileSystemResp {
-	var files = []File{}
-	for _, file := range m.files {
+func (m *FsManager) toResp(search string) SearchFileSystemResp {
+	var output []File
+	var input = m.files
+	if search != "" {
+		names := lo.Map(m.files, func(item fs.DirEntry, index int) string {
+			return item.Name()
+		})
+
+		matches := fuzzy.Find(search, names)
+		input = lo.Map(matches, func(item fuzzy.Match, index int) fs.DirEntry {
+			return input[item.Index]
+		})
+	}
+
+	for _, file := range input {
 		if file == nil {
 			continue
 		}
@@ -63,7 +78,7 @@ func (m *FsManager) toResp() SearchFileSystemResp {
 			Name:  file.Name(),
 			IsDir: file.IsDir(),
 		}
-		files = append(files, f)
+		output = append(output, f)
 		if file.IsDir() == false {
 			info, err := file.Info()
 			if err != nil {
@@ -78,7 +93,7 @@ func (m *FsManager) toResp() SearchFileSystemResp {
 	}
 
 	return SearchFileSystemResp{
-		Files: files,
+		Files: output,
 		Path:  m.path,
 	}
 }
@@ -123,10 +138,17 @@ func (s *Server) SearchFs(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	err = json.EncodeTo(w, fm.toResp())
+	err = json.EncodeTo(w, fm.toResp(trim(req.Search)))
 	if err != nil {
 		s.writeErr(w, err)
 	}
+}
+
+func trim(search string) string {
+	if strings.HasSuffix(search, "/") {
+		return ""
+	}
+	return filepath.Base(search)
 }
 
 type ListFileSystemReq struct {
@@ -143,7 +165,7 @@ func (s *Server) ListFs(w http.ResponseWriter, r *http.Request) {
 	}
 	fm.path = req.Path
 	fm.list()
-	err = json.EncodeTo(w, fm.toResp())
+	err = json.EncodeTo(w, fm.toResp(""))
 	if err != nil {
 		s.writeErr(w, err)
 	}
