@@ -10,6 +10,8 @@ export const useRegisterExtensions = () => {
             (ext): Action => ({
                 id: `ext-${ext.name}-${ext.author}`,
                 name: ext.name ?? '',
+                item: ext,
+                kind: 'Extension'
             }),
         );
     }, [extensions]);
@@ -29,6 +31,8 @@ export const useRegisterApps = () => {
             (app): Action => ({
                 id: `app-${app.name}`,
                 name: app.name ?? '',
+                item: app,
+                kind: 'Application'
             }),
         );
     }, [apps]);
@@ -49,6 +53,8 @@ export const useRegisterBuiltin = () => {
             (b): Action => ({
                 id: `builtin-${b}`,
                 name: b ?? '',
+                item: b,
+                kind: 'Builtin'
             }),
         );
     }, [builtins]);
