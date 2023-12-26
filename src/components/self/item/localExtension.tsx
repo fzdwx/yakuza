@@ -6,28 +6,7 @@ import {useViewEvent} from "@/hooks/useView";
 import {useHover} from "@/components/self/hooks";
 
 const useLocalExtensions = () => {
-    const [loading, setLoading] = useState(true)
-    const [extensions, setExtensions] = useState<LocalExtension[]>([])
-
-    const refreshExt = async () => {
-        setLoading(true)
-        const ext = await getLocalExtensions()
-        if (ext == undefined) {
-            setExtensions([])
-            return
-        }
-        setExtensions(ext)
-        setLoading(false)
-    }
-    useEffect(() => {
-        refreshExt()
-    }, [])
-
-    return {
-        extensions,
-        loading,
-        refreshExt
-    }
+     return  getLocalExtensions()
 }
 
 const {changeView} = useViewEvent()

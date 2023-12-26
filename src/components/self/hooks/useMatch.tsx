@@ -1,63 +1,57 @@
-import {Application, appsToResp, builtinToResp, extToResp, LocalExtension, SearchItem, SearchResp} from "@/native";
-import Fuse, {IFuseOptions} from "fuse.js";
-import {nanoid} from "nanoid";
-import {useLocalExtensions} from "@/components/self/item/localExtension";
-import {useApplications} from "@/components/self/item/applicationItem";
+import {Application, getApplications, getLocalExtensions, LocalExtension} from "@/native";
+import {useEffect, useMemo, useState} from "react";
+import {Action, useRegisterActions} from "@/lib/kbar";
 import {useBuiltin} from "@/components/self/item/builtin";
-import {useMemo} from "react";
 
-const fuseOptions: IFuseOptions<SearchResp<SearchItem>> = {
-    keys: [
-        "item.name"
-    ],
-    isCaseSensitive: false,
-    includeScore: true,
-    includeMatches: true,
-    minMatchCharLength: 1,
-    shouldSort: true,
-    findAllMatches: false,
-    location: 0,
-    threshold: 0.5,
-    distance: 100,
-    ignoreLocation: true,
-    useExtendedSearch: true,
-    ignoreFieldNorm: false,
-    fieldNormWeight: 1,
-};
+export const useRegisterExtensions = () => {
+    const [extensions, setExtensions] = useState<LocalExtension[]>([])
+    const actions = useMemo(() => {
+        return extensions?.map(
+            (ext): Action => ({
+                id: `ext-${ext.name}-${ext.author}`,
+                name: ext.name ?? '',
+            }),
+        );
+    }, [extensions]);
 
-function setId(array: SearchResp<SearchItem>[]) {
-    return array.map(a => {
-        a.id = nanoid()
-        return a
-    })
+    useRegisterActions(actions, [actions]);
+    useEffect(() => {
+        getLocalExtensions().then(e => {
+            setExtensions(e)
+        })
+    }, [])
 }
 
-const fuse = new Fuse([], fuseOptions)
-const sort = (value: string, extensions: LocalExtension[], apps: Application[], builtins: string[]) => {
-    const arr = setId([...extToResp(extensions), ...appsToResp(apps), ...builtinToResp(builtins)])
-    if (value.length === 0) {
-        return arr
-    }
+export const useRegisterApps = () => {
+    const [apps, setApps] = useState<Application[]>([])
+    const actions = useMemo(() => {
+        return apps?.map(
+            (app): Action => ({
+                id: `app-${app.name}`,
+                name: app.name ?? '',
+            }),
+        );
+    }, [apps]);
 
-    fuse.setCollection(arr)
-    const resp = fuse.search(value, {limit: 5});
-    return resp.map(v => {
-        const item = v.item;
-        item.score = v.score
-        return item
-    });
+    useRegisterActions(actions, [actions]);
+
+    useEffect(() => {
+        getApplications().then(e => {
+            setApps(e)
+        })
+    }, [])
 }
 
-const useMatch = (value: string) => {
-    const {extensions, refreshExt,} = useLocalExtensions()
-    const {apps, refreshApp} = useApplications()
+export const useRegisterBuiltin = () => {
     const {builtins} = useBuiltin()
+    const actions = useMemo(() => {
+        return builtins?.map(
+            (b): Action => ({
+                id: `builtin-${b}`,
+                name: b ?? '',
+            }),
+        );
+    }, [builtins]);
 
-    const items = useMemo(() => {
-        return sort(value, extensions, apps, builtins)
-    }, [extensions, apps, builtins, value])
-
-    return [items]
+    useRegisterActions(actions, [actions]);
 }
-
-export {useMatch}

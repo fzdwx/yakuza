@@ -1,56 +1,30 @@
 import React from 'react'
-import {SearchItem, SearchResp} from "@/native/types";
-import {useMatch} from "@/components/self/hooks/useMatch";
-import {
-    Action,
-    KBarAnimator,
-    KBarPortal,
-    KBarPositioner,
-    KBarProvider,
-    KBarResults,
-    KBarSearch,
-    useMatches
-} from "@/lib/kbar";
+import {useRegisterApps, useRegisterBuiltin, useRegisterExtensions} from "@/components/self/hooks/useMatch";
+import {KBarAnimator, KBarPortal, KBarPositioner, KBarProvider, KBarResults, KBarSearch, useMatches} from "@/lib/kbar";
 
 export default function Self() {
-    const [value, setValue] = React.useState('')
-    const [items] = useMatch(value)
-
     return (
-        <KBarProvider options={{defaultShow: true}} actions={toKBarAction(items)}>
-            <KBarPortal>
-                <KBarPositioner>
-                    <KBarAnimator style={animatorStyle}>
-                        <KBarSearch style={searchStyle}/>
-                        <RenderResults/>
-                    </KBarAnimator>
-                </KBarPositioner>
-            </KBarPortal>
+        <KBarProvider options={{defaultShow: true}}>
+            <SelfCommand/>
         </KBarProvider>
     )
 }
 
-const searchStyle = {
-    padding: '12px 16px',
-    fontSize: '16px',
-    width: '100%',
-    boxSizing: 'border-box' as React.CSSProperties['boxSizing'],
-    outline: 'none',
-    border: 'none',
-    background: 'rgb(252 252 252)',
-    color: 'rgb(28 28 29)',
-};
-
-const animatorStyle = {
-    maxWidth: '900px',
-    width: '100%',
-    zIndex: 1000,
-    background: 'rgb(252 252 252)',
-    color: 'rgb(28 28 29)',
-    borderRadius: '8px',
-    overflow: 'hidden',
-    boxShadow: '0px 6px 20px rgb(0 0 0 / 20%)',
-};
+function SelfCommand() {
+    useRegisterExtensions()
+    useRegisterApps()
+    useRegisterBuiltin()
+    return (
+        <KBarPortal>
+            <KBarPositioner>
+                <KBarAnimator>
+                    <KBarSearch/>
+                    <RenderResults/>
+                </KBarAnimator>
+            </KBarPositioner>
+        </KBarPortal>
+    )
+}
 
 function RenderResults() {
     const {results} = useMatches();
@@ -72,13 +46,6 @@ function RenderResults() {
             }
         />
     );
-}
-
-
-const toKBarAction = (items: SearchResp<SearchItem>[]) => {
-    return items.map((item): Action => {
-        return {id: item.id, name: item.item.name}
-    })
 }
 
 

@@ -24,7 +24,7 @@ export function useStore(props: useStoreProps) {
                 historyManager: optionsRef.current.enableHistory ? history : undefined,
             }),
         // eslint-disable-next-line react-hooks/exhaustive-deps
-        []
+        [props.actions]
     );
 
     // TODO: at this point useReducer might be a better approach to managing state.

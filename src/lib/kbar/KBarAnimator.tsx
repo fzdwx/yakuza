@@ -142,6 +142,14 @@ export const KBarAnimator: React.FC<
     <div
       ref={outerRef}
       style={{
+        background: 'rgb(252 252 252)',
+        color: 'rgb(28 28 29)',
+        width: '100%',
+        maxWidth:'900px',
+        zIndex: 1000,
+        borderRadius: '8px',
+        overflow: 'hidden',
+        boxShadow: '0px 6px 20px rgb(0 0 0 / 20%)',
         ...appearanceAnimationKeyframes[0],
         ...style,
         pointerEvents: "auto",
