@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import {SearchItem, SearchResp} from "@/native/types";
 import {useMatch} from "@/components/self/hooks/useMatch";
 import {
@@ -10,33 +10,16 @@ import {
     KBarResults,
     KBarSearch,
     useMatches
-} from "kbar";
-import {toggle} from "@/components/self/helper";
+} from "@/lib/kbar";
 
 export default function Self() {
     const [value, setValue] = React.useState('')
     const [items] = useMatch(value)
 
-    useEffect(() => {
-        toggle()
-    }, [])
-
     return (
-        <KBarProvider actions={toKBarAction(items)}>
+        <KBarProvider options={{defaultShow: true}} actions={toKBarAction(items)}>
             <KBarPortal>
-                <KBarPositioner
-                    style={{
-                        zIndex: 10000,
-                        width: '100vw',
-                        height: '100vh',
-                        position: 'fixed',
-                        padding: '0',
-                        top: 0,
-                        right: 0,
-                        bottom: 0,
-                        left: 0,
-                    }}
-                >
+                <KBarPositioner>
                     <KBarAnimator style={animatorStyle}>
                         <KBarSearch style={searchStyle}/>
                         <RenderResults/>
@@ -44,7 +27,6 @@ export default function Self() {
                 </KBarPositioner>
             </KBarPortal>
         </KBarProvider>
-
     )
 }
 
@@ -72,7 +54,6 @@ const animatorStyle = {
 
 function RenderResults() {
     const {results} = useMatches();
-
     return (
         <KBarResults
             items={results}
