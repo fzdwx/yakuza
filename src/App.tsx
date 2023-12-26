@@ -12,15 +12,15 @@ function switchView(view: ViewName) {
     switch (view) {
         case 'self':
             return <Self/>
-        case 'store':
+        case 'Store':
             return <Store/>
         case "extView":
             return <ExtensionView transport={false}/>
         case "extViewTransport":
             return <ExtensionView transport={true}/>
-        case "settings":
+        case "Settings":
             return <Settings/>
-        case 'fs':
+        case 'File System':
             return <FileSystem/>
         default:
             return <Self/>

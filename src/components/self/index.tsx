@@ -1,8 +1,9 @@
 import React from 'react'
-import {useRegisterBuiltin, useRegisterExtensions} from "@/components/self/hooks/useMatch";
+import { useRegisterExtensions} from "@/components/self/hooks/useMatch";
 import {KBarAnimator, KBarPortal, KBarPositioner, KBarProvider, KBarResults, KBarSearch, useMatches} from "@/lib/kbar";
 import {useRegisterApps} from "@/components/self/item/application";
 import RenderItem from "@/lib/kbar/RenderItem";
+import {useRegisterBuiltin} from "@/components/self/item/builtin";
 
 export default function Self() {
     return (
@@ -13,9 +14,9 @@ export default function Self() {
 }
 
 function SelfCommand() {
-    useRegisterExtensions()
     useRegisterApps()
     useRegisterBuiltin()
+    useRegisterExtensions()
     return (
         <KBarPortal>
             <KBarPositioner>

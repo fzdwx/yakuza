@@ -23,19 +23,3 @@ export const useRegisterExtensions = () => {
         })
     }, [])
 }
-
-export const useRegisterBuiltin = () => {
-    const {builtins} = useBuiltin()
-    const actions = useMemo(() => {
-        return builtins?.map(
-            (b): Action => ({
-                id: `builtin-${b}`,
-                name: b ?? '',
-                item: b,
-                kind: 'Builtin'
-            }),
-        );
-    }, [builtins]);
-
-    useRegisterActions(actions, [actions]);
-}

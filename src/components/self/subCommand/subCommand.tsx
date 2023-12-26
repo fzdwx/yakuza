@@ -106,7 +106,7 @@ const openSetting = (currentItem: SearchResp<SearchItem> | undefined, changeVisi
     const {setCurrentItem} = useSettingsStore()
     if (currentItem && (IsApplication(currentItem) || IsBuiltin(currentItem) || IsLocalExtension(currentItem))) {
         return (<SubItem shortcut="ctrl ⇧ S" s={() => {
-            changeView("settings")
+            changeView("Settings")
             setCurrentItem(currentItem)
             changeVisible()
         }}>

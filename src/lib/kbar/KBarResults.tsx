@@ -45,7 +45,7 @@ export const KBarResults: React.FC<KBarResultsProps> = (props) => {
       if (event.isComposing) {
         return;
       }
-      
+
       if (event.key === "ArrowUp" || (event.ctrlKey && event.key === "p")) {
         event.preventDefault();
         event.stopPropagation();
@@ -135,7 +135,8 @@ export const KBarResults: React.FC<KBarResultsProps> = (props) => {
     <div
       ref={parentRef}
       style={{
-        maxHeight: props.maxHeight || 400,
+        maxHeight: props.maxHeight || 450,
+        height: '450px',
         position: "relative",
         overflow: "auto",
       }}

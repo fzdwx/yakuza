@@ -1,10 +1,7 @@
-import {useViewEvent} from "@/hooks/useView";
-import {Command} from "launcher-api";
+import {useViewEvent, ViewName} from "@/hooks/useView";
+import React, {useMemo, useState} from "react";
+import {Action, useRegisterActions} from "@/lib/kbar";
 import StoreIcon from "@/components/store/storeIcon";
-import {useState} from "react";
-import {Builtin as BuiltinType, SearchResp} from "@/native";
-import {useHover} from "@/components/self/hooks";
-import Fs from '../../../assets/file-system.svg'
 import {FileSystemIcon} from "@/components/icons";
 
 const storeName = "Store"
@@ -21,84 +18,43 @@ const useBuiltin = () => {
         loading,
     }
 }
+
 const {changeView} = useViewEvent();
-const {change} = useHover()
+export const useRegisterBuiltin = () => {
+    const {builtins} = useBuiltin()
+    const actions = useMemo(() => {
+        return builtins?.map(
+            (b): Action => ({
+                id: `builtin-${b}`,
+                name: b ?? '',
+                item: b,
+                icon: getIcon(b),
+                kind: 'Builtin',
+                perform: () => {
+                    changeView(b as ViewName)
+                    if (b === devModeName) {
+                        //@ts-ignore
+                        window.launcher.loadDevView()
+                    }
+                }
+            }),
+        );
+    }, [builtins]);
 
-const StoreItem = (props: { item: SearchResp<BuiltinType> }) => {
-    return <Command.Item
-        value={storeName}
-        data-value={storeName}
-        key={props.item.id}
-        launcher-id={props.item.id}
-        onHover={() => {
-            change(props.item)
-        }}
-        onSelect={() => {
-            changeView("store")
-        }}>
-        <StoreIcon/>
-        {storeName}
-        <span className="absolute right-2 text-gray/80">Builtin</span>
-    </Command.Item>
+    useRegisterActions(actions, [actions]);
 }
 
-const DevMode = (props: { item: SearchResp<BuiltinType> }) => {
-    return <Command.Item
-        value={devModeName}
-        data-value={devModeName}
-        key={props.item.id}
-        launcher-id={props.item.id}
-        onHover={() => {
-            change(props.item)
-        }}
-        onSelect={() => {
-            changeView("extView")
-            //@ts-ignore
-            window.launcher.loadDevView()
-        }}>
-        <span className="w-4">🛠</span>
-        {devModeName}
-        <span className="absolute right-2 text-gray/80">Builtin</span>
-    </Command.Item>
-}
-
-const FileSystem = (props: { item: SearchResp<BuiltinType> }) => {
-    return <Command.Item
-        value={fileSystemName}
-        data-value={fileSystemName}
-        key={props.item.id}
-        onHover={() => {
-            change(props.item)
-        }}
-        onSelect={() => {
-            changeView("fs")
-        }}>
-        <FileSystemIcon/>
-        {fileSystemName}
-        <span className="absolute right-2 text-gray/80">Builtin</span>
-    </Command.Item>
-}
-
-const getItem = (item: SearchResp<BuiltinType>) => {
-    switch (item.item.name) {
+const getIcon = (item: string) => {
+    switch (item) {
         case storeName:
-            return <StoreItem item={item}/>
+            return <StoreIcon/>
         case devModeName:
-            return <DevMode item={item}/>
+            return <span className="w-4">🛠</span>
         case fileSystemName:
-            return <FileSystem item={item}/>
+            return <FileSystemIcon/>
         default:
             return <></>
     }
 }
 
-const Builtin = ({item}: { item: SearchResp<BuiltinType> }) => {
-    return <>
-        {getItem(item)}
-    </>
-}
-
-export {useBuiltin}
-
-export default Builtin
 
