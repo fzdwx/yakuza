@@ -42,6 +42,10 @@ function useToggleHandler() {
             return;
         }
 
+        if (!options.enableToggleShortcut) {
+            return;
+        }
+
         const shortcut = options.toggleShortcut || "$mod+k";
 
         const unsubscribe = tinykeys(window, {
@@ -69,7 +73,7 @@ function useToggleHandler() {
         return () => {
             unsubscribe();
         };
-    }, [options.callbacks, options.toggleShortcut, query, showing, disabled]);
+    }, [options.callbacks, options.toggleShortcut, options.enableToggleShortcut, query, showing, disabled]);
 
     const timeoutRef = React.useRef<Timeout>();
     const runAnimateTimer = React.useCallback(
