@@ -1,5 +1,5 @@
 import React from 'react'
-import { useRegisterExtensions} from "@/components/self/hooks/useMatch";
+import {useRegisterExtensions} from "@/components/self/hooks/useMatch";
 import {KBarAnimator, KBarPortal, KBarPositioner, KBarProvider, KBarResults, KBarSearch, useMatches} from "@/lib/kbar";
 import {useRegisterApps} from "@/components/self/item/application";
 import RenderItem from "@/lib/kbar/RenderItem";
@@ -34,6 +34,16 @@ function RenderResults() {
     return (
         <KBarResults
             items={results}
+            footer={(idx, empty) => {
+                if (empty) {
+                    return <div>Not Found</div>
+                }
+                const item = results[idx];
+                if (typeof item === "string") {
+                    return <div>{item}</div>
+                }
+                return <div>{item.name}</div>
+            }}
             onRender={({item, active}) => {
                 if (typeof item === "string") {
                     return <div>{item}</div>
