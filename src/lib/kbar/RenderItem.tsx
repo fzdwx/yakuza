@@ -7,10 +7,12 @@ const RenderItem = React.forwardRef(
             action,
             active,
             currentRootActionId,
+            style
         }: {
             action: ActionImpl;
             active: boolean;
             currentRootActionId: ActionId;
+            style?: React.CSSProperties;
         },
         ref: React.Ref<HTMLDivElement>,
     ) => {
@@ -32,11 +34,12 @@ const RenderItem = React.forwardRef(
                 style={{
                     padding: '12px 16px',
                     background: active ? 'rgba(0 0 0 / 0.05)' : 'transparent',
-                    borderLeft: `2px solid ${active ? 'rgb(28 28 29)' : 'transparent'}`,
+                    borderLeft: `3px solid ${active ? '#6ee7b7' : 'transparent'}`,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     cursor: 'pointer',
+                    ...style,
                 }}
             >
                 <div

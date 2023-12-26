@@ -54,9 +54,9 @@ export function KBarSearch(
             <input
                 {...rest}
                 style={{
-                    background: 'rgb(252 252 252)',
+                    background: 'transparent',
                     color: 'rgb(28 28 29)',
-                    padding: '12px 16px',
+                    padding: '16px 16px',
                     width: '100%',
                     fontSize: '16px',
                     boxSizing: 'border-box' as React.CSSProperties['boxSizing'],

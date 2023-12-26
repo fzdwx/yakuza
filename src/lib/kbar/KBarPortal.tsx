@@ -1,6 +1,6 @@
-import { Portal } from "@radix-ui/react-portal";
+import {Portal} from "@radix-ui/react-portal";
 import * as React from "react";
-import { VisualState } from "./types";
+import {VisualState} from "./types";
 import {openKBar, useKBar} from "./useKBar";
 
 interface Props {
@@ -8,8 +8,8 @@ interface Props {
     container?: HTMLElement;
 }
 
-export function KBarPortal({ children, container }: Props) {
-    const { showing } = useKBar((state) => ({
+export function KBarPortal({children, container}: Props) {
+    const {showing} = useKBar((state) => ({
         showing: state.visualState !== VisualState.hidden,
     }));
 
