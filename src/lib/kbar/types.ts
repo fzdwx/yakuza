@@ -70,6 +70,14 @@ export interface KBarOptions {
      */
     toggleShortcut?: string;
 
+    /**
+     * `enableToggleShortcut` enables the keyboard shortcut for toggling kbar.
+     */
+    enableToggleShortcut?: boolean;
+
+    /**
+     * defaultShow will cause kbar to be open by default when the component
+     * */
     defaultShow?: boolean;
 }
 
