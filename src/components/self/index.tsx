@@ -1,5 +1,14 @@
 import React from 'react'
-import {KBarAnimator, KBarPortal, KBarPositioner, KBarProvider, KBarResults, KBarSearch, useMatches} from "@/lib/kbar";
+import {
+    KBarAnimator, KBarFooterHr,
+    KBarFooterIcon, KBarFooterContent,
+    KBarPortal,
+    KBarPositioner,
+    KBarProvider,
+    KBarResults,
+    KBarSearch,
+    useMatches
+} from "@/lib/kbar";
 import RenderItem from "@/lib/kbar/RenderItem";
 import {useRegisterApps} from "@/components/self/item/application";
 import {useRegisterBuiltin} from "@/components/self/item/builtin";
@@ -36,13 +45,29 @@ function RenderResults() {
             items={results}
             footer={(idx, empty) => {
                 if (empty) {
-                    return <div>Not Found</div>
+                    return <>
+                        <KBarFooterIcon icon={<span>🖖</span>}/>
+                        <KBarFooterContent children={<div>
+                            <span className='mr-1'>No results found.</span>
+                        </div>}
+                        />
+                    </>
                 }
                 const item = results[idx];
                 if (typeof item === "string") {
                     return <div>{item}</div>
                 }
-                return <div>{item.name}</div>
+
+                return <>
+                    <KBarFooterIcon icon={<span>🖖</span>}/>
+                    <KBarFooterContent children={<div>
+                        <span className='mr-1'>Open {item.name}</span>
+                        <kbd>↵</kbd>
+                    </div>}
+                    />
+                    <KBarFooterHr/>
+                    // todo SubCommand
+                </>
             }}
             onRender={({item, active}) => {
                 if (typeof item === "string") {

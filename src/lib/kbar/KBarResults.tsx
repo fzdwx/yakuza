@@ -194,9 +194,32 @@ export const KBarResults: React.FC<KBarResultsProps> = (props) => {
 
                 </div>
             </div>
-            <div className='h-40px'>
+            <div className='kbar-footer'>
                 {props.footer && props.footer(activeIndex, props.items.length === 0)}
             </div>
         </div>
     );
 };
+
+export const KBarFooterIcon: React.FC<{ icon: React.ReactElement }> = ({icon}) => {
+    return (
+        <div className='kbar-footer-icon'>
+            {icon}
+        </div>
+    );
+}
+
+export const KBarFooterHr: React.FC = () => {
+    return (
+        <hr className='kbar-footer-hr'/>
+    );
+}
+
+export const KBarFooterContent: React.FC<{ children: React.ReactElement }> = ({children}) => {
+    // cmdk-raycast-open-trigger
+    return (
+        <div className='kbar-footer-content'>
+            {children}
+        </div>
+    );
+}
