@@ -64,6 +64,13 @@ export function selectFirstItem(timeout: number = 20) {
     })
 }
 
+export function toggle(timeout: number = 20) {
+    sleep(timeout).then(() => {
+        const event = new KeyboardEvent('keydown', {code: 'k', ctrlKey: true})
+        window.dispatchEvent(event)
+    })
+}
+
 export {getText}
 
 export {searchResultIsEmpty, doingSearch, getItemName}
