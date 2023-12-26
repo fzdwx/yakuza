@@ -1,9 +1,9 @@
 import React from 'react'
-import {useRegisterExtensions} from "@/components/self/hooks/useMatch";
 import {KBarAnimator, KBarPortal, KBarPositioner, KBarProvider, KBarResults, KBarSearch, useMatches} from "@/lib/kbar";
-import {useRegisterApps} from "@/components/self/item/application";
 import RenderItem from "@/lib/kbar/RenderItem";
+import {useRegisterApps} from "@/components/self/item/application";
 import {useRegisterBuiltin} from "@/components/self/item/builtin";
+import {useRegisterExtensions} from "@/components/self/item/localExtension";
 
 export default function Self() {
     return (

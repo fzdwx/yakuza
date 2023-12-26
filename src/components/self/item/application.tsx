@@ -38,6 +38,7 @@ const AppImage = ({app}: { app: Application }) => {
         <></>
     )
 }
+
 const runApplication = (app: Application) => {
     const commands = app.exec
         .replace("%u", "").replace("%U", "")
