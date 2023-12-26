@@ -4,7 +4,6 @@ import {ActionImpl} from "./action/ActionImpl";
 import {getListboxItemId, KBAR_LISTBOX} from "./KBarSearch";
 import {useKBar} from "./useKBar";
 import {usePointerMovedSinceMount} from "./utils";
-import {useState} from "react";
 
 const START_INDEX = 0;
 
