@@ -29,6 +29,7 @@ export class ActionImpl implements Action {
     subtitle: Action["subtitle"];
     parent?: Action["parent"];
     item?: Action["item"];
+    kind?: Action["kind"];
     /**
      * @deprecated use action.command.perform
      */

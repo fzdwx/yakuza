@@ -1,6 +1,8 @@
 import React from 'react'
-import {useRegisterApps, useRegisterBuiltin, useRegisterExtensions} from "@/components/self/hooks/useMatch";
+import {useRegisterBuiltin, useRegisterExtensions} from "@/components/self/hooks/useMatch";
 import {KBarAnimator, KBarPortal, KBarPositioner, KBarProvider, KBarResults, KBarSearch, useMatches} from "@/lib/kbar";
+import {useRegisterApps} from "@/components/self/item/application";
+import RenderItem from "@/lib/kbar/RenderItem";
 
 export default function Self() {
     return (
@@ -27,22 +29,21 @@ function SelfCommand() {
 }
 
 function RenderResults() {
-    const {results} = useMatches();
+    const {results, rootActionId} = useMatches();
     return (
         <KBarResults
             items={results}
-            onRender={({item, active}) =>
-                typeof item === "string" ? (
-                    <div>{item}</div>
-                ) : (
-                    <div
-                        style={{
-                            background: active ? "#eee" : "transparent",
-                        }}
-                    >
-                        {item.name}
-                    </div>
-                )
+            onRender={({item, active}) => {
+                if (typeof item === "string") {
+                    return <div>{item}</div>
+                }
+
+                return <RenderItem
+                    active={active}
+                    action={item}
+                    currentRootActionId={rootActionId ?? ''}
+                />
+            }
             }
         />
     );

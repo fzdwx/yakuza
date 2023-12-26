@@ -24,28 +24,6 @@ export const useRegisterExtensions = () => {
     }, [])
 }
 
-export const useRegisterApps = () => {
-    const [apps, setApps] = useState<Application[]>([])
-    const actions = useMemo(() => {
-        return apps?.map(
-            (app): Action => ({
-                id: `app-${app.name}`,
-                name: app.name ?? '',
-                item: app,
-                kind: 'Application'
-            }),
-        );
-    }, [apps]);
-
-    useRegisterActions(actions, [actions]);
-
-    useEffect(() => {
-        getApplications().then(e => {
-            setApps(e)
-        })
-    }, [])
-}
-
 export const useRegisterBuiltin = () => {
     const {builtins} = useBuiltin()
     const actions = useMemo(() => {
