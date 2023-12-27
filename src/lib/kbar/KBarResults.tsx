@@ -137,8 +137,8 @@ export const KBarResults: React.FC<KBarResultsProps> = (props) => {
             <div
                 ref={parentRef}
                 style={{
-                    maxHeight: props.maxHeight || 450,
-                    height: '450px',
+                    maxHeight: props.maxHeight || props.footer ? '450px' : '490px',
+                    height: props.footer ? '450px' : '490px',
                     position: "relative",
                     overflow: "auto",
                 }}
@@ -194,9 +194,11 @@ export const KBarResults: React.FC<KBarResultsProps> = (props) => {
 
                 </div>
             </div>
-            <div className='kbar-footer'>
-                {props.footer && props.footer(activeIndex, props.items.length === 0)}
-            </div>
+            {
+                props.footer ? <div className='kbar-footer'>
+                    {props.footer(activeIndex, props.items.length === 0)}
+                </div> : <></>
+            }
         </div>
     );
 };
@@ -222,4 +224,11 @@ export const KBarFooterContent: React.FC<{ children: React.ReactElement }> = ({c
             {children}
         </div>
     );
+}
+
+
+export const KBarFooterActions: React.FC<{ actions: ActionImpl[] }> = ({actions}) => {
+    return <div>
+        actions
+    </div>
 }
