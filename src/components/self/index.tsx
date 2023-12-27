@@ -1,7 +1,9 @@
 import React from 'react'
 import {
-    KBarAnimator, KBarFooterHr,
-    KBarFooterIcon, KBarFooterContent,
+    KBarAnimator,
+    KBarFooterContent,
+    KBarFooterHr,
+    KBarFooterIcon,
     KBarPortal,
     KBarPositioner,
     KBarProvider,
@@ -10,9 +12,9 @@ import {
     useMatches
 } from "@/lib/kbar";
 import RenderItem from "@/lib/kbar/RenderItem";
-import {useRegisterApps} from "@/components/self/item/application";
-import {useRegisterBuiltin} from "@/components/self/item/builtin";
-import {useRegisterExtensions} from "@/components/self/item/localExtension";
+import {useRegisterApps} from "@/components/self/application";
+import {useRegisterBuiltin} from "@/components/self/builtin";
+import {useRegisterExtensions} from "@/components/self/extensions";
 
 export default function Self() {
     return (

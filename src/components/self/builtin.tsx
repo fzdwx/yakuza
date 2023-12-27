@@ -19,6 +19,19 @@ const useBuiltin = () => {
     }
 }
 
+const getIcon = (item: string) => {
+    switch (item) {
+        case storeName:
+            return <StoreIcon/>
+        case devModeName:
+            return <span className="w-4">🛠</span>
+        case fileSystemName:
+            return <FileSystemIcon/>
+        default:
+            return <></>
+    }
+}
+
 const {changeView} = useViewEvent();
 export const useRegisterBuiltin = () => {
     const {builtins} = useBuiltin()
@@ -42,19 +55,6 @@ export const useRegisterBuiltin = () => {
     }, [builtins]);
 
     useRegisterActions(actions, [actions]);
-}
-
-const getIcon = (item: string) => {
-    switch (item) {
-        case storeName:
-            return <StoreIcon/>
-        case devModeName:
-            return <span className="w-4">🛠</span>
-        case fileSystemName:
-            return <FileSystemIcon/>
-        default:
-            return <></>
-    }
 }
 
 

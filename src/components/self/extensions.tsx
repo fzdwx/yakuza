@@ -1,14 +1,9 @@
-import {Command} from "launcher-api";
 import {useEffect, useMemo, useState} from "react";
-import {Application, getLocalExtensions, LocalExtension} from "@/native";
-import {SearchResp} from "@/native/types";
+import {getLocalExtensions, LocalExtension} from "@/native";
 import {useViewEvent} from "@/hooks/useView";
-import {useHover} from "@/components/self/hooks";
 import {Action, useRegisterActions} from "@/lib/kbar";
 
 const {changeView} = useViewEvent()
-
-const {change} = useHover()
 
 export const useRegisterExtensions = () => {
     const [extensions, setExtensions] = useState<LocalExtension[]>([])

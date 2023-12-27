@@ -10,6 +10,7 @@ export const useRegisterApps = () => {
                 id: `app-${app.name}`,
                 name: app.name ?? '',
                 item: app,
+                priority: app.count,
                 perform: () => {
                     runApplication(app)
                 },
