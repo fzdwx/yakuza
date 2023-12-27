@@ -12,7 +12,6 @@ const defaultStyle: React.CSSProperties = {
     alignItems: "flex-start",
     justifyContent: "center",
     inset: "0px",
-    zIndex: 10000,
     width: '100vw',
     height: '100vh',
     padding: '0',

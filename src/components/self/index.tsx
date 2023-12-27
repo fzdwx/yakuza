@@ -1,9 +1,6 @@
 import React from 'react'
 import {
     KBarAnimator,
-    KBarFooterContent,
-    KBarFooterHr,
-    KBarFooterIcon,
     KBarPortal,
     KBarPositioner,
     KBarProvider,
@@ -45,31 +42,26 @@ function RenderResults() {
     return (
         <KBarResults
             items={results}
-            footer={(idx, empty) => {
-                if (empty) {
+            footer={{
+                icon: "🖖",
+                actions: (current) => {
+                    return [
+                        {
+                            name: 'Open in Browser',
+                            id: 'open-in-browser',
+                        },
+                        {
+                            name: 'Open in Folder',
+                            id: 'open-in-folder',
+                        }
+                    ]
+                },
+                content: (current) => {
                     return <>
-                        <KBarFooterIcon icon={<span>🖖</span>}/>
-                        <KBarFooterContent children={<div>
-                            <span className='mr-1'>No results found.</span>
-                        </div>}
-                        />
+                        <span className='mr-1'>Open {current.name}</span>
+                        <kbd>↵</kbd>
                     </>
                 }
-                const item = results[idx];
-                if (typeof item === "string") {
-                    return <div>{item}</div>
-                }
-
-                return <>
-                    <KBarFooterIcon icon={<span>🖖</span>}/>
-                    <KBarFooterContent children={<div>
-                        <span className='mr-1'>Open {item.name}</span>
-                        <kbd>↵</kbd>
-                    </div>}
-                    />
-                    <KBarFooterHr/>
-                    // todo SubCommand
-                </>
             }}
             onRender={({item, active}) => {
                 if (typeof item === "string") {

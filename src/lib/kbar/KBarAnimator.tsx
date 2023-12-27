@@ -146,7 +146,6 @@ export const KBarAnimator: React.FC<
                 color: 'var(--text)',
                 width: '100%',
                 maxWidth: '900px',
-                zIndex: 1000,
                 borderRadius: '8px',
                 overflow: 'hidden',
                 ...appearanceAnimationKeyframes[0],

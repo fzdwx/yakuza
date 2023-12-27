@@ -45,7 +45,6 @@ function useToggleHandler() {
         if (!options.enableToggleShortcut) {
             return;
         }
-
         const shortcut = options.toggleShortcut || "$mod+k";
 
         const unsubscribe = tinykeys(window, {
