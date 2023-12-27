@@ -3,10 +3,9 @@ import {useVirtual} from "react-virtual";
 import {getListboxItemId, KBAR_LISTBOX} from "./KBarSearch";
 import {useKBar} from "./useKBar";
 import {usePointerMovedSinceMount} from "./utils";
-import {useKeyPress} from "ahooks";
-import * as Popover from '@radix-ui/react-popover'
-import {ActionImpl, Action} from "@/lib/kbar";
-import {useMemo, useState} from "react";
+import {ActionImpl} from "@/lib/kbar";
+import {useState} from "react";
+import KBarFooter, {KBarFooterProps} from "@/lib/kbar/KBarFooter";
 
 const START_INDEX = 0;
 
@@ -20,12 +19,6 @@ interface KBarResultsProps {
     onRender: (params: RenderParams) => React.ReactElement;
     footer: KBarFooterProps;
     maxHeight?: number;
-}
-
-interface KBarFooterProps {
-    actions?: (current: Action) => Action[]
-    icon: string | React.ReactElement
-    content: (current: Action) => string | React.ReactElement
 }
 
 export const KBarResults: React.FC<KBarResultsProps> = (props) => {
@@ -222,108 +215,3 @@ export const KBarResults: React.FC<KBarResultsProps> = (props) => {
     );
 };
 
-const KBarFooter: React.FC<{
-    current?: Action,
-    footer: KBarFooterProps
-    onSubCommandShow: () => void
-    onSubCommandHide: () => void
-}> = ({current, footer, onSubCommandShow, onSubCommandHide}) => {
-    if (!current) {
-        return <>
-        </>
-    }
-
-    const actions = useMemo(() => {
-        return footer.actions ? footer.actions(current) : []
-    }, [current, footer.actions]);
-
-    return <>
-        <div className='kbar-footer-icon'>
-            {footer.icon}
-        </div>
-        <div className='kbar-footer-content'>
-            {footer.content(current)}
-        </div>
-
-        {
-            actions ? <>
-                    <KBarFooterHr/>
-                    <KBarFooterActions
-                        onSubCommandShow={onSubCommandShow}
-                        onSubCommandHide={onSubCommandHide}
-                        actions={actions}
-                    />
-                </>
-                : <></>
-        }
-    </>
-}
-
-export const KBarFooterHr: React.FC = () => {
-    return (
-        <hr className='kbar-footer-hr'/>
-    );
-}
-
-const KBarFooterActions: React.FC<{
-    actions: Action[],
-    initialOpen?: boolean,
-    initialShortcut?: string // default 'ctrl.k'
-    onSubCommandShow: () => void
-    onSubCommandHide: () => void
-}> = ({
-          actions,
-          initialOpen,
-          initialShortcut,
-          onSubCommandShow,
-          onSubCommandHide
-      }) => {
-    const [open, setOpen] = React.useState(initialOpen || false)
-    const [shortcut, setShortcut] = React.useState(initialShortcut || 'ctrl.k')
-    const changeVisible = () => setOpen((o) => !o)
-    useKeyPress(shortcut, (e) => {
-        e.preventDefault()
-        changeVisible()
-    })
-    React.useEffect(() => {
-        if (open) {
-            query.getInput().blur()
-            onSubCommandShow()
-        }
-    }, [open])
-
-    const {query} = useKBar()
-
-    return <Popover.Root open={open} onOpenChange={setOpen} modal>
-        <Popover.Trigger className='kbar-subcommand-trigger' onClick={() => setOpen(true)} aria-expanded={open}>
-            <span>Actions</span>
-            {shortcut.split('.').map((s, i) => <kbd key={i}>{s}</kbd>)}
-        </Popover.Trigger>
-        <Popover.Content
-            side="top"
-            align="end"
-            className="kbar-subcommand-menu"
-            sideOffset={16}
-            alignOffset={0}
-            onCloseAutoFocus={(e) => {
-                e.preventDefault()
-                query.getInput().focus()
-                onSubCommandHide()
-            }}
-        >
-
-            <div className='kbar-subcommand-menu-content'>
-                {actions.map((a, i) => <div key={i} className='kbar-subcommand-menu-item' onClick={() => {
-                    // a.command.perform(a)
-                    setOpen(false)
-                }}>
-                    <div className='kbar-subcommand-menu-item-title'>
-                        {a.name}
-                    </div>
-                    <div className='kbar-subcommand-menu-item-description'>
-                    </div>
-                </div>)}
-            </div>
-        </Popover.Content>
-    </Popover.Root>
-}
