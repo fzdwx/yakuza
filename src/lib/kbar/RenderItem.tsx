@@ -33,8 +33,8 @@ const RenderItem = React.forwardRef(
                 ref={ref}
                 style={{
                     padding: '12px 16px',
-                    background: active ? 'rgba(0 0 0 / 0.05)' : 'transparent',
-                    borderLeft: `3px solid ${active ? '#6ee7b7' : 'transparent'}`,
+                    background: active ? 'var(--hover)' : 'transparent',
+                    borderLeft: `3px solid ${active ? 'var(--primary)' : 'transparent'}`,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
@@ -90,7 +90,7 @@ const RenderItem = React.forwardRef(
                                 key={sc}
                                 style={{
                                     padding: '4px 6px',
-                                    background: 'rgba(0 0 0 / .1)',
+                                    background: 'var(--hover2)',
                                     borderRadius: '4px',
                                     fontSize: 14,
                                 }}

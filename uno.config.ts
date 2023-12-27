@@ -13,4 +13,13 @@ export default defineConfig({
             },
         }
     )],
+
+    theme: {
+        colors: {
+            'primary': '#6ee7b7',
+            'empty': 'transparent',
+            'hover': '#0000000C',
+            'hover2': '#00000019',
+        }
+    }
 })

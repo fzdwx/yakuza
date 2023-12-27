@@ -35,7 +35,7 @@ function App() {
     })
 
     return (
-            <div id='top' className='dark text-white'>
+            <div id='top' className='text-white'>
                 {switchView(view)}
             </div>
     )

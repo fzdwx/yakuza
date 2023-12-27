@@ -59,7 +59,6 @@ export function openKBar() {
             return
         }
 
-        console.log("123123")
         query.toggle()
     })
 }

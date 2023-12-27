@@ -55,7 +55,7 @@ export function KBarSearch(
                 {...rest}
                 style={{
                     background: 'transparent',
-                    color: 'rgb(28 28 29)',
+                    color: 'var(--text)',
                     padding: '16px 16px',
                     width: '100%',
                     fontSize: '16px',
