@@ -49,6 +49,9 @@ function RenderResults() {
                         {
                             name: 'Open in Browser',
                             id: 'open-in-browser',
+                            perform: () => {
+                                window.open('https://www.baidu.com')
+                            }
                         },
                         {
                             name: 'Open in Folder',
@@ -58,7 +61,7 @@ function RenderResults() {
                 },
                 content: (current) => {
                     return <>
-                        <span className='mr-1'>Open {current.name}</span>
+                        <span className='mr-1'>Open {current?.name}</span>
                         <kbd>↵</kbd>
                     </>
                 }
@@ -78,42 +81,3 @@ function RenderResults() {
         />
     );
 }
-
-
-// <Command vimBindings={false} loop ref={commandRef} shouldFilter={false} className='raycast'
-//                      label="Global Command Menu">
-//                 <div cmdk-raycast-top-shine=""/>
-//                 <Command.Input value={value} onValueChange={onValueChange} autoFocus ref={inputRef}/>
-//                 <Command.List ref={listRef}>
-//                     <Command.Empty>No results found.</Command.Empty>
-//
-//                     <Command.Group heading={getHeader(value)}>
-//                         {
-//                             items.map((item) => {
-//                                 return (<RenderItem key={nanoid()} item={item}/>)
-//                             })
-//                         }
-//                     </Command.Group>
-//                 </Command.List>
-//
-//                 <div cmdk-raycast-footer="">
-//                     <div className='icon'>🖖</div>
-//
-//                     <button cmdk-raycast-open-trigger="">
-//                         {
-//
-//                             currentItem ?
-//                                 (<>
-//                                     <span className='mr-1'>Open {getItemName(currentItem)}</span>
-//                                     <kbd>↵</kbd>
-//                                 </>)
-//
-//                                 : "Not Found"
-//                         }
-//                     </button>
-//
-//                     <hr/>
-//
-//                     <SubCommand currentItem={currentItem} listRef={listRef} selectedValue={value} inputRef={inputRef}/>
-//                 </div>
-//             </Command>

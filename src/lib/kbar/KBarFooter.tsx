@@ -6,11 +6,12 @@ import {useKeyPress} from "ahooks";
 import {useKBar} from "@/lib/kbar/useKBar";
 import * as Popover from "@radix-ui/react-popover";
 import RenderItem from "@/lib/kbar/RenderItem";
+import {nanoid} from "nanoid";
 
 export interface KBarFooterProps {
-    actions?: (current: Action) => Action[]
+    actions?: (current?: Action) => Action[]
     icon: string | React.ReactElement
-    content: (current: Action) => string | React.ReactElement
+    content: (current?: Action) => string | React.ReactElement
 }
 
 const KBarFooter: React.FC<{
@@ -19,11 +20,6 @@ const KBarFooter: React.FC<{
     onSubCommandShow: () => void
     onSubCommandHide: () => void
 }> = ({current, footer, onSubCommandShow, onSubCommandHide}) => {
-    if (!current) {
-        return <>
-        </>
-    }
-
     const actions = useMemo(() => {
         return footer.actions ? footer.actions(current).map(a => ActionImpl.create(a, {
             store: {}
@@ -115,30 +111,24 @@ const KBarFooterActions: React.FC<{
 const RenderFooterActions = ({actions}: { actions: ActionImpl[] }) => {
     const [selectedActionIndex, setSelectedActionIndex] = useState(0);
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-        if (e.key === 'ArrowUp') {
-            setSelectedActionIndex(prevIndex => (prevIndex > 0 ? prevIndex - 1 : actions.length - 1));
-        } else if (e.key === 'ArrowDown') {
-            setSelectedActionIndex(prevIndex => (prevIndex < actions.length - 1 ? prevIndex + 1 : 0));
-        } else if (e.key === 'Enter') {
-            const selectedAction = actions[selectedActionIndex];
-            if (selectedAction) {
-                console.log("run it ", selectedAction)
-            }
+    useKeyPress("uparrow", () => {
+        setSelectedActionIndex(prevIndex => (prevIndex > 0 ? prevIndex - 1 : actions.length - 1));
+    })
+    useKeyPress("downarrow", () => {
+        setSelectedActionIndex(prevIndex => (prevIndex < actions.length - 1 ? prevIndex + 1 : 0));
+    })
+    useKeyPress("enter", () => {
+        const selectedAction = actions[selectedActionIndex];
+        if (selectedAction && selectedAction.command) {
+            selectedAction.command.perform(selectedAction.command)
         }
-    };
-
-    useEffect(() => {
-        window.addEventListener('keydown', handleKeyDown);
-        return () => {
-            window.removeEventListener('keydown', handleKeyDown);
-        };
-    }, [selectedActionIndex]);
+    })
 
     return (
         <ul>
             {actions.map((action, index) => (
                 <RenderItem
+                    key={nanoid()}
                     active={index === selectedActionIndex}
                     action={action}
                     currentRootActionId={''}
