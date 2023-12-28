@@ -1,88 +1,137 @@
-import {Command, useCommandState} from 'launcher-api'
-import {useInterval, useKeyPress} from 'ahooks'
-import React, {useEffect, useState} from 'react'
-import {SubCommand} from "@/components/store/subCommand";
-import RemoteExtension from "@/components/store/remoteExtension";
+import {useKeyPress} from 'ahooks'
+import React, {useEffect, useMemo, useState} from 'react'
 import StoreIcon from "@/components/store/storeIcon";
 import {
     getRemoteExtensions,
+    installExtension,
     RemoteExtensionResp,
 } from "@/native";
 import {useViewEvent} from "@/hooks/useView";
+import {
+    Action,
+    Background,
+    Container, Footer,
+    Input, RenderItem,
+    ResultsRender,
+    useActionStore,
+    useMatches,
+    UseRegisterActions
+} from "@/lib/command";
+import {sleep} from "ahooks/es/utils/testingHelpers";
 
-const useRemoteExtensions = () => {
-    const [loading, setLoading] = useState(true)
+const useRegisterRemoteExtensions = (useRegisterActions: UseRegisterActions) => {
     const [extensions, setExtensions] = useState<RemoteExtensionResp[]>([])
+    const actions = useMemo(() => {
+        return extensions?.map(
+            (ext): Action => ({
+                id: `remote-ext-${ext.name}-${ext.author}`,
+                name: ext.name ?? '',
+                item: ext,
+                kind: 'Extension',
+                icon: <img className="w-4" alt='img' src={ext.icon}/>,
+                perform: async () => {
+                    if (ext.installed) {
+                        // @ts-ignore
+                        window.launcher.openExtension(ext)
+                        return
+                    }
 
-    const get = () => {
-        setLoading(true)
-        getRemoteExtensions().then((apps) => {
-            setExtensions(apps)
-            setLoading(false)
-        }).catch((err) => {
-            console.log(err)
-        })
-    }
+                    const text = await installExtension(ext)
+                    console.log(text)
+                    sleep(100).then(() => {
+                        getRemoteExtensions().then(e => {
+                            setExtensions(e)
+                        })
+                    })
+                }
+            }),
+        );
+    }, [extensions]);
 
     useEffect(() => {
-        get()
-    }, []);
+        getRemoteExtensions().then(e => {
+            setExtensions(e)
+        })
+    }, [])
 
-    useInterval(() => {
-        get()
-    }, 1000);
-
-
-    return {
-        extensions,
-        loading
-    }
+    useRegisterActions(actions, [actions]);
 }
 
-
 export default function Store() {
-    const inputRef = React.useRef<HTMLInputElement>(null)
-    const listRef = React.useRef<HTMLInputElement>(null)
-    const [value, setValue] = React.useState('')
-    const {extensions, loading} = useRemoteExtensions()
-    const [currentExt, setCurrentExt] = useState<RemoteExtensionResp>()
-    React.useEffect(() => {
-        inputRef.current?.focus()
-    })
+    const [value, setValue] = React.useState("");
+    const inputRef = React.useRef<HTMLInputElement | null>(null);
+    const {useRegisterActions, state, setResultHandleEvent, setActiveIndex, setRootActionId} = useActionStore();
+    const {results, rootActionId} = useMatches(value, state.actions, state.rootActionId);
+
+    const currentExt = useMemo(() => {
+        const item = results[state.activeIndex];
+        if (item && typeof item !== "string") {
+            return item.item
+        }
+        return undefined
+    }, [state.activeIndex, results])
+
+    useRegisterRemoteExtensions(useRegisterActions)
 
     const {changeView} = useViewEvent()
-
-    const onValueChange = (v: string) => {
-        setValue(v)
-    }
-
     useKeyPress('esc', () => {
         changeView('self')
     })
 
     return (
-        <Command className='raycast' label="Store">
-            <div cmdk-raycast-top-shine=""/>
-            <Command.Input loading={loading} value={value} onValueChange={onValueChange} autoFocus ref={inputRef}/>
-            <Command.List ref={listRef}>
-                <Command.Empty>Store is empty</Command.Empty>
+        <Container>
+            <Background>
+                <Input value={value}
+                       onValueChange={setValue}
+                       inputRefSetter={(r) => {
+                           inputRef.current = r
+                       }}
+                       actions={state.actions}
+                       currentRootActionId={state.rootActionId}
+                       onCurrentRootActionIdChange={setRootActionId}
+                />
 
-                <RemoteExtension changeExtension={setCurrentExt} extensions={extensions}/>
+                <ResultsRender items={results}
+                               setActiveIndex={setActiveIndex}
+                               search={value}
+                               setSearch={setValue}
+                               setRootActionId={setRootActionId}
+                               currentRootActionId={state.rootActionId}
+                               activeIndex={state.activeIndex}
+                               handleKeyEvent={state.resultHandleEvent}
+                               onRender={({item, active}) => {
+                                   if (typeof item === "string") {
+                                       return <div>{item}</div>
+                                   }
 
-            </Command.List>
+                                   return <RenderItem
+                                       active={active}
 
-            <div cmdk-raycast-footer="">
-                <StoreIcon/>
+                                       action={item}
+                                       currentRootActionId={rootActionId ?? ''}
+                                   />
+                               }
+                               }
+                />
 
-                <button cmdk-raycast-open-trigger="">
-                    {currentExt?.installed ? 'Open extension' : 'Install Extension'}
-                    <kbd>↵</kbd>
-                </button>
-
-                <hr/>
-
-                <SubCommand listRef={listRef} selectedValue={value} inputRef={inputRef}/>
-            </div>
-        </Command>
+                <Footer
+                    icon={<StoreIcon/>}
+                    onSubCommandHide={() => {
+                        setResultHandleEvent(true)
+                        inputRef.current?.focus()
+                    }}
+                    onSubCommandShow={() => {
+                        setResultHandleEvent(false)
+                    }}
+                    content={(current) => {
+                        return <div className='command-open-trigger'>
+                            {currentExt?.installed ? 'Open extension' : 'Install Extension'}
+                            <kbd>↵</kbd>
+                        </div>
+                    }}
+                    current={results.length === 0 ? null : results[state.activeIndex]}
+                />
+            </Background>
+        </Container>
     )
 }
