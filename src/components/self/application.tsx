@@ -1,11 +1,12 @@
 import {addAppRunCount, Application, execCommand, getApplications, getIcon} from "@/native"
 import React, {useEffect, useMemo, useState} from "react"
-import {Action, useRegisterActions} from "@/lib/kbar";
+import {Action, UseRegisterActions} from "@/lib/command";
 
-export const useRegisterApps = () => {
+export const useRegisterApps = (useRegisterActions: UseRegisterActions) => {
     const [apps, setApps] = useState<Application[]>([])
+    // const parent = {id: "application", name: "application", section: "Documentation"} as Action
     const actions = useMemo(() => {
-        return apps?.map(
+        return (apps?.map(
             (app): Action => ({
                 id: `app-${app.name}`,
                 name: app.name ?? '',
@@ -14,9 +15,9 @@ export const useRegisterApps = () => {
                 perform: () => {
                     runApplication(app)
                 },
-                icon: <AppImage app={app}/>
+                icon: <AppImage app={app}/>,
             }),
-        );
+        ));
     }, [apps]);
 
     useRegisterActions(actions, [actions]);

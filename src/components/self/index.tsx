@@ -1,83 +1,82 @@
 import React from 'react'
 import {
-    KBarAnimator,
-    KBarPortal,
-    KBarPositioner,
-    KBarProvider,
-    KBarResults,
-    KBarSearch,
+    Background,
+    Container,
+    Footer,
+    Input,
+    RenderItem,
+    ResultsRender,
+    useActionStore,
     useMatches
-} from "@/lib/kbar";
-import RenderItem from "@/lib/kbar/RenderItem";
-import {useRegisterApps} from "@/components/self/application";
-import {useRegisterBuiltin} from "@/components/self/builtin";
+} from "@/lib/command";
 import {useRegisterExtensions} from "@/components/self/extensions";
+import {useRegisterBuiltin} from "@/components/self/builtin";
+import {useRegisterApps} from "@/components/self/application";
 
 export default function Self() {
-    return (
-        <KBarProvider options={{defaultShow: true}}>
-            <SelfCommand/>
-        </KBarProvider>
-    )
-}
+    const [inputValue, setInputValue] = React.useState("");
+    const {useRegisterActions, state, setActiveIndex, setRootActionId} = useActionStore();
+    useRegisterExtensions(useRegisterActions)
+    useRegisterBuiltin(useRegisterActions)
+    useRegisterApps(useRegisterActions)
 
-function SelfCommand() {
-    useRegisterApps()
-    useRegisterBuiltin()
-    useRegisterExtensions()
+    const {results, rootActionId} = useMatches(inputValue, state.actions, state.rootActionId);
     return (
-        <KBarPortal>
-            <KBarPositioner>
-                <KBarAnimator>
-                    <KBarSearch/>
-                    <RenderResults/>
-                </KBarAnimator>
-            </KBarPositioner>
-        </KBarPortal>
-    )
-}
-
-function RenderResults() {
-    const {results, rootActionId} = useMatches();
-    return (
-        <KBarResults
-            items={results}
-            footer={{
-                icon: "🖖",
-                actions: (current) => {
-                    return [
-                        {
-                            name: 'Open in Browser',
-                            id: 'open-in-browser',
-                            perform: () => {
-                                window.open('https://www.baidu.com')
-                            }
-                        },
-                        {
-                            name: 'Open in Folder',
-                            id: 'open-in-folder',
-                        }
-                    ]
-                },
-                content: (current) => {
-                    return <>
-                        <span className='mr-1'>Open {current?.name}</span>
-                        <kbd>↵</kbd>
-                    </>
-                }
-            }}
-            onRender={({item, active}) => {
-                if (typeof item === "string") {
-                    return <div>{item}</div>
-                }
-
-                return <RenderItem
-                    active={active}
-                    action={item}
-                    currentRootActionId={rootActionId ?? ''}
+        <Container>
+            <Background>
+                <Input value={inputValue}
+                       onValueChange={setInputValue}
+                       actions={state.actions}
+                       currentRootActionId={state.rootActionId}
+                       onCurrentRootActionIdChange={setRootActionId}
                 />
-            }
-            }
-        />
-    );
+                <ResultsRender items={results}
+                               setActiveIndex={setActiveIndex}
+                               search={inputValue}
+                               setSearch={setInputValue}
+                               setRootActionId={setRootActionId}
+                               currentRootActionId={state.rootActionId}
+                               activeIndex={state.activeIndex}
+                               onRender={({item, active}) => {
+                                   if (typeof item === "string") {
+                                       return <div>{item}</div>
+                                   }
+
+                                   return <RenderItem
+                                       active={active}
+
+                                       action={item}
+                                       currentRootActionId={rootActionId ?? ''}
+                                   />
+                               }
+                               }
+                />
+
+                <Footer
+                    actions={(a) => {
+                        return [
+                            {
+                                name: 'Open in Browser',
+                                id: 'open-in-browser',
+                                perform: () => {
+                                    window.open('https://www.baidu.com')
+                                }
+                            },
+                            {
+                                name: 'Open in Folder',
+                                id: 'open-in-folder',
+                            }
+                        ]
+                    }}
+                    icon={'🤖'}
+                    content={(current) => {
+                        return <div className='command-open-trigger'>
+                            <span className='mr-1'>Open</span>
+                            <kbd>↵</kbd>
+                        </div>
+                    }}
+                    current={results.length === 0 ? null : results[state.activeIndex]}/>
+            </Background>
+        </Container>
+    )
 }

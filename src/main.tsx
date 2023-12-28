@@ -6,7 +6,7 @@ import '@radix-ui/themes/styles.css';
 import {Theme} from '@radix-ui/themes'
 import './native/handleEvent'
 import './assets/global.scss'
-import '@/lib/kbar/kbar.scss'
+import '@/lib/command/index.scss'
 
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

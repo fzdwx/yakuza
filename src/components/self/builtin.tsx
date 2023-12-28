@@ -1,8 +1,8 @@
 import {useViewEvent, ViewName} from "@/hooks/useView";
 import React, {useMemo, useState} from "react";
-import {Action, useRegisterActions} from "@/lib/kbar";
 import StoreIcon from "@/components/store/storeIcon";
 import {FileSystemIcon} from "@/components/icons";
+import {Action, UseRegisterActions} from "@/lib/command";
 
 const storeName = "Store"
 const devModeName = "Dev Mode"
@@ -33,7 +33,7 @@ const getIcon = (item: string) => {
 }
 
 const {changeView} = useViewEvent();
-export const useRegisterBuiltin = () => {
+export const useRegisterBuiltin = (useRegisterActions: UseRegisterActions) => {
     const {builtins} = useBuiltin()
     const actions = useMemo(() => {
         return builtins?.map(
