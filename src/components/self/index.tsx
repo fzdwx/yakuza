@@ -15,6 +15,7 @@ import {useRegisterApps} from "@/components/self/application";
 
 export default function Self() {
     const [inputValue, setInputValue] = React.useState("");
+    const inputRef = React.useRef<HTMLInputElement | null>(null);
     const {useRegisterActions, state, setResultHandleEvent, setActiveIndex, setRootActionId} = useActionStore();
     useRegisterExtensions(useRegisterActions)
     useRegisterBuiltin(useRegisterActions)
@@ -26,6 +27,9 @@ export default function Self() {
             <Background>
                 <Input value={inputValue}
                        onValueChange={setInputValue}
+                       inputRefSetter={(r) => {
+                           inputRef.current = r
+                       }}
                        actions={state.actions}
                        currentRootActionId={state.rootActionId}
                        onCurrentRootActionIdChange={setRootActionId}
@@ -70,10 +74,13 @@ export default function Self() {
                         ]
                     }}
                     icon={'🤖'}
-                    onSubCommandHide={()=>{
+                    onSubCommandHide={() => {
                         setResultHandleEvent(true)
+                        inputRef.current?.focus()
                     }}
-                    onSubCommandShow={()=>{setResultHandleEvent(false)}}
+                    onSubCommandShow={() => {
+                        setResultHandleEvent(false)
+                    }}
                     content={(current) => {
                         return <div className='command-open-trigger'>
                             <span className='mr-1'>Open</span>

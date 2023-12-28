@@ -30,13 +30,13 @@ export const Footer: React.FC<{
             actions ? <>
                     <FooterHr/>
                     <FooterActions
-                        onSubCommandShow={()=>{
-                            if (onSubCommandShow){
+                        onSubCommandShow={() => {
+                            if (onSubCommandShow) {
                                 onSubCommandShow()
                             }
                         }}
-                        onSubCommandHide={()=>{
-                            if (onSubCommandHide){
+                        onSubCommandHide={() => {
+                            if (onSubCommandHide) {
                                 onSubCommandHide()
                             }
                         }}
@@ -99,6 +99,7 @@ const FooterActions: React.FC<{
             onCloseAutoFocus={(e) => {
                 e.preventDefault()
                 onSubCommandHide()
+                setInputValue("")
             }}
         >
             <div className='command-submenu'>
