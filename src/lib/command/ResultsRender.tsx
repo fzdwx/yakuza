@@ -15,11 +15,13 @@ interface ResultsRenderProps {
     items: any[];
     onRender: (params: RenderParams) => React.ReactElement;
     maxHeight?: number;
+    height?: number | 'auto';
 
     setSearch(value: string): void;
 
     search: string;
     activeIndex: number,
+    handleKeyEvent:boolean
 
     setActiveIndex: (cb: number | ((currIndex: number) => number)) => void;
     setRootActionId: (rootActionId: ActionId) => void;
@@ -29,7 +31,6 @@ interface ResultsRenderProps {
 export const ResultsRender: React.FC<ResultsRenderProps> = (props) => {
     const activeRef = React.useRef<HTMLDivElement>(null);
     const parentRef = React.useRef(null);
-    const [handleKeypress, setHandleKeypress] = useState(true)
 
     // store a ref to all items so we do not have to pass
     // them as a dependency when setting up event listeners.
@@ -44,7 +45,7 @@ export const ResultsRender: React.FC<ResultsRenderProps> = (props) => {
 
     React.useEffect(() => {
         const handler = (event) => {
-            if (!handleKeypress) {
+            if (!props.handleKeyEvent) {
                 return;
             }
 
@@ -56,13 +57,14 @@ export const ResultsRender: React.FC<ResultsRenderProps> = (props) => {
                 event.preventDefault();
                 event.stopPropagation();
                 props.setActiveIndex((index) => {
-                    let nextIndex = index > START_INDEX ? index - 1 : index;
-                    // avoid setting active index on a group
-                    if (typeof itemsRef.current[nextIndex] === "string") {
-                        if (nextIndex === 0) return index;
-                        nextIndex -= 1;
-                    }
-                    return nextIndex;
+                    return  index > 0 ? index - 1 : props.items.length - 1
+                    // let nextIndex = index > START_INDEX ? index - 1 : index;
+                    // // avoid setting active index on a group
+                    // if (typeof itemsRef.current[nextIndex] === "string") {
+                    //     if (nextIndex === 0) return index;
+                    //     nextIndex -= 1;
+                    // }
+                    // return nextIndex;
                 });
             } else if (
                 event.key === "ArrowDown" ||
@@ -71,14 +73,15 @@ export const ResultsRender: React.FC<ResultsRenderProps> = (props) => {
                 event.preventDefault();
                 event.stopPropagation();
                 props.setActiveIndex((index) => {
-                    let nextIndex =
-                        index < itemsRef.current.length - 1 ? index + 1 : index;
-                    // avoid setting active index on a group
-                    if (typeof itemsRef.current[nextIndex] === "string") {
-                        if (nextIndex === itemsRef.current.length - 1) return index;
-                        nextIndex += 1;
-                    }
-                    return nextIndex;
+                    return  index < props.items.length - 1 ? index + 1 : 0
+                    // let nextIndex =
+                    //     index < itemsRef.current.length - 1 ? index + 1 : index;
+                    // // avoid setting active index on a group
+                    // if (typeof itemsRef.current[nextIndex] === "string") {
+                    //     if (nextIndex === itemsRef.current.length - 1) return index;
+                    //     nextIndex += 1;
+                    // }
+                    // return nextIndex;
                 });
             } else if (event.key === "Enter") {
                 event.preventDefault();
@@ -92,7 +95,7 @@ export const ResultsRender: React.FC<ResultsRenderProps> = (props) => {
         };
         window.addEventListener("keydown", handler, {capture: true});
         return () => window.removeEventListener("keydown", handler, {capture: true});
-    }, [props.setActiveIndex, handleKeypress]);
+    }, [props.setActiveIndex, props.handleKeyEvent]);
 
     // destructuring here to prevent linter warning to pass
     // entire rowVirtualizer in the dependencies array.
@@ -141,7 +144,7 @@ export const ResultsRender: React.FC<ResultsRenderProps> = (props) => {
                 ref={parentRef}
                 style={{
                     maxHeight: props.maxHeight || '450px',
-                    height: '450px',
+                    height: props.height || '450px',
                     position: "relative",
                     overflow: "auto",
                 }}
@@ -153,6 +156,7 @@ export const ResultsRender: React.FC<ResultsRenderProps> = (props) => {
                         height: `${rowVirtualizer.totalSize}px`,
                         width: "100%",
                     }}
+                    className='command-listbox'
                 >
                     {rowVirtualizer.virtualItems.map((virtualRow) => {
                         const item = itemsRef.current[virtualRow.index];

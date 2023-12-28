@@ -193,9 +193,48 @@ button {
   pointer-events: auto;
 }
 
+.command-background .command-submenu {
+  display: flex;
+  flex-direction: column;
+  width: 320px;
+  border: 1px solid var(--gray6);
+  background: var(--gray2);
+  border-radius: 8px;
+}
+
+.command-listbox {
+  transition: .1s ease;
+  transition-property: height;
+}
+
+.command-submenu{
+  padding-top: 10px;
+}
+
 .command-item {
   transition: .1s ease;
   transition-property: height;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+
+  background: transparent;
+  border-left: 3px solid transparent;
+}
+
+.command-item-active {
+  transition: .1s ease;
+  transition-property: height;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+
+  background: var(--hover);
+  border-left: 3px solid var(--primary);
 }
 
 .command-footer {
@@ -210,7 +249,6 @@ button {
   border-top: 1px solid var(--gray6);
   border-radius: 0 0 12px 12px
 }
-
 
 .command-footer-icon {
   width: 20px;

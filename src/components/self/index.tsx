@@ -15,7 +15,7 @@ import {useRegisterApps} from "@/components/self/application";
 
 export default function Self() {
     const [inputValue, setInputValue] = React.useState("");
-    const {useRegisterActions, state, setActiveIndex, setRootActionId} = useActionStore();
+    const {useRegisterActions, state, setResultHandleEvent, setActiveIndex, setRootActionId} = useActionStore();
     useRegisterExtensions(useRegisterActions)
     useRegisterBuiltin(useRegisterActions)
     useRegisterApps(useRegisterActions)
@@ -37,6 +37,7 @@ export default function Self() {
                                setRootActionId={setRootActionId}
                                currentRootActionId={state.rootActionId}
                                activeIndex={state.activeIndex}
+                               handleKeyEvent={state.resultHandleEvent}
                                onRender={({item, active}) => {
                                    if (typeof item === "string") {
                                        return <div>{item}</div>
@@ -69,6 +70,10 @@ export default function Self() {
                         ]
                     }}
                     icon={'🤖'}
+                    onSubCommandHide={()=>{
+                        setResultHandleEvent(true)
+                    }}
+                    onSubCommandShow={()=>{setResultHandleEvent(false)}}
                     content={(current) => {
                         return <div className='command-open-trigger'>
                             <span className='mr-1'>Open</span>

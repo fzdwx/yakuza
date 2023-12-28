@@ -1,20 +1,17 @@
-import {Action, ActionImpl} from "@/lib/command";
+import {Action, ActionImpl, Input, RenderItem, ResultsRender, useActionStore, useMatches} from "@/lib/command";
 import * as React from "react";
-import {useMemo, useState} from "react";
+import {useMemo} from "react";
 import {useKeyPress} from "ahooks";
 import * as Popover from "@radix-ui/react-popover";
-import {RenderItem} from "@/lib/command";
-import {nanoid} from "nanoid";
-
 
 export const Footer: React.FC<{
     current: string | ActionImpl | null,
-    actions?: (current: string | ActionImpl | null) => Action[]
     icon: string | React.ReactElement
+    actions?: (current: string | ActionImpl | null) => Action[]
     content: (current?: string | ActionImpl | null) => string | React.ReactElement
     onSubCommandShow?: () => void
     onSubCommandHide?: () => void
-}> = ({current, actions,icon,content, onSubCommandShow, onSubCommandHide}) => {
+}> = ({current, actions, icon, content, onSubCommandShow, onSubCommandHide}) => {
     const actionsR = useMemo(() => {
         return actions ? actions(current).map(a => ActionImpl.create(a, {
             store: {}
@@ -33,9 +30,15 @@ export const Footer: React.FC<{
             actions ? <>
                     <FooterHr/>
                     <FooterActions
-                        onSubCommandShow={onSubCommandShow ? onSubCommandShow : () => {
+                        onSubCommandShow={()=>{
+                            if (onSubCommandShow){
+                                onSubCommandShow()
+                            }
                         }}
-                        onSubCommandHide={onSubCommandHide ? onSubCommandHide : () => {
+                        onSubCommandHide={()=>{
+                            if (onSubCommandHide){
+                                onSubCommandHide()
+                            }
                         }}
                         actions={actionsR}
                     />
@@ -78,8 +81,13 @@ const FooterActions: React.FC<{
         }
     }, [open])
 
+    const [inputValue, setInputValue] = React.useState("");
+    const {useRegisterActions, state, setActiveIndex, setRootActionId} = useActionStore();
+    useRegisterActions(actions)
+    const {results, rootActionId} = useMatches(inputValue, state.actions, state.rootActionId);
+
     return <Popover.Root open={open} onOpenChange={setOpen} modal>
-        <Popover.Trigger className='command-subcommand-trigger' onClick={() => setOpen(true)} aria-expanded={open}>
+        <Popover.Trigger className='command-subcommand-trigger' onClick={changeVisible} aria-expanded={open}>
             <span>Actions</span>
             {shortcut.split('.').map((s, i) => <kbd key={i}>{s}</kbd>)}
         </Popover.Trigger>
@@ -93,40 +101,39 @@ const FooterActions: React.FC<{
                 onSubCommandHide()
             }}
         >
-            <div className='kbar-subcommand-menu-content'>
-                <RenderFooterActions actions={actions}/>
+            <div className='command-submenu'>
+                <ResultsRender items={results}
+                               maxHeight={150}
+                               height='auto'
+                               handleKeyEvent={true}
+                               setActiveIndex={setActiveIndex}
+                               search={inputValue}
+                               setSearch={setInputValue}
+                               setRootActionId={setRootActionId}
+                               currentRootActionId={state.rootActionId}
+                               activeIndex={state.activeIndex}
+                               onRender={({item, active}) => {
+                                   if (typeof item === "string") {
+                                       return <div>{item}</div>
+                                   }
+
+                                   return <RenderItem
+                                       active={active}
+
+                                       action={item}
+                                       currentRootActionId={rootActionId ?? ''}
+                                   />
+                               }
+                               }
+                />
+                <Input value={inputValue}
+                       onValueChange={setInputValue}
+                       actions={state.actions}
+                       currentRootActionId={state.rootActionId}
+                       onCurrentRootActionIdChange={setRootActionId}
+                />
             </div>
         </Popover.Content>
     </Popover.Root>
 }
 
-
-const RenderFooterActions = ({actions}: { actions: ActionImpl[] }) => {
-    const [selectedActionIndex, setSelectedActionIndex] = useState(0);
-
-    useKeyPress("uparrow", () => {
-        setSelectedActionIndex(prevIndex => (prevIndex > 0 ? prevIndex - 1 : actions.length - 1));
-    })
-    useKeyPress("downarrow", () => {
-        setSelectedActionIndex(prevIndex => (prevIndex < actions.length - 1 ? prevIndex + 1 : 0));
-    })
-    useKeyPress("enter", () => {
-        const selectedAction = actions[selectedActionIndex];
-        if (selectedAction && selectedAction.command) {
-            selectedAction.command.perform(selectedAction.command)
-        }
-    })
-
-    return (
-        <ul>
-            {actions.map((action, index) => (
-                <RenderItem
-                    key={nanoid()}
-                    active={index === selectedActionIndex}
-                    action={action}
-                    currentRootActionId={''}
-                />
-            ))}
-        </ul>
-    );
-};

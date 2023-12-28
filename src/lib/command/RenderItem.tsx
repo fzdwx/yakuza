@@ -32,17 +32,7 @@ const RenderItem = React.forwardRef(
         return (
             <div
                 ref={ref}
-                style={{
-                    padding: '12px 16px',
-                    background: active ? 'var(--hover)' : 'transparent',
-                    borderLeft: `3px solid ${active ? 'var(--primary)' : 'transparent'}`,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    cursor: 'pointer',
-                    ...style,
-                }}
-                className='commnad-item'
+                className={active ? 'command-item-active' : 'command-item'}
             >
                 <div
                     style={{

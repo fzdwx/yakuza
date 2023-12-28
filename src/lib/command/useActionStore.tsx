@@ -2,12 +2,13 @@ import {Action, ActionTree} from "@/lib/command/types";
 import {ActionInterface} from "@/lib/command/action";
 import * as React from "react";
 import {useState} from "react";
-import {ActionId} from "@/lib/kbar";
+import {ActionId} from "@/lib/command";
 
 interface State {
     actions: ActionTree
     rootActionId: ActionId | null;
     activeIndex: number
+    resultHandleEvent: boolean
 }
 
 export const useActionStore = (actions?: Action[]) => {
@@ -25,6 +26,7 @@ export const useActionStore = (actions?: Action[]) => {
             actions: {...actionsInterface.actions},
             rootActionId: null,
             activeIndex: 0,
+            resultHandleEvent: true
         });
 
     const registerActions = React.useCallback(
@@ -60,6 +62,15 @@ export const useActionStore = (actions?: Action[]) => {
         []
     );
 
+    const setResultHandleEvent = (b: boolean) => {
+        setState((state) => {
+            return {
+                ...state,
+                resultHandleEvent: b,
+            };
+        });
+    }
+
     const setActiveIndex = (cb) =>
         setState((state) => ({
             ...state,
@@ -84,6 +95,7 @@ export const useActionStore = (actions?: Action[]) => {
         useRegisterActions,
         setRootActionId,
         setActiveIndex,
+        setResultHandleEvent,
         state
     }
 }
