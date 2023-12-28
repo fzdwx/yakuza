@@ -14,19 +14,19 @@ import {useRegisterBuiltin} from "@/components/self/builtin";
 import {useRegisterApps} from "@/components/self/application";
 
 export default function Self() {
-    const [inputValue, setInputValue] = React.useState("");
+    const [value, setValue] = React.useState("");
     const inputRef = React.useRef<HTMLInputElement | null>(null);
     const {useRegisterActions, state, setResultHandleEvent, setActiveIndex, setRootActionId} = useActionStore();
     useRegisterExtensions(useRegisterActions)
     useRegisterBuiltin(useRegisterActions)
     useRegisterApps(useRegisterActions)
 
-    const {results, rootActionId} = useMatches(inputValue, state.actions, state.rootActionId);
+    const {results, rootActionId} = useMatches(value, state.actions, state.rootActionId);
     return (
         <Container>
             <Background>
-                <Input value={inputValue}
-                       onValueChange={setInputValue}
+                <Input value={value}
+                       onValueChange={setValue}
                        inputRefSetter={(r) => {
                            inputRef.current = r
                        }}
@@ -36,8 +36,8 @@ export default function Self() {
                 />
                 <ResultsRender items={results}
                                setActiveIndex={setActiveIndex}
-                               search={inputValue}
-                               setSearch={setInputValue}
+                               search={value}
+                               setSearch={setValue}
                                setRootActionId={setRootActionId}
                                currentRootActionId={state.rootActionId}
                                activeIndex={state.activeIndex}
