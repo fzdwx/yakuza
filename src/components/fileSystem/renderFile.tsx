@@ -3,6 +3,7 @@ import {File} from "./types";
 import {useEffect, useState} from "react";
 import {sort} from "@/components/fileSystem/sort";
 import {getIcon} from "./icons";
+import {nanoid} from "nanoid";
 
 interface Props {
     path: string
@@ -26,8 +27,8 @@ const RenderDir = ({file, path}: Props) => {
 
     return <div>
         {files.map((file) => {
-            return <div className='flex p-[0,8px] gap-8px content-center h-40px text-[var(--gray12)]'>
-                <div className='mt-8px'> {getIcon(file)}</div>
+            return <div key={nanoid()} className='flex p-[0,8px] gap-8px content-center h-40px text-[var(--gray12)]'>
+                <div className='mt-8px'>{getIcon(file)}</div>
                 <div className='mt-4px'>{file.name}</div>
             </div>
         })}

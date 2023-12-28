@@ -24,7 +24,11 @@ export const Input = ({
                           currentRootActionId,
                           actions
                       }: InputProps) => {
-    const [inputValue, setInputValue] = React.useState(value ?? "");
+    const [inputValue, setInputValue] = React.useState(value);
+
+    React.useEffect(() => {
+        setInputValue(value);
+    }, [value]);
 
     const placeholder = React.useMemo((): string => {
         return defaultPlaceholder ?? "Type a command or search…";

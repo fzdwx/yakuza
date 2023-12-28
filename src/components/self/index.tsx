@@ -87,7 +87,8 @@ export default function Self() {
                             <kbd>↵</kbd>
                         </div>
                     }}
-                    current={results.length === 0 ? null : results[state.activeIndex]}/>
+                    current={results.length === 0 ? null : results[state.activeIndex]}
+                />
             </Background>
         </Container>
     )

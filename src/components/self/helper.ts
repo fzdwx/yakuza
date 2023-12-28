@@ -50,13 +50,6 @@ const getText = (item: SearchResp<SearchItem> | undefined) => {
     }
 }
 
-export function selectFirstItem(timeout: number = 20) {
-    sleep(timeout).then(() => {
-        const event = new KeyboardEvent('keydown', {code: 'Home'})
-        window.dispatchEvent(event)
-    })
-}
-
 export {getText}
 
 export {searchResultIsEmpty, doingSearch, getItemName}

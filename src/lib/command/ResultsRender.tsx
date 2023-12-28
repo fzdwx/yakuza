@@ -16,12 +16,16 @@ interface ResultsRenderProps {
     onRender: (params: RenderParams) => React.ReactElement;
     maxHeight?: number;
     height?: number | 'auto';
+    width?: string | 'auto' | "100%";
+    detailsClassName?: string;
+
+    details?: React.ReactElement;
 
     setSearch(value: string): void;
 
     search: string;
     activeIndex: number,
-    handleKeyEvent:boolean
+    handleKeyEvent: boolean
 
     setActiveIndex: (cb: number | ((currIndex: number) => number)) => void;
     setRootActionId: (rootActionId: ActionId) => void;
@@ -57,7 +61,7 @@ export const ResultsRender: React.FC<ResultsRenderProps> = (props) => {
                 event.preventDefault();
                 event.stopPropagation();
                 props.setActiveIndex((index) => {
-                    return  index > 0 ? index - 1 : props.items.length - 1
+                    return index > 0 ? index - 1 : props.items.length - 1
                     // let nextIndex = index > START_INDEX ? index - 1 : index;
                     // // avoid setting active index on a group
                     // if (typeof itemsRef.current[nextIndex] === "string") {
@@ -73,7 +77,7 @@ export const ResultsRender: React.FC<ResultsRenderProps> = (props) => {
                 event.preventDefault();
                 event.stopPropagation();
                 props.setActiveIndex((index) => {
-                    return  index < props.items.length - 1 ? index + 1 : 0
+                    return index < props.items.length - 1 ? index + 1 : 0
                     // let nextIndex =
                     //     index < itemsRef.current.length - 1 ? index + 1 : index;
                     // // avoid setting active index on a group
@@ -139,7 +143,7 @@ export const ResultsRender: React.FC<ResultsRenderProps> = (props) => {
     const pointerMoved = usePointerMovedSinceMount();
 
     return (
-        <div>
+        <div className='flex'>
             <div
                 ref={parentRef}
                 style={{
@@ -147,6 +151,7 @@ export const ResultsRender: React.FC<ResultsRenderProps> = (props) => {
                     height: props.height || '450px',
                     position: "relative",
                     overflow: "auto",
+                    width: props.width || '100%',
                 }}
             >
                 <div
@@ -198,8 +203,11 @@ export const ResultsRender: React.FC<ResultsRenderProps> = (props) => {
                             </div>
                         );
                     })}
-
                 </div>
+            </div>
+
+            <div className={props.detailsClassName}>
+                {props.details}
             </div>
         </div>
     );

@@ -40,7 +40,7 @@ type SectionName = string;
 /**
  * returns deep matches only when a search query is present
  */
-export function useMatches(search: string, actions: ActionTree, rootActionId: ActionId | null) {
+export function useMatches(search: string, actions: ActionTree, rootActionId: ActionId | null, options?: IFuseOptions<ActionImpl>) {
     const rootResults = React.useMemo(() => {
         return Object.keys(actions)
             .reduce((acc, actionId) => {
@@ -87,7 +87,7 @@ export function useMatches(search: string, actions: ActionTree, rootActionId: Ac
         return getDeepResults(rootResults);
     }, [getDeepResults, rootResults, emptySearch]);
 
-    const fuse = React.useMemo(() => new Fuse(filtered, fuseOptions), [filtered]);
+    const fuse = React.useMemo(() => new Fuse(filtered, options ? options : fuseOptions), [filtered]);
 
     const matches = useInternalMatches(filtered, search, fuse);
 
