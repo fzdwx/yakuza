@@ -90,6 +90,9 @@ func (s *Server) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 	if request.URL.Path == "/api/fs/list" {
 		s.ListFs(writer, request)
 	}
+	if request.URL.Path == "/api/fs/read" {
+		s.ReadFs(writer, request)
+	}
 
 	s.ServeExtension(writer, request)
 	return

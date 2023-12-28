@@ -49,16 +49,13 @@ export default () => {
     const inputRef = React.useRef<HTMLInputElement | null>(null);
     const {useRegisterActions, state, setResultHandleEvent, setActiveIndex, setRootActionId} = useActionStore();
     const [files, setFiles] = React.useState<File[]>([])
-    const currentFile = useMemo(() => {
-        return files[state.activeIndex]
-    }, [state.activeIndex, files])
-
 
     useRegisterActions(files.map(f => {
         return {
             id: `${path}${f.name}`,
             name: f.name,
             icon: getIcon(f),
+            item: f,
             perform: () => {
                 if (f.isDir) {
                     setValue(`${path}${f.name}/`)
@@ -72,6 +69,13 @@ export default () => {
     }
 
     const {results, rootActionId} = useMatches(value, state.actions, state.rootActionId, options);
+    const currentFile = useMemo(() => {
+        const item = results[state.activeIndex];
+        if (item && typeof item !== "string") {
+            return item.item
+        }
+        return undefined
+    }, [state.activeIndex, results])
 
     const handleFsResp = (resp: { files: File[], path: string } | undefined) => {
         if (resp !== undefined && resp.path !== undefined && value.length === 0) {
@@ -151,7 +155,7 @@ export default () => {
                     width={'40%'}
                     detailsClassName={'w-60% h-420px truncate'}
                     details={
-                        <div className='h-420px p-10px m-10px border-l-solid border-l-[var(--primary2)] border-l-2px'>
+                        <div className='h-420px p-10px overflow-auto border-l-solid border-l-[var(--primary2)] border-l-2px'>
                             <RenderFile
                                 file={currentFile} path={path}/>
                         </div>
