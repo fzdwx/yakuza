@@ -50,20 +50,6 @@ const getText = (item: SearchResp<SearchItem> | undefined) => {
     }
 }
 
-export function getHeader(value: string) {
-    if (value.length == 0) {
-        return 'Recommend'
-    }
-    return 'Results';
-}
-
-export function selectFirstItem(timeout: number = 20) {
-    sleep(timeout).then(() => {
-        const event = new KeyboardEvent('keydown', {code: 'Home'})
-        window.dispatchEvent(event)
-    })
-}
-
 export {getText}
 
 export {searchResultIsEmpty, doingSearch, getItemName}

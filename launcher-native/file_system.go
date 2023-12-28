@@ -4,6 +4,7 @@ import (
 	"github.com/fzdwx/launcher/launcher-native/pkg/json"
 	"github.com/sahilm/fuzzy"
 	"github.com/samber/lo"
+	"io"
 	"io/fs"
 	"net/http"
 	"os"
@@ -166,6 +167,36 @@ func (s *Server) ListFs(w http.ResponseWriter, r *http.Request) {
 	fm.path = req.Path
 	fm.list()
 	err = json.EncodeTo(w, fm.toResp(""))
+	if err != nil {
+		s.writeErr(w, err)
+	}
+}
+
+type ReadFsReq struct {
+	Path string `json:"path"`
+}
+
+func (s *Server) ReadFs(w http.ResponseWriter, r *http.Request) {
+	var req ReadFsReq
+	err := json.DecodeFrom(r.Body, &req)
+	if err != nil {
+		s.writeErr(w, err)
+		return
+	}
+	file, err := os.Open(req.Path)
+	if err != nil {
+		s.writeErr(w, err)
+		return
+	}
+	defer file.Close()
+
+	bytes, err := io.ReadAll(io.LimitReader(file, 256*1024)) // prev 256KB
+	if err != nil {
+		s.writeErr(w, err)
+		return
+	}
+
+	_, err = w.Write(bytes)
 	if err != nil {
 		s.writeErr(w, err)
 	}

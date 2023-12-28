@@ -7,7 +7,6 @@ export interface Application {
     type: string;
     icon: string;
     count: number;
-
 }
 
 export interface RemoteExtension {
@@ -59,44 +58,6 @@ export const newShortcut = (shortcut: string, item: LocalExtension) => {
         name: `${item.author}-${item.name}`,
         item: item
     } as Shortcut
-}
-
-export function extToResp(extensions: LocalExtension[]) {
-    return extensions.map(
-        ext => {
-            return {
-                item: ext,
-                kind: 'Extension',
-                count: 0
-            } as SearchResp<SearchItem>
-        }
-    );
-}
-
-export function appsToResp(apps: Application[]) {
-    return apps.map(
-        a => {
-            return {
-                item: a,
-                kind: 'Application',
-                count: a.count,
-            } as SearchResp<SearchItem>
-        }
-    );
-}
-
-export function builtinToResp(bs: string[]) {
-    return bs.map(
-        b => {
-            return {
-                item: {
-                    name: b
-                } as Builtin,
-                kind: 'Builtin',
-                count: 0,
-            } as SearchResp<SearchItem>
-        }
-    );
 }
 
 export const IsApplication = (obj: SearchResp<SearchItem>): obj is SearchResp<Application> => {

@@ -74,6 +74,9 @@ func (e *Manager) ChangeExtension(path string) {
 }
 
 func (e *Manager) InstallExtension(extension RemoteExtension) error {
+	defer func() {
+		go e.Refresh()
+	}()
 	sum := md5.Sum([]byte(extension.Github + extension.Author + extension.Name))
 	dest := filepath.Join(fileutil.Extensions(), hex.EncodeToString(sum[:]))
 	err := func() error {
