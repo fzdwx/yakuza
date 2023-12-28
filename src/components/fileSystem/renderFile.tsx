@@ -44,7 +44,7 @@ const RenderDir = ({file, path}: Props) => {
 }
 
 const imgInclude = ["png", "jpg", "jpeg", "gif", "webp", "svg"]
-const videoInclude = ["mp4","mp3"]
+const videoInclude = ["mp4", "mp3"]
 const DispatchRender = ({file, path}: Props) => {
     if (imgInclude.includes(file?.name.split(".").pop() || "")) {
         return <div className=''>
@@ -63,6 +63,11 @@ const DispatchRender = ({file, path}: Props) => {
 const BinaryFile = ({name}: { name: string }) => {
     return `<div className='text-[var(--gray12)]'>${name} is Binary file</div>`
 }
+
+const EmptyFile = ({name}: { name: string }) => {
+    return `<div className='text-[var(--gray12)]'>${name} is Empty file</div>`
+}
+
 const RenderFile = ({file, path}: { file?: File, path: string }) => {
     if (!file) {
         return <div>{path}</div>
@@ -75,16 +80,21 @@ const RenderFile = ({file, path}: { file?: File, path: string }) => {
                 divRef.current!.innerHTML = BinaryFile({name: file.name})
                 return
             }
+            if (resp.length === 0) {
+                divRef.current!.innerHTML = EmptyFile({name: file.name})
+                return
+            }
 
-            divRef.current!.innerHTML =
-                convertToHtml(resp, {
-                    // @ts-ignore
-                    lang: getLang(file),
-                    themes: {
-                        light: 'github-light',
-                        dark: 'vitesse-dark',
-                    }
-                })
+            convertToHtml(resp, {
+                // @ts-ignore
+                lang: getLang(file),
+                themes: {
+                    light: 'github-light',
+                    dark: 'vitesse-dark',
+                }
+            }).then(resp => {
+                divRef.current!.innerHTML = resp
+            })
         })
     }, [file])
 

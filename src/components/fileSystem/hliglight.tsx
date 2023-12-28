@@ -1,12 +1,13 @@
-import {getHighlighter} from 'shikiji'
+import {getHighlighter, codeToHtml} from 'shikiji'
 import {File} from "@/components/fileSystem/types";
 
-const highlighter = await getHighlighter({
+
+getHighlighter({
     themes: ['vitesse-dark', 'github-light'],
-    langs: ['javascript','typescript','tsx',"jsx", 'shell', 'go', 'zsh', 'json', 'markdown',"makefile"],
+    langs: ['javascript', 'typescript', 'tsx', "jsx", 'shell', 'go', 'zsh', 'json', 'markdown', "makefile"],
 })
 
-const convertToHtml = highlighter.codeToHtml
+const convertToHtml = codeToHtml
 
 const langMap = {
     ".zshrc": "zsh",

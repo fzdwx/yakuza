@@ -6,13 +6,13 @@ import '@radix-ui/themes/styles.css';
 import {Theme} from '@radix-ui/themes'
 import './native/handleEvent'
 import './assets/global.scss'
-import '@/lib/command/index.scss'
+import 'launcher-api/dist/index.css'
 
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-        <Theme className=''>
-            <App/>
-        </Theme>
+    <Theme className=''>
+        <App/>
+    </Theme>
 )
 
 postMessage({payload: 'removeLoading'}, '*')
