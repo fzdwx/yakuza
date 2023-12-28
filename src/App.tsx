@@ -27,7 +27,6 @@ function switchView(view: ViewName) {
     }
 }
 
-
 function App() {
     const [view, setView] = useState<ViewName>('self')
     emitter.on('changeView', (view: ViewName) => {
@@ -35,7 +34,7 @@ function App() {
     })
 
     return (
-            <div id='top' className='text-white'>
+            <div id='top' className='dark'>
                 {switchView(view)}
             </div>
     )

@@ -50,7 +50,10 @@
 }
 
 .dark {
-  --app-bg: rgb(0 0 0 / 0.90);
+  --text: var(--gray12);
+  --hover: var(--grayA3);
+
+  --app-bg: rgb(34 34 34 / 0.90);
   --lowContrast: #000000;
   --highContrast: #ffffff;
   --gray1: hsl(0, 0%, 8.5%);
@@ -207,7 +210,7 @@ button {
   transition-property: height;
 }
 
-.command-submenu{
+.command-submenu {
   padding-top: 10px;
 }
 
