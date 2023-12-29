@@ -48,6 +48,13 @@ window.launcher = {
         })
     },
 
+    async openPath(path: string) {
+        return callApiWithRes('openPath', {
+            path
+        })
+    },
+
+
     //@ts-ignore
     openExtension(ext: LocalExtension) {
         callApi('openExtension', {

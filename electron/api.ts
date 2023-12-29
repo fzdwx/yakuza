@@ -68,6 +68,11 @@ class LauncherApi {
         return await shell.openExternal(url)
     }
 
+    public openPath = async ({data}: { data: any }) => {
+        const {path} = data
+        return await shell.openPath(path)
+    }
+
     public async execCommand({data}: { data: any }) {
         const {command, args, terminal} = data
         return await execCommand(command, args ? args : [], terminal)
