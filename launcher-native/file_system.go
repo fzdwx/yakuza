@@ -4,6 +4,7 @@ import (
 	"github.com/fzdwx/launcher/launcher-native/pkg/json"
 	"github.com/sahilm/fuzzy"
 	"github.com/samber/lo"
+	"github.com/tidwall/pretty"
 	"io"
 	"io/fs"
 	"net/http"
@@ -194,6 +195,10 @@ func (s *Server) ReadFs(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		s.writeErr(w, err)
 		return
+	}
+
+	if strings.HasSuffix(req.Path, ".json") {
+		bytes = pretty.Pretty(bytes)
 	}
 
 	_, err = w.Write(bytes)
