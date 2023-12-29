@@ -22,6 +22,7 @@ const langMap = {
     ".json": "json",
     ".js": "javascript",
     ".ts": "typescript",
+    ".html":"html",
     ".tsx": "tsx",
     ".jsx": "jsx",
     ".md": "markdown",

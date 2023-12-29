@@ -86,16 +86,18 @@ func (s *Server) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 	}
 	if request.URL.Path == "/api/fs/search" {
 		s.SearchFs(writer, request)
+		return
 	}
 	if request.URL.Path == "/api/fs/list" {
 		s.ListFs(writer, request)
+		return
 	}
 	if request.URL.Path == "/api/fs/read" {
 		s.ReadFs(writer, request)
+		return
 	}
 
 	s.ServeExtension(writer, request)
-	return
 }
 
 func (s *Server) writeErr(w http.ResponseWriter, err error) {
