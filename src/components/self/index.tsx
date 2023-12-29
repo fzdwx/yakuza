@@ -9,9 +9,9 @@ import {
     useActionStore,
     useMatches
 } from "@/lib/command";
-import {useRegisterExtensions} from "@/components/self/extensions";
-import {useRegisterBuiltin} from "@/components/self/builtin";
-import {useRegisterApps} from "@/components/self/application";
+import {extensionActions, ExtensionKind, useRegisterExtensions} from "@/components/self/extensions";
+import {builtinActions, BuiltinKind, useRegisterBuiltin} from "@/components/self/builtin";
+import {applicationActions, ApplicationKind, useRegisterApps} from "@/components/self/application";
 
 export default function Self() {
     const [value, setValue] = React.useState("");
@@ -59,19 +59,20 @@ export default function Self() {
 
                 <Footer
                     actions={(a) => {
-                        return [
-                            {
-                                name: 'Open in Browser',
-                                id: 'open-in-browser',
-                                perform: () => {
-                                    window.open('https://www.baidu.com')
-                                }
-                            },
-                            {
-                                name: 'Open in Folder',
-                                id: 'open-in-folder',
-                            }
-                        ]
+                        if (typeof a === 'string' || a === null) {
+                            return []
+                        }
+
+                        switch (a.kind) {
+                            case ApplicationKind:
+                                return applicationActions(a.item)
+                            case ExtensionKind:
+                                return extensionActions(a.item)
+                            case BuiltinKind:
+                                return builtinActions(a.item)
+                            default:
+                                return []
+                        }
                     }}
                     icon={'🤖'}
                     onSubCommandHide={() => {

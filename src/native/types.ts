@@ -36,12 +36,9 @@ export interface RemoteExtensionResp extends RemoteExtension {
 
 export type kind = "Application" | "Extension" | "Builtin"
 
-export interface SearchResp<T> {
-    score?: number
+export interface SearchWrapper<T> {
     item: T
     kind: kind
-    id: string
-    count: number,
 }
 
 export interface Shortcut {
@@ -60,15 +57,15 @@ export const newShortcut = (shortcut: string, item: LocalExtension) => {
     } as Shortcut
 }
 
-export const IsApplication = (obj: SearchResp<SearchItem>): obj is SearchResp<Application> => {
+export const IsApplication = (obj: SearchWrapper<SearchItem>): obj is SearchWrapper<Application> => {
     return obj.kind === 'Application'
 }
 
-export const IsLocalExtension = (obj: SearchResp<SearchItem>): obj is SearchResp<LocalExtension> => {
+export const IsLocalExtension = (obj: SearchWrapper<SearchItem>): obj is SearchWrapper<LocalExtension> => {
     return obj.kind === 'Extension'
 }
 
-export const IsBuiltin = (obj: SearchResp<SearchItem>): obj is SearchResp<Builtin> => {
+export const IsBuiltin = (obj: SearchWrapper<SearchItem>): obj is SearchWrapper<Builtin> => {
     return obj.kind === 'Builtin'
 }
 

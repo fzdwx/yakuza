@@ -1,5 +1,5 @@
 import * as fs from "node:fs";
-import {Application, SearchResp} from "@/native";
+import {Application} from "@/native";
 
 const pattern = (path: string) => {
     return [
