@@ -34,7 +34,7 @@ const RenderDir = ({file, path}: Props) => {
     const [files, setFiles] = useState<File[]>([])
     useEffect(() => {
         listFs(path).then((resp) => {
-            setFiles(sort(resp.files))
+            setFiles(sort(resp.files.slice(0, 200)))
         })
     }, [path])
 
