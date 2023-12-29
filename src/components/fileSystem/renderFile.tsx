@@ -90,7 +90,7 @@ const RenderFile = ({file, path}: { file?: File, path: string }) => {
                 lang: getLang(file),
                 themes: {
                     light: 'github-light',
-                    dark: 'vitesse-dark',
+                    dark: 'github-dark',
                 }
             }).then(resp => {
                 divRef.current!.innerHTML = resp

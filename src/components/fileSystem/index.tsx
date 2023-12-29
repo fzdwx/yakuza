@@ -95,6 +95,10 @@ export default () => {
         }
     }
 
+    const focusInput = () => {
+        inputRef.current?.focus()
+    }
+
     const goPrevDir = () => {
         let p = value
         if (!p.endsWith("/")) {
@@ -107,12 +111,14 @@ export default () => {
             p = `${p}/`
         }
         setValue(p)
+        focusInput()
     }
 
     const enterDir = (item: File) => {
         if (item.isDir) {
             setValue(`${path}${item.name}/`)
         }
+        focusInput()
     }
 
     useEffect(() => {
@@ -155,7 +161,7 @@ export default () => {
                     width={'40%'}
                     detailsClassName={'w-60% h-420px truncate'}
                     details={
-                        <div className='h-420px p-10px overflow-auto border-l-solid border-l-[var(--primary2)] border-l-2px'>
+                        <div className='h-420px w-520px p-10px overflow-auto border-l-solid border-l-[var(--primary2)] border-l-2px'>
                             <RenderFile
                                 file={currentFile} path={path}/>
                         </div>
