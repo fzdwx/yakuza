@@ -3,9 +3,11 @@ import {File} from "./types"
 import {useKeyPress} from "ahooks";
 import {sort} from "@/components/fileSystem/sort";
 import {
-    Action, ActionImpl,
+    Action,
+    ActionImpl,
     Background,
-    Container, Footer,
+    Container,
+    Footer,
     Input,
     RenderItem,
     ResultsRender,
@@ -30,17 +32,20 @@ const options: IFuseOptions<ActionImpl> = {
             name: "id",
             weight: 0.5,
         },
-        {
-            name: "keywords",
-            getFn: (item) => (item.keywords ?? "").split(","),
-            weight: 0.5,
-        },
-        "subtitle",
     ],
+    isCaseSensitive: false,
     includeScore: true,
     includeMatches: true,
-    threshold: 0.2,
     minMatchCharLength: 1,
+    shouldSort: true,
+    findAllMatches: false,
+    location: 0,
+    threshold: 0.5,
+    distance: 100,
+    ignoreLocation: true,
+    useExtendedSearch: true,
+    ignoreFieldNorm: false,
+    fieldNormWeight: 1,
 }
 
 export default () => {
@@ -161,7 +166,8 @@ export default () => {
                     width={'40%'}
                     detailsClassName={'w-60% h-420px truncate'}
                     details={
-                        <div className='h-420px w-520px p-10px overflow-auto border-l-solid border-l-[var(--primary2)] border-l-2px'>
+                        <div
+                            className='h-420px w-520px p-10px overflow-auto border-l-solid border-l-[var(--primary2)] border-l-2px'>
                             <RenderFile
                                 file={currentFile} path={path}/>
                         </div>

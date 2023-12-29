@@ -94,9 +94,7 @@ const DetectFile = ({file, path}: { file?: File, path: string }) => {
 }
 
 const binaryMime = ["application/octet-stream", "application/x-executable"]
-const convertMap = {}
-
-const RenderFile = ({rf, fileName, file,path}: { rf?: ReadFileResp, fileName: string, file: File,path:string }) => {
+const RenderFile = ({rf, fileName, file, path}: { rf?: ReadFileResp, fileName: string, file: File, path: string }) => {
     if (!rf) {
         return <div>Reading {fileName} ...</div>
     }
@@ -113,11 +111,6 @@ const RenderFile = ({rf, fileName, file,path}: { rf?: ReadFileResp, fileName: st
         if (!divRef.current) {
             return
         }
-        const key = `${path}${file.name}`
-        if (convertMap[key]){
-            divRef.current!.innerHTML = convertMap[key]
-            return
-        }
 
         convertToHtml(rf.content.slice(0, 12 * 1024), {
             lang: getLang(file),
@@ -127,7 +120,6 @@ const RenderFile = ({rf, fileName, file,path}: { rf?: ReadFileResp, fileName: st
             }
         }).then(rs => {
             divRef.current!.innerHTML = rs
-            convertMap[key] = rs
         })
     }, [rf.content, file])
 
