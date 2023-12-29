@@ -3,8 +3,7 @@ import {useEffect, useRef, useState} from "react";
 import {sort} from "@/components/fileSystem/sort";
 import {getIcon} from "./icons";
 import {nanoid} from "nanoid";
-import {convertToHtml} from "@/components/fileSystem/hliglight";
-import {getLang} from "@/components/fileSystem/hliglight";
+import {convertToHtml, getLang} from "@/components/fileSystem/hliglight";
 
 interface Props {
     path: string
@@ -18,11 +17,17 @@ const listFs = async (path: string): Promise<any> => {
     })).json()
 }
 
-const readFile = async (path: string): Promise<any> => {
+interface ReadFileResp {
+    content: string
+    ext: string
+    mime: string
+}
+
+const readFile = async (path: string): Promise<ReadFileResp> => {
     return (await fetch("http://localhost:35677/api/fs/read", {
         method: "POST",
         body: JSON.stringify({path: path})
-    })).text()
+    })).json()
 }
 
 const RenderDir = ({file, path}: Props) => {
@@ -43,7 +48,7 @@ const RenderDir = ({file, path}: Props) => {
     </div>
 }
 
-const imgInclude = ["png", "jpg", "jpeg", "gif", "webp", "svg"]
+const imgInclude = ["png", "jpg", "jpeg", "gif", "webp", "svg", "ico"]
 const videoInclude = ["mp4", "mp3"]
 const DispatchRender = ({file, path}: Props) => {
     if (imgInclude.includes(file?.name.split(".").pop() || "")) {
@@ -58,48 +63,76 @@ const DispatchRender = ({file, path}: Props) => {
         </div>
     }
 
-    return <RenderFile file={file} path={path}/>
+    return <DetectFile file={file} path={path}/>
 }
-const BinaryFile = ({name}: { name: string }) => {
-    return `<div className='text-[var(--gray12)]'>${name} is Binary file</div>`
+const UnSupportFile = ({name, ext}: { name: string, ext: string }) => {
+    // /boot/loader/random-seed
+    return <div className='flex text-[var(--gray12)]'>
+        <div className="justify-center content-center">{name} is {ext} file</div>
+    </div>
 }
 
 const EmptyFile = ({name}: { name: string }) => {
-    return `<div className='text-[var(--gray12)]'>${name} is Empty file</div>`
+    return <div className='justify-center text-[var(--gray12)]'>{name} is Empty file</div>
 }
 
-const RenderFile = ({file, path}: { file?: File, path: string }) => {
+const DetectFile = ({file, path}: { file?: File, path: string }) => {
     if (!file) {
-        return <div>{path}</div>
+        return <div className='content-center'>{path}</div>
     }
-    const divRef = useRef<HTMLDivElement>(null)
+    const [rf, setRf] = useState<ReadFileResp>()
 
     useEffect(() => {
         readFile(path).then((resp) => {
-            if (resp.startsWith('ELF')) {
-                divRef.current!.innerHTML = BinaryFile({name: file.name})
-                return
-            }
-            if (resp.length === 0) {
-                divRef.current!.innerHTML = EmptyFile({name: file.name})
-                return
-            }
-
-            convertToHtml(resp, {
-                // @ts-ignore
-                lang: getLang(file),
-                themes: {
-                    light: 'github-light',
-                    dark: 'github-dark',
-                }
-            }).then(resp => {
-                divRef.current!.innerHTML = resp
-            })
+            setRf(resp)
         })
-    }, [file])
+    }, [path])
 
-    return <div ref={divRef}>
+    return <div>
+        <RenderFile path={path} rf={rf} file={file} fileName={file.name}/>
     </div>
+}
+
+const binaryMime = ["application/octet-stream", "application/x-executable"]
+const convertMap = {}
+
+const RenderFile = ({rf, fileName, file,path}: { rf?: ReadFileResp, fileName: string, file: File,path:string }) => {
+    if (!rf) {
+        return <div>Reading {fileName} ...</div>
+    }
+    if (rf.content.length === 0) {
+        return <EmptyFile name={fileName}/>
+    }
+    if (binaryMime.includes(rf.mime)) {
+        return <UnSupportFile name={fileName} ext="binary"/>
+    }
+
+    const divRef = useRef<HTMLDivElement>(null)
+
+    useEffect(() => {
+        if (!divRef.current) {
+            return
+        }
+        const key = `${path}${file.name}`
+        if (convertMap[key]){
+            divRef.current!.innerHTML = convertMap[key]
+            return
+        }
+
+        convertToHtml(rf.content.slice(0, 12 * 1024), {
+            lang: getLang(file),
+            themes: {
+                light: 'github-light',
+                dark: 'github-dark',
+            }
+        }).then(rs => {
+            divRef.current!.innerHTML = rs
+            convertMap[key] = rs
+        })
+    }, [rf.content, file])
+
+
+    return <div ref={divRef}/>
 }
 
 export default ({file, path}: Props) => {
