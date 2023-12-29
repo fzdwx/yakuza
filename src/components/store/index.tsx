@@ -37,7 +37,6 @@ const useRegisterRemoteExtensions = (useRegisterActions: UseRegisterActions) => 
                     }
 
                     const text = await installExtension(ext)
-                    console.log(text)
                     sleep(100).then(() => {
                         getRemoteExtensions().then(e => {
                             setExtensions(e)

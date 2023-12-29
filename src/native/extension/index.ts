@@ -1,4 +1,4 @@
-import {RemoteExtensionResp, SearchResp, LocalExtension, RemoteExtension} from "@/native";
+import {RemoteExtensionResp, LocalExtension, RemoteExtension} from "@/native";
 
 
 const getRemoteExtensions = async () => {

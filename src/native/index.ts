@@ -50,5 +50,5 @@ export {
 }
 
 
-export type {Application, SearchItem, SearchResp, RemoteExtensionResp, RemoteExtension, LocalExtension} from './types'
+export type {Application, SearchItem, SearchWrapper, RemoteExtensionResp, RemoteExtension, LocalExtension} from './types'
 export * from './types'

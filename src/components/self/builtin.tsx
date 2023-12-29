@@ -33,6 +33,8 @@ const getIcon = (item: string) => {
 }
 
 const {changeView} = useViewEvent();
+
+export const BuiltinKind  ="Builtin"
 export const useRegisterBuiltin = (useRegisterActions: UseRegisterActions) => {
     const {builtins} = useBuiltin()
     const actions = useMemo(() => {
@@ -42,7 +44,7 @@ export const useRegisterBuiltin = (useRegisterActions: UseRegisterActions) => {
                 name: b ?? '',
                 item: b,
                 icon: getIcon(b),
-                kind: 'Builtin',
+                kind: BuiltinKind,
                 perform: () => {
                     changeView(b as ViewName)
                     if (b === devModeName) {
@@ -57,4 +59,8 @@ export const useRegisterBuiltin = (useRegisterActions: UseRegisterActions) => {
     useRegisterActions(actions, [actions]);
 }
 
+
+export const builtinActions =(b:string)=>{
+    return[]
+}
 

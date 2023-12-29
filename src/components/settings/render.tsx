@@ -5,14 +5,15 @@ import {
     IsLocalExtension,
     LocalExtension, newShortcut,
     SearchItem,
-    SearchResp, setShortcut, Shortcut
+    SearchWrapper, setShortcut, Shortcut
 } from "@/native";
 import {shell} from "electron";
 import React, {useEffect, useState} from "react";
 import {useRecordHotkeys} from "react-hotkeys-hook";
 import {IoCloseCircle} from "react-icons/io5";
+import {Background, Container} from "launcher-api";
 
-export function Render({currentItem}: { currentItem: SearchResp<SearchItem> | null }) {
+export function Render({currentItem}: { currentItem: SearchWrapper<SearchItem> | null }) {
     if (currentItem == null) {
         return <div>
             Not found
@@ -33,46 +34,51 @@ export function Render({currentItem}: { currentItem: SearchResp<SearchItem> | nu
     </div>
 }
 
-function RenderApplication(app: SearchResp<Application>) {
+function RenderApplication(app: SearchWrapper<Application>) {
     return <div>{app.item.name}
         <h1>TODO</h1>
     </div>
 }
 
-function RenderLocalExtension(app: SearchResp<LocalExtension>) {
+function RenderLocalExtension(app: SearchWrapper<LocalExtension>) {
     const [hotkey, setHotkey] = useState(app.item.shortcut)
-    console.log(app)
-    return <div className='flex-row p-4 h-540px'>
-        <div className='flex cursor-default'>
-            <img className='w-10 h-10' src={app.item.icon} alt='icon'></img>
-            <h1 className='ml-4'>{app.item.name}</h1>
-            <div className='pt-4 pl-2'>
-                <span className='pr-2 text-white/60'>by</span>
-                <span>{app.item.author}</span>
-                <span className='pl-2'>|</span>
-                <span className='pl-2 text-#10b981 cursor-pointer' onClick={() => {
-                    shell.openExternal(app.item.github)
-                }}>Open in Github</span>
-            </div>
-        </div>
-        <div className=''>
-            <div className='m-2'>
-                <div className='font-bold pb-1'>快捷键</div>
-                <HotkeyRecorder
-                    value={hotkey}
-                    onStop={() => {
-                        //@ts-ignore
-                        window.launcher.setShortcut(newShortcut(hotkey, app.item))
-                    }}
-                    onChange={setHotkey}
-                />
-            </div>
-        </div>
 
-    </div>
+    return (
+        <Container>
+            <Background>
+                <div className='flex-row p-4 h-540px'>
+                    <div className='flex cursor-default'>
+                        <img className='w-10 h-10' src={app.item.icon} alt='icon'></img>
+                        <h1 className='ml-4'>{app.item.name}</h1>
+                        <div className='pt-4 pl-2'>
+                            <span className='pr-2 text-white/60'>by</span>
+                            <span>{app.item.author}</span>
+                            <span className='pl-2'>|</span>
+                            <span className='pl-2 text-#10b981 cursor-pointer' onClick={() => {
+                                shell.openExternal(app.item.github)
+                            }}>Open in Github</span>
+                        </div>
+                    </div>
+                    <div className=''>
+                        <div className='m-2'>
+                            <div className='font-bold pb-1'>快捷键</div>
+                            <HotkeyRecorder
+                                value={hotkey}
+                                onStop={() => {
+                                    //@ts-ignore
+                                    window.launcher.setShortcut(newShortcut(hotkey, app.item))
+                                }}
+                                onChange={setHotkey}
+                            />
+                        </div>
+                    </div>
+                </div>
+            </Background>
+        </Container>
+    )
 }
 
-function RenderBuiltin(app: SearchResp<Builtin>) {
+function RenderBuiltin(app: SearchWrapper<Builtin>) {
     return <div>{app.item.name}
         <h1>TODO</h1>
     </div>

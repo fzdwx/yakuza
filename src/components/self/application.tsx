@@ -2,6 +2,8 @@ import {addAppRunCount, Application, execCommand, getApplications, getIcon} from
 import React, {useEffect, useMemo, useState} from "react"
 import {Action, UseRegisterActions} from "@/lib/command";
 
+export const ApplicationKind  ="Application"
+
 export const useRegisterApps = (useRegisterActions: UseRegisterActions) => {
     const [apps, setApps] = useState<Application[]>([])
     // const parent = {id: "application", name: "application", section: "Documentation"} as Action
@@ -16,6 +18,7 @@ export const useRegisterApps = (useRegisterActions: UseRegisterActions) => {
                     runApplication(app)
                 },
                 icon: <AppImage app={app}/>,
+                kind: ApplicationKind
             }),
         ));
     }, [apps]);
@@ -51,4 +54,9 @@ const runApplication = (app: Application) => {
     execCommand(commands[0], commands.slice(1), app.terminal)
     window.launcher.hide()
     addAppRunCount(app)
+}
+
+
+export const applicationActions = (app: Application) => {
+    return []
 }
