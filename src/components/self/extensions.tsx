@@ -60,7 +60,7 @@ export const addExtRunCount = async (ext: LocalExtension) => {
     await fetch("http://localhost:35677/api/runHistory", {
         method: "POST",
         body: JSON.stringify({
-            name: ext.name,
+            name: `${ext.author}-${ext.name}`,
             runType: ExtensionKind,
             cmd: ext.action?.command || ext.name,
             terminal: false,

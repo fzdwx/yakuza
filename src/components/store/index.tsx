@@ -111,6 +111,7 @@ export default function Store() {
                 />
 
                 <Footer
+                    actions={() => []}
                     icon={<StoreIcon/>}
                     onSubCommandHide={() => {
                         setResultHandleEvent(true)

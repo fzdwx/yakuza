@@ -61,7 +61,7 @@ func (e *Manager) ListLocalExtension() []*LocalExtension {
 			return ext
 		})...)
 		return lo.Map(extensions, func(item *LocalExtension, index int) *LocalExtension {
-			item.RunCount = extMap[item.Name].Count
+			item.RunCount = extMap[fmt.Sprintf("%s-%s", item.Author, item.Name)].Count
 			return item
 		})
 	})
