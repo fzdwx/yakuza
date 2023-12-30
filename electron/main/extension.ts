@@ -1,5 +1,5 @@
-import { BrowserView, BrowserWindow } from "electron";
-import { Height, Width } from "../cons";
+import {BrowserView, BrowserWindow} from "electron";
+import {Height, Width} from "../cons";
 
 let view: BrowserView
 
@@ -17,6 +17,13 @@ const createView = (preload: string, mainWin: BrowserWindow) => {
             }
         }
     )
+
+    mainWin.on('resize', () => {
+        if (view) {
+            const b = mainWin.getBounds();
+            view.setBounds({x: 0, y: 0, width: b.width, height: b.height})
+        }
+    })
 }
 
 const getView = () => {
@@ -24,4 +31,4 @@ const getView = () => {
 }
 
 
-export { createView, getView }
+export {createView, getView}

@@ -151,11 +151,12 @@ class LauncherApi {
 
     private loadView(url: string) {
         const view = getView();
+        const b = this.getMain().getBounds();
         view.setBounds({
             x: 0,
             y: 0,
-            height: Height,
-            width: Width,
+            height: b.height,
+            width: b.width,
         })
 
         view.webContents.on('did-finish-load', () => {
