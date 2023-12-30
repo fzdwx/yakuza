@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {File} from "./types"
 import {useKeyPress} from "ahooks";
 import {sort} from "@/components/fileSystem/sort";
@@ -18,6 +18,7 @@ import {IFuseOptions} from "fuse.js";
 import {getIcon} from "@/components/fileSystem/icons";
 import {FileSystemIcon} from "@/components/icons";
 import RenderFile from "@/components/fileSystem/renderFile";
+import {getActions} from "@/components/fileSystem/actions";
 
 const searchFs = async (value: string, init: boolean): Promise<any> => {
     return (await fetch("http://localhost:35677/api/fs/search", {
@@ -67,14 +68,14 @@ export default () => {
                 }
             }
         } as Action
-    }), [files]);
+    }), [files, path]);
 
     const sortAndSetFiles = (files: File[]) => {
         return setFiles(sort(files))
     }
 
     const {results, rootActionId} = useMatches(value, state.actions, state.rootActionId, options);
-    const currentFile = useMemo(() => {
+    const currentFile = useMemo((): File | undefined => {
         const item = results[state.activeIndex];
         if (item && typeof item !== "string") {
             return item.item
@@ -204,7 +205,17 @@ export default () => {
                     onSubCommandShow={() => {
                         setResultHandleEvent(false)
                     }}
+                    actions={(a,changeVisible) => {
+                        if (typeof a === 'string' || a === null) {
+                            return []
+                        }
+
+                        return getActions(a.item, a.id,changeVisible)
+                    }}
                     content={(current) => {
+                        if (!current) {
+                            return <div></div>
+                        }
                         return <div className='command-open-trigger'>
                             <span className='mr-1'>Open</span>
                             <kbd>↵</kbd>
