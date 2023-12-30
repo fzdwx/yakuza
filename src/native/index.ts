@@ -14,6 +14,10 @@ const setConfig = async (key: string, value: any) => {
     })).text()
 }
 
+export const exitExt = async () => {
+    return await fetch("http://localhost:35677/api/extension/exit")
+}
+
 const getConfig = async (key: string) => {
     return (await fetch("http://localhost:35677/api/config/get", {
         method: "POST",

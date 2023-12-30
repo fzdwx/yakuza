@@ -11,7 +11,7 @@ import (
 
 type SetConfigReq struct {
 	Key   string `json:"key"`
-	Value any    `json:"value"`
+	Value string `json:"value"`
 }
 
 func (s *Server) Set(w http.ResponseWriter, r *http.Request) {
@@ -31,7 +31,7 @@ func (s *Server) Set(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = os.WriteFile(filepath.Join(destDir, req.Key), []byte(fmt.Sprintf("%v", req.Value)), os.ModePerm)
+	err = os.WriteFile(filepath.Join(destDir, req.Key), []byte(req.Value), os.ModePerm)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Fprint(w, err)
@@ -55,7 +55,6 @@ func (s *Server) Get(w http.ResponseWriter, r *http.Request) {
 	value, err := os.ReadFile(filepath.Join(destDir, req.Key))
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
-		fmt.Fprint(w, err)
 		return
 	}
 

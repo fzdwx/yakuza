@@ -25,6 +25,10 @@ func (s *Server) ListLocalExtension(w http.ResponseWriter, r *http.Request) {
 	_ = json.NewEncoder(w).Encode(s.extManager.ListLocalExtension())
 }
 
+func (s *Server) ExitExtension(w http.ResponseWriter, r *http.Request) {
+	s.extManager.Exit()
+}
+
 func (s *Server) ListRemoteExtension(w http.ResponseWriter, r *http.Request) {
 	err := json.NewEncoder(w).Encode(s.extManager.ListRemoteExtension())
 	if err != nil {

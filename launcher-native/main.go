@@ -56,6 +56,10 @@ func (s *Server) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 		s.ListLocalExtension(writer, request)
 		return
 	}
+	if request.URL.Path == "/api/extension/exit" {
+		s.ExitExtension(writer, request)
+		return
+	}
 	if request.URL.Path == "/api/extension/listRemote" {
 		s.ListRemoteExtension(writer, request)
 		return
