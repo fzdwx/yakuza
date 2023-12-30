@@ -36,11 +36,10 @@ export default (): WinManager => {
         mainWin = new BrowserWindow({
             title: 'launcher',
             focusable: true,
-            resizable: false,
+            resizable: true,
             width: Width,
             height: Height,
             titleBarStyle: 'hiddenInset',
-            vibrancy: 'under-window',
             visualEffectState: "followWindow",
             alwaysOnTop: true,
             transparent: true,
@@ -75,7 +74,7 @@ export default (): WinManager => {
         update(mainWin)
 
         mainWin.setMenu(null)
-        mainWin.setMaximumSize(Width, Height)
+        // mainWin.setMaximumSize(Width, Height)
         mainWin.setMinimumSize(Width, Height)
         toCenter(mainWin)
     }
