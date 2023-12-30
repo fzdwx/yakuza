@@ -12,6 +12,7 @@ import {
 import {extensionActions, ExtensionKind, useRegisterExtensions} from "@/components/self/extensions";
 import {builtinActions, BuiltinKind, useRegisterBuiltin} from "@/components/self/builtin";
 import {applicationActions, ApplicationKind, useRegisterApps} from "@/components/self/application";
+import {useSettingsStore} from "@/hooks/useSettingsStore";
 
 export default function Self() {
     const [value, setValue] = React.useState("");
@@ -22,6 +23,7 @@ export default function Self() {
     useRegisterApps(useRegisterActions)
 
     const {results, rootActionId} = useMatches(value, state.actions, state.rootActionId);
+    const {setCurrentItem} = useSettingsStore()
     return (
         <Container>
             <Background>
@@ -67,7 +69,7 @@ export default function Self() {
                             case ApplicationKind:
                                 return applicationActions(a.item)
                             case ExtensionKind:
-                                return extensionActions(a.item)
+                                return extensionActions(a.item,setCurrentItem)
                             case BuiltinKind:
                                 return builtinActions(a.item)
                             default:

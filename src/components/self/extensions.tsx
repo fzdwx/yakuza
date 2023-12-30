@@ -1,5 +1,5 @@
 import {useEffect, useMemo, useState} from "react";
-import {getLocalExtensions, LocalExtension} from "@/native";
+import {getLocalExtensions, LocalExtension, SearchItem, SearchWrapper} from "@/native";
 import {useViewEvent} from "@/hooks/useView";
 import {Action} from "@/lib/command";
 import {UseRegisterActions} from "@/lib/command";
@@ -38,8 +38,7 @@ export const useRegisterExtensions = (useRegisterActions: UseRegisterActions) =>
 }
 
 
-export const extensionActions = (ext: LocalExtension) => {
-    const {setCurrentItem} = useSettingsStore()
+export const extensionActions = (ext: LocalExtension, setCurrentItem: (item: SearchWrapper<SearchItem>) => void) => {
     return [
         {
             id: "open settings",
