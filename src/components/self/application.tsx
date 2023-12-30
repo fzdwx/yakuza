@@ -67,7 +67,7 @@ const addAppRunCount = async (app: Application) => {
         method: "POST",
         body: JSON.stringify({
             name: app.name,
-            runType: "Application",
+            runType: ApplicationKind,
             cmd: app.exec,
             terminal: app.terminal,
         }),

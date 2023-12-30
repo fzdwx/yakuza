@@ -96,6 +96,10 @@ func (s *Server) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 		s.ReadFs(writer, request)
 		return
 	}
+	if request.URL.Path == "/api/run/count/builtin" {
+		s.GetBuiltinHistory(writer, request)
+		return
+	}
 
 	s.ServeExtension(writer, request)
 }

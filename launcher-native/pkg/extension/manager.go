@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/fzdwx/launcher/launcher-native/pkg/fileutil"
+	"github.com/fzdwx/launcher/launcher-native/pkg/runhistory"
 	"github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing/object"
 	"github.com/samber/lo"
@@ -41,6 +42,8 @@ func (e *Manager) ListLocalExtensionWithoutAction() []*LocalExtension {
 }
 
 func (e *Manager) ListLocalExtension() []*LocalExtension {
+	extMap := runhistory.GetExtensionHistory()
+
 	return lo.FlatMap(lo.Map(e.localExtensions, func(item *LocalExtension, index int) *LocalExtension {
 		item.Shortcut = e.shortManager.GetShortCut("Extension", fmt.Sprintf("%s-%s", item.Author, item.Name))
 		return item
@@ -57,7 +60,10 @@ func (e *Manager) ListLocalExtension() []*LocalExtension {
 			ext.Shortcut = e.shortManager.GetShortCut("Extension", fmt.Sprintf("%s-%s", item.Author, item.Name))
 			return ext
 		})...)
-		return extensions
+		return lo.Map(extensions, func(item *LocalExtension, index int) *LocalExtension {
+			item.RunCount = extMap[item.Name].Count
+			return item
+		})
 	})
 }
 

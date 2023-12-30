@@ -6,6 +6,7 @@ import (
 	"github.com/eric-song-nop/desktop"
 	"github.com/fzdwx/iter"
 	"github.com/fzdwx/iter/stream"
+	"github.com/fzdwx/launcher/launcher-native/pkg/runhistory"
 	"github.com/samber/lo"
 	"net/http"
 	"time"
@@ -46,7 +47,7 @@ func (s *Server) doRefresh() {
 		return
 	}
 
-	history, err := GetHistory()
+	history, err := runhistory.Get()
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -99,12 +100,12 @@ func entryIntoApplications(entry *desktop.Entry) []*Application {
 	return apps
 }
 
-func mapApplicationToAppWithHistory(history *RunHistory) func(entry *Application) *Application {
-	var appMap map[string]RunHistoryItem = nil
+func mapApplicationToAppWithHistory(history *runhistory.RunHistory) func(entry *Application) *Application {
+	var appMap map[string]runhistory.RunHistoryItem = nil
 	if len(history.Items) > 0 {
-		appMap = iter.Stream(history.Items).Filter(func(item RunHistoryItem) bool {
+		appMap = iter.Stream(history.Items).Filter(func(item runhistory.RunHistoryItem) bool {
 			return item.RunType == "Application"
-		}).ToMap(func(item RunHistoryItem) string {
+		}).ToMap(func(item runhistory.RunHistoryItem) string {
 			return item.Name
 		})
 	}
