@@ -1,11 +1,6 @@
 import {useKeyPress} from 'ahooks'
 import React, {useEffect, useMemo, useState} from 'react'
 import StoreIcon from "@/components/store/storeIcon";
-import {
-    getRemoteExtensions,
-    installExtension,
-    RemoteExtensionResp,
-} from "@/native";
 import {useViewEvent} from "@/hooks/useView";
 import {
     Action,
@@ -18,6 +13,8 @@ import {
     UseRegisterActions
 } from "@/lib/command";
 import {sleep} from "ahooks/es/utils/testingHelpers";
+import {RemoteExtensionResp} from "@/native";
+import {getRemoteExtensions, installExtension} from "@/components/self/extensions";
 
 const useRegisterRemoteExtensions = (useRegisterActions: UseRegisterActions) => {
     const [extensions, setExtensions] = useState<RemoteExtensionResp[]>([])

@@ -101,8 +101,10 @@ func entryIntoApplications(entry *desktop.Entry) []*Application {
 
 func mapApplicationToAppWithHistory(history *RunHistory) func(entry *Application) *Application {
 	var appMap map[string]RunHistoryItem = nil
-	if len(history.Apps) > 0 {
-		appMap = iter.Stream(history.Apps).ToMap(func(item RunHistoryItem) string {
+	if len(history.Items) > 0 {
+		appMap = iter.Stream(history.Items).Filter(func(item RunHistoryItem) bool {
+			return item.RunType == "Application"
+		}).ToMap(func(item RunHistoryItem) string {
 			return item.Name
 		})
 	}

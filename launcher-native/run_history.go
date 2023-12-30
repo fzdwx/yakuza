@@ -2,7 +2,7 @@ package main
 
 import (
 	"encoding/json"
-	fileutil2 "github.com/fzdwx/launcher/launcher-native/pkg/fileutil"
+	"github.com/fzdwx/launcher/launcher-native/pkg/fileutil"
 	"net/http"
 	"os"
 	"strings"
@@ -41,7 +41,7 @@ func (s *Server) AddRunHistory(writer http.ResponseWriter, request *http.Request
 		return
 	}
 
-	err = os.WriteFile(fileutil2.RunHistory(), bytes, os.ModePerm)
+	err = os.WriteFile(fileutil.RunHistory(), bytes, os.ModePerm)
 	if err != nil {
 		http.Error(writer, err.Error(), http.StatusInternalServerError)
 		return
@@ -49,10 +49,10 @@ func (s *Server) AddRunHistory(writer http.ResponseWriter, request *http.Request
 }
 
 func GetHistory() (*RunHistory, error) {
-	path := fileutil2.RunHistory()
+	path := fileutil.RunHistory()
 	history := &RunHistory{}
 
-	err := fileutil2.Read(path, history)
+	err := fileutil.Read(path, history)
 	if err != nil {
 		return nil, err
 	}
@@ -61,60 +61,33 @@ func GetHistory() (*RunHistory, error) {
 }
 
 type RunHistory struct {
-	Apps  []RunHistoryItem `json:"apps"`
-	Shell []RunHistoryItem `json:"shell"`
+	Items []RunHistoryItem `json:"items"`
 }
 
 func (h *RunHistory) Add(name, runType, cmd string, term bool) {
-	if runType == "shell" {
-		h.addShell(name, cmd, term)
-	} else {
-		h.addApps(name, cmd, term)
-	}
-}
-
-func (h *RunHistory) addApps(name, cmd string, term bool) {
 	milli := time.Now().UnixMilli()
-	for i, item := range h.Apps {
-		if item.Name == name && item.Cmd == cmd {
-			h.Apps[i].Count++
-			h.Apps[i].LastRunTime = milli
-			h.Apps[i].Terminal = term
+	for i, item := range h.Items {
+		if item.Name == name && item.Cmd == cmd && item.RunType == runType {
+			h.Items[i].Count++
+			h.Items[i].LastRunTime = milli
+			h.Items[i].Terminal = term
 			return
 		}
 	}
 
-	h.Apps = append(h.Apps, RunHistoryItem{
+	h.Items = append(h.Items, RunHistoryItem{
 		Name:        name,
 		Cmd:         cmd,
 		Terminal:    term,
+		RunType:     runType,
 		Count:       1,
-		LastRunTime: milli,
-	})
-}
-
-func (h *RunHistory) addShell(name string, cmd string, term bool) {
-	milli := time.Now().UnixMilli()
-	for i, item := range h.Shell {
-		if item.Name == name && item.Cmd == cmd {
-			h.Shell[i].Count++
-			h.Shell[i].LastRunTime = milli
-			h.Shell[i].Terminal = term
-			return
-		}
-	}
-
-	h.Shell = append(h.Shell, RunHistoryItem{
-		Name:        name,
-		Cmd:         cmd,
-		Count:       1,
-		Terminal:    term,
 		LastRunTime: milli,
 	})
 }
 
 type RunHistoryItem struct {
 	Name        string `json:"name"`
+	RunType     string `json:"runType"`
 	Cmd         string `json:"cmd"`
 	Terminal    bool   `json:"terminal"`
 	Count       int64  `json:"count"`

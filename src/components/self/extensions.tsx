@@ -1,10 +1,9 @@
 import {useEffect, useMemo, useState} from "react";
-import {getLocalExtensions, LocalExtension, SearchItem, SearchWrapper} from "@/native";
 import {useViewEvent} from "@/hooks/useView";
 import {Action} from "@/lib/command";
 import {UseRegisterActions} from "@/lib/command";
 import {shell} from "electron";
-import {useSettingsStore} from "@/hooks/useSettingsStore";
+import {LocalExtension, RemoteExtension, RemoteExtensionResp, SearchItem, SearchWrapper} from "@/native";
 
 const {changeView} = useViewEvent()
 
@@ -37,6 +36,39 @@ export const useRegisterExtensions = (useRegisterActions: UseRegisterActions) =>
     }, [])
 }
 
+export const getRemoteExtensions = async () => {
+    const resp = await fetch("http://localhost:35677/api/extension/listRemote")
+    return await resp.json() as RemoteExtensionResp[]
+};
+
+export const getLocalExtensions = async () => {
+    const resp = await fetch(`http://localhost:35677/api/extension/listLocal`)
+    return await resp.json() as LocalExtension[]
+};
+
+export const installExtension = async (extension: RemoteExtension) => {
+    const resp = await fetch("http://localhost:35677/api/extension/install", {
+        method: 'POST',
+        body: JSON.stringify(extension)
+    })
+    return await resp.text()
+}
+
+
+export const addExtRunCount = async (ext: LocalExtension) => {
+    await fetch("http://localhost:35677/api/runHistory", {
+        method: "POST",
+        body: JSON.stringify({
+            name: ext.name,
+            runType: "Extension",
+            cmd: ext.action?.command,
+            terminal: false,
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+}
 
 export const extensionActions = (ext: LocalExtension, setCurrentItem: (item: SearchWrapper<SearchItem>) => void) => {
     return [

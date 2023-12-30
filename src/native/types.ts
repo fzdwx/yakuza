@@ -1,5 +1,3 @@
-import {nanoid} from "nanoid";
-
 export interface Application {
     name: string;
     exec: string;

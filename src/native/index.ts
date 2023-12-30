@@ -1,16 +1,4 @@
-import {addAppRunCount, getApplications, getIcon} from "./application";
-import {getLocalExtensions, getRemoteExtensions, installExtension} from "./extension";
 import {Shortcut} from "@/native/types";
-
-export {
-    getApplications, addAppRunCount, getIcon
-}
-
-export {
-    getRemoteExtensions,
-    getLocalExtensions,
-    installExtension
-}
 
 const execCommand = async (command: string, args: string[], terminal?: boolean) => {
     return (await fetch("http://localhost:35677/api/exec/command", {
@@ -50,5 +38,7 @@ export {
 }
 
 
-export type {Application, SearchItem, SearchWrapper, RemoteExtensionResp, RemoteExtension, LocalExtension} from './types'
+export type {
+    Application, SearchItem, SearchWrapper, RemoteExtensionResp, RemoteExtension, LocalExtension
+} from './types'
 export * from './types'
