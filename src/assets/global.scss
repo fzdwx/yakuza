@@ -30,19 +30,19 @@ body {
 }
 
 @media (min-height: 540px) {
-  .command-background{
+  .command-background {
     max-height: 100% !important;
     height: 100% !important;
   }
   .command-listbox-container {
-    max-height: calc(100% - 40px) !important;
-    height: calc(100% - 40px) !important;
+    max-height: calc(100vh - 100px) !important;
+    height: auto !important;
   }
 
   .command-listbox {
   }
 
-  .command-footer{
+  .command-footer {
     position: absolute;
     bottom: 0;
     width: 100%;

@@ -53,13 +53,13 @@ const videoInclude = ["mp4", "mp3"]
 const DispatchRender = ({file, path}: Props) => {
     if (imgInclude.includes(file?.name.split(".").pop() || "")) {
         return <div className=''>
-            <img className='max-w-500px max-h-380px' src={`file://${path}`} alt={file?.name}/>
+            <img className='w-[calc(60vh)]' src={`file://${path}`} alt={file?.name}/>
         </div>
     }
 
     if (videoInclude.includes(file?.name.split(".").pop() || "")) {
         return <div className=''>
-            <video autoPlay={true} className='max-w-500px max-h-380px' src={`file://${path}`} controls/>
+            <video autoPlay={true} className='w-[calc(60vh)]' src={`file://${path}`} controls/>
         </div>
     }
 

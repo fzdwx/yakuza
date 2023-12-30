@@ -165,10 +165,10 @@ export default () => {
                 />
                 <ResultsRender
                     width={'40%'}
-                    detailsClassName={'w-60% h-420px truncate'}
+                    detailsClassName={'w-60% h-[calc(100vh-120px)] pl-2 truncate'}
                     details={
                         <div
-                            className='h-420px w-520px p-10px overflow-auto border-l-solid border-l-[var(--primary2)] border-l-2px'>
+                            className='h-[calc(100vh-120px)] md:w-520px lg:w-100vh p-10px overflow-auto border-l-solid border-l-[var(--primary2)] border-l-2px'>
                             <RenderFile
                                 file={currentFile} path={path}/>
                         </div>
