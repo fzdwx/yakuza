@@ -27,6 +27,7 @@ type LocalExtension struct {
 	DirName  string       `json:"dirName"`
 	Shortcut string       `json:"shortcut"`
 	Action   RemoteAction `json:"action"`
+	RunCount int64        `json:"runCount"`
 }
 
 type Manager struct {

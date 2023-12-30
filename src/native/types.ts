@@ -25,6 +25,7 @@ export interface LocalExtension extends RemoteExtension {
     dirName: string
     shortcut: string
     action?: RemoteAction
+    runCount: number
 }
 
 export interface RemoteExtensionResp extends RemoteExtension {

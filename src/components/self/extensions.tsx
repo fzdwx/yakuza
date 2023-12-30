@@ -17,12 +17,13 @@ export const useRegisterExtensions = (useRegisterActions: UseRegisterActions) =>
                 name: ext.name ?? '',
                 item: ext,
                 kind: ExtensionKind,
-                priority: 50,
+                priority: ext.runCount,
                 icon: <img className="w-4" alt='img' src={ext.icon}/>,
                 perform: () => {
                     // @ts-ignore
                     window.launcher.openExtension(ext)
                     changeView('extView')
+                    addExtRunCount(ext)
                 }
             }),
         );
@@ -60,8 +61,8 @@ export const addExtRunCount = async (ext: LocalExtension) => {
         method: "POST",
         body: JSON.stringify({
             name: ext.name,
-            runType: "Extension",
-            cmd: ext.action?.command,
+            runType: ExtensionKind,
+            cmd: ext.action?.command || ext.name,
             terminal: false,
         }),
         headers: {
