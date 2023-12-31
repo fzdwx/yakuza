@@ -163,38 +163,38 @@ export default () => {
                        currentRootActionId={state.rootActionId}
                        onCurrentRootActionIdChange={setRootActionId}
                 />
-                <ResultsRender
-                    width={'40%'}
-                    detailsClassName={'w-60% h-[calc(100vh-120px)] pl-2 truncate'}
-                    details={
-                        <div
-                            className='h-[calc(100vh-120px)] md:w-520px lg:w-100vh p-10px overflow-auto border-l-solid border-l-[var(--primary2)] border-l-2px'>
-                            <RenderFile
-                                file={currentFile} path={path}/>
-                        </div>
-                    }
-                    items={results}
-                    setActiveIndex={setActiveIndex}
-                    search={value}
-                    setSearch={setValue}
-                    setRootActionId={setRootActionId}
-                    currentRootActionId={state.rootActionId}
-                    activeIndex={state.activeIndex}
-                    handleKeyEvent={state.resultHandleEvent}
-                    onRender={({item, active}) => {
-                        if (typeof item === "string") {
-                            return <div>{item}</div>
-                        }
+                <div className='flex'>
+                    <div className='sm:w-30% md:w-400px'>
+                        <ResultsRender
+                            items={results}
+                            setActiveIndex={setActiveIndex}
+                            search={value}
+                            setSearch={setValue}
+                            setRootActionId={setRootActionId}
+                            currentRootActionId={state.rootActionId}
+                            activeIndex={state.activeIndex}
+                            handleKeyEvent={state.resultHandleEvent}
+                            onRender={({item, active}) => {
+                                if (typeof item === "string") {
+                                    return <div>{item}</div>
+                                }
 
-                        return <RenderItem
-                            active={active}
+                                return <RenderItem
+                                    active={active}
 
-                            action={item}
-                            currentRootActionId={rootActionId ?? ''}
+                                    action={item}
+                                    currentRootActionId={rootActionId ?? ''}
+                                />
+                            }
+                            }
                         />
-                    }
-                    }
-                />
+                    </div>
+                    <div
+                        className='h-[calc(100vh-120px)] sm:w-70% md:w-[calc(100%-400px)] p-10px overflow-auto border-l-solid border-l-[var(--primary2)] border-l-2px'>
+                        <RenderFile
+                            file={currentFile} path={path}/>
+                    </div>
+                </div>
 
                 <Footer
                     icon={<FileSystemIcon/>}
@@ -205,12 +205,12 @@ export default () => {
                     onSubCommandShow={() => {
                         setResultHandleEvent(false)
                     }}
-                    actions={(a,changeVisible) => {
+                    actions={(a, changeVisible) => {
                         if (typeof a === 'string' || a === null) {
                             return []
                         }
 
-                        return getActions(a.item, a.id,changeVisible)
+                        return getActions(a.item, a.id, changeVisible)
                     }}
                     content={(current) => {
                         if (!current) {
