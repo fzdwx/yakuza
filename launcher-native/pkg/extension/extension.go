@@ -1,7 +1,5 @@
 package extension
 
-import "fmt"
-
 type RemoteExtension struct {
 	Name        string         `json:"name"`
 	Description string         `json:"description"`
@@ -53,7 +51,6 @@ func (e *Manager) getRemoteExtension(local *LocalExtension) *RemoteExtension {
 
 func (e *Manager) Exit() {
 	e.currentExtension = nil
-	fmt.Println("111")
 }
 
 type ShortManager interface {

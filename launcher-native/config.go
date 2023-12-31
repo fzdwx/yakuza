@@ -17,7 +17,6 @@ type SetConfigReq struct {
 func (s *Server) Set(w http.ResponseWriter, r *http.Request) {
 	var req SetConfigReq
 	_ = json.NewDecoder(r.Body).Decode(&req)
-	fmt.Println(req.Key, req.Value)
 
 	fullPath := "dev"
 	if s.extManager.CurrentExt() != nil {

@@ -21,6 +21,9 @@ export default defineConfig(({command}) => {
                 '@': path.join(__dirname, 'src')
             },
         },
+        build: {
+            target: 'esnext',
+        },
         plugins: [
             react(),
             UnoCSS(),

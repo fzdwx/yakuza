@@ -7,10 +7,10 @@ const execCommand = async (command: string, args: string[], terminal?: boolean) 
     })).text()
 }
 
-const setConfig = async (key: string, value: any) => {
+const setConfig = async (key: string, value: string) => {
     return (await fetch("http://localhost:35677/api/config/set", {
         method: "POST",
-        body: JSON.stringify({key, value: JSON.stringify(value)})
+        body: JSON.stringify({key, value: value})
     })).text()
 }
 
