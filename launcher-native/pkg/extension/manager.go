@@ -4,6 +4,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/fzdwx/launcher/launcher-native/pkg/fileutil"
 	"github.com/fzdwx/launcher/launcher-native/pkg/runhistory"
@@ -90,6 +91,10 @@ func (e *Manager) InstallExtension(extension RemoteExtension) error {
 			URL: extension.Github,
 		})
 		if err != nil {
+			if errors.Is(err, git.ErrRepositoryAlreadyExists) {
+				err = nil
+				return nil
+			}
 			return err
 		}
 
