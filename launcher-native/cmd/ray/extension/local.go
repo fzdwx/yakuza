@@ -20,6 +20,7 @@ func localCmd() *cobra.Command {
 	}
 
 	cmd.AddCommand(localUpgradeCmd())
+	cmd.AddCommand(localInstallCmd())
 
 	return cmd
 }
