@@ -10,25 +10,27 @@ import (
 )
 
 func localInstallCmd() *cobra.Command {
-	var input string
+	var (
+		input string
+		cmd   = &cobra.Command{
+			Use:     "install",
+			Aliases: []string{"i"},
+			Run: func(cmd *cobra.Command, args []string) {
+				if input == "-" || input == "" {
+					bytes, err := io.ReadAll(os.Stdin)
+					CheckIfError(err)
+					input = string(bytes)
+				}
 
-	var cmd = &cobra.Command{
-		Use:     "install",
-		Aliases: []string{"i"},
-		Run: func(cmd *cobra.Command, args []string) {
-			if input == "-" || input == "" {
-				bytes, err := io.ReadAll(os.Stdin)
-				CheckIfError(err)
-				input = string(bytes)
-			}
-			var e = newExtensionManager()
-			var ext extension.RemoteExtension
-			err := json.DecodeFrom(strings.NewReader(input), &ext)
-			CheckIfError(err)
-			err = e.InstallExtension(ext)
-			CheckIfError(err)
-		},
-	}
+				var (
+					e   = newExtensionManager()
+					ext extension.RemoteExtension
+				)
+				CheckIfError(json.DecodeFrom(strings.NewReader(input), &ext))
+				CheckIfError(e.InstallExtension(ext))
+			},
+		}
+	)
 
 	cmd.Flags().StringVarP(&input, "input", "i", "", `extension meta, is json format,like:
 {
