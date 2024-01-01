@@ -39,7 +39,11 @@ func uploadCmd() *cobra.Command {
 
 			var req = map[string]any{
 				"message": "upload by launcher",
-				"content": content,
+				"content": string(content),
+				"committer": map[string]string{
+					"name":  "launcher",
+					"email": "ray.launcher@gmail.com",
+				},
 			}
 			var body bytes.Buffer
 			err = json.EncodeTo(&body, req)
@@ -53,7 +57,7 @@ func uploadCmd() *cobra.Command {
 				URL:    requestUrl,
 				Header: map[string][]string{
 					"Authorization": {"token " + config.Cfg.Token},
-					"Content-Type":  {"application/vnd.github.v3.json"},
+					"Content-Type":  {"application/json; charset=utf-8"},
 				},
 				Body: io.NopCloser(&body),
 			})
@@ -96,7 +100,7 @@ func success(url string) {
 	respBody.Url = url
 	buffer := bytes.Buffer{}
 	json.EncodeTo(&buffer, respBody)
-	fmt.Println(buffer.String())
+	fmt.Print(buffer.String())
 }
 
 func fail(err error) {
@@ -105,7 +109,7 @@ func fail(err error) {
 	respBody.Msg = err.Error()
 	buffer := bytes.Buffer{}
 	json.EncodeTo(&buffer, respBody)
-	fmt.Println(buffer.String())
+	fmt.Print(buffer.String())
 }
 
 type Resp struct {

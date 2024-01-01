@@ -14,7 +14,7 @@ func checkCmd() *cobra.Command {
 		Aliases: []string{"c"},
 		Run: func(cmd *cobra.Command, args []string) {
 			_, err := os.Stat(fileutil.Assets())
-			fmt.Println(err == nil)
+			fmt.Print(err == nil)
 		},
 	}
 
