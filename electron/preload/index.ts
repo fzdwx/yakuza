@@ -21,16 +21,17 @@ window.launcher = {
         return callApiWithRes('hello', {})
     },
 
-    async execCommand(command: string, args?: Array<string>, terminal?: boolean) {
-        callApiWithRes('execCommand', {
+    async execCommand(command: string, args?: Array<string>, terminal?: boolean, stdin?: string) {
+        return callApiWithRes('execCommand', {
             command,
             args,
-            terminal
+            terminal,
+            stdin
         })
     },
 
     async spawn(command: string, args?: Array<string>) {
-        callApiWithRes('spawn', {
+        return callApiWithRes('spawn', {
             command,
             args
         })

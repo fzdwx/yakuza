@@ -25,6 +25,10 @@ func Config() string {
 	return filepath.Join(base, "config")
 }
 
+func Assets() string {
+	return filepath.Join(base, "assets.json")
+}
+
 func Shortcuts() string {
 	return filepath.Join(base, "shortcuts.json")
 }

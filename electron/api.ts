@@ -2,9 +2,8 @@ import {app, BrowserWindow, clipboard, globalShortcut, ipcMain, shell} from "ele
 import {toCenter} from "./main/screen";
 import * as cmd from 'node:child_process'
 import util from 'node:util'
-import {execCommand, exitExt, getConfig, LocalExtension, setConfig, setShortcut, Shortcut} from "../src/native";
+import {execCommand, exitExt, getConfig, setConfig, setShortcut, Shortcut} from "../src/native";
 import {getView} from "./main/extension";
-import {Height, Width} from "./cons";
 import {sleep} from "ahooks/es/utils/testingHelpers";
 import {ViewName} from "@/hooks/useView";
 import {WinManager} from "./main/mainWin";
@@ -75,8 +74,8 @@ class LauncherApi {
     }
 
     public async execCommand({data}: { data: any }) {
-        const {command, args, terminal} = data
-        return await execCommand(command, args ? args : [], terminal)
+        const {command, args, terminal, stdin} = data
+        return await execCommand(command, args ? args : [], terminal, stdin)
     }
 
     public async spawn({data}: { data: any }) {

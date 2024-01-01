@@ -1,6 +1,7 @@
 package extension
 
 import (
+	"github.com/fzdwx/launcher/launcher-native/cmd/ray/common"
 	"github.com/fzdwx/launcher/launcher-native/pkg/extension"
 	"github.com/fzdwx/launcher/launcher-native/pkg/json"
 	"github.com/spf13/cobra"
@@ -18,7 +19,7 @@ func localInstallCmd() *cobra.Command {
 			Run: func(cmd *cobra.Command, args []string) {
 				if input == "-" || input == "" {
 					bytes, err := io.ReadAll(os.Stdin)
-					CheckIfError(err)
+					common.CheckIfError(err)
 					input = string(bytes)
 				}
 
@@ -26,8 +27,8 @@ func localInstallCmd() *cobra.Command {
 					e   = newExtensionManager()
 					ext extension.RemoteExtension
 				)
-				CheckIfError(json.DecodeFrom(strings.NewReader(input), &ext))
-				CheckIfError(e.InstallExtension(ext))
+				common.CheckIfError(json.DecodeFrom(strings.NewReader(input), &ext))
+				common.CheckIfError(e.InstallExtension(ext))
 			},
 		}
 	)

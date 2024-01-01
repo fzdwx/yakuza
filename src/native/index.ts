@@ -1,9 +1,9 @@
 import {Shortcut} from "@/native/types";
 
-const execCommand = async (command: string, args: string[], terminal?: boolean) => {
+const execCommand = async (command: string, args: string[], terminal?: boolean, stdin?: string) => {
     return (await fetch("http://localhost:35677/api/exec/command", {
         method: "POST",
-        body: JSON.stringify({command, args, terminal})
+        body: JSON.stringify({command, args, terminal, stdin})
     })).text()
 }
 
