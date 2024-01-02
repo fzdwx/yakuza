@@ -22,6 +22,8 @@ type Server struct {
 	port            int
 	extManager      *extension.Manager
 	shortcutsManger *shortcuts.Manager
+	handlers        map[string]http.HandlerFunc
+	*BridgeHandler
 }
 
 func NewServer(port *int) *Server {
@@ -30,7 +32,11 @@ func NewServer(port *int) *Server {
 		port:            *port,
 		extManager:      extension.NewManager(shortcutsManger),
 		shortcutsManger: shortcutsManger,
+		handlers:        make(map[string]http.HandlerFunc),
+		BridgeHandler:   &BridgeHandler{},
 	}
+
+	s.registerHandlers()
 
 	go s.refreshApplication()
 	go s.extManager.RefreshExtension()
@@ -44,64 +50,9 @@ func (s *Server) ListenAndServe() error {
 }
 
 func (s *Server) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
-	if request.URL.Path == "/api/applications" {
-		s.ListApplication(writer, request)
-		return
-	}
-	if request.URL.Path == "/api/runHistory" {
-		s.AddRunHistory(writer, request)
-		return
-	}
-	if request.URL.Path == "/api/extension/listLocal" {
-		s.ListLocalExtension(writer, request)
-		return
-	}
-	if request.URL.Path == "/api/extension/exit" {
-		s.ExitExtension(writer, request)
-		return
-	}
-	if request.URL.Path == "/api/extension/listRemote" {
-		s.ListRemoteExtension(writer, request)
-		return
-	}
-	if request.URL.Path == "/api/extension/install" {
-		s.InstallExtension(writer, request)
-		return
-	}
-	if request.URL.Path == "/api/exec/command" {
-		s.ExecCommand(writer, request)
-		return
-	}
-	if request.URL.Path == "/api/config/set" {
-		s.Set(writer, request)
-		return
-	}
-	if request.URL.Path == "/api/config/get" {
-		s.Get(writer, request)
-		return
-	}
-	if request.URL.Path == "/api/shortcut/set" {
-		s.SetShortCut(writer, request)
-		return
-	}
-	if request.URL.Path == "/api/shortcut/get" {
-		s.GetShortCuts(writer, request)
-		return
-	}
-	if request.URL.Path == "/api/fs/search" {
-		s.SearchFs(writer, request)
-		return
-	}
-	if request.URL.Path == "/api/fs/list" {
-		s.ListFs(writer, request)
-		return
-	}
-	if request.URL.Path == "/api/fs/read" {
-		s.ReadFs(writer, request)
-		return
-	}
-	if request.URL.Path == "/api/run/count/builtin" {
-		s.GetBuiltinHistory(writer, request)
+	handler, ok := s.handlers[request.URL.Path]
+	if ok {
+		handler(writer, request)
 		return
 	}
 
@@ -111,4 +62,32 @@ func (s *Server) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 func (s *Server) writeErr(w http.ResponseWriter, err error) {
 	w.WriteHeader(http.StatusInternalServerError)
 	_, _ = w.Write([]byte(err.Error()))
+}
+
+func (s *Server) registerHandlers() {
+	s.handlers["/api/applications"] = s.ListApplication
+	s.handlers["/api/runHistory"] = s.AddRunHistory
+	s.handlers["/api/extension/listLocal"] = s.ListLocalExtension
+	s.handlers["/api/extension/exit"] = s.ExitExtension
+	s.handlers["/api/extension/listRemote"] = s.ListRemoteExtension
+	s.handlers["/api/extension/install"] = s.InstallExtension
+	s.handlers["/api/exec/command"] = s.ExecCommand
+	s.handlers["/api/config/set"] = s.Set
+	s.handlers["/api/config/get"] = s.Get
+	s.handlers["/api/shortcut/set"] = s.SetShortCut
+	s.handlers["/api/shortcut/get"] = s.GetShortCuts
+	s.handlers["/api/fs/search"] = s.SearchFs
+	s.handlers["/api/fs/list"] = s.ListFs
+	s.handlers["/api/fs/read"] = s.ReadFs
+	s.handlers["/api/run/count/builtin"] = s.GetBuiltinHistory
+	s.handlers["/api/bridge"] = s.Bridge
+	s.handlers["/api/bridge/show"] = func(writer http.ResponseWriter, request *http.Request) {
+		s.BridgeHandler.ShowMainWindow()
+	}
+	s.handlers["/api/bridge/hide"] = func(writer http.ResponseWriter, request *http.Request) {
+		s.BridgeHandler.HideMainWindow()
+	}
+	s.handlers["/api/bridge/toggle"] = func(writer http.ResponseWriter, request *http.Request) {
+		s.BridgeHandler.ToggleMainWindow()
+	}
 }
