@@ -1,4 +1,4 @@
-import {app} from "electron";
+import {app, Tray, nativeImage} from "electron";
 import main, {preload, WinManager} from "./mainWin";
 import {LauncherApi, registerApi} from "../api";
 import * as child_process from "child_process";
@@ -13,6 +13,7 @@ let exec = util.promisify(child_process.exec);
 class Launcher {
     public m: WinManager
     public api: LauncherApi
+    private tray?: Electron.CrossProcessExports.Tray;
 
     constructor() {
         this.m = main()
@@ -21,6 +22,7 @@ class Launcher {
 
     createWindow() {
         this.m.init()
+        this.tray = new Tray(path.join(process.env.VITE_PUBLIC, 'logo.png'));
         registerApi(this.api)
         handleChangeView(this.api)
         initShortCut(this.api)
