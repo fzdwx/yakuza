@@ -59,7 +59,7 @@ const DispatchRender = ({file, path}: Props) => {
 
     if (videoInclude.includes(file?.name.split(".").pop() || "")) {
         return <div className=''>
-            <video autoPlay={true} className='w-[calc(73vh)]' src={`file://${path}`} controls/>
+            <video autoPlay={true} className='h-[calc(73vh)]' src={`file://${path}`} controls/>
         </div>
     }
 
