@@ -47,6 +47,9 @@ func (s *Server) ExecCommand(w http.ResponseWriter, r *http.Request) {
 	if req.Terminal {
 		args = append([]string{"-e", command}, req.Args...)
 		command = terminal
+	} else {
+		args = append([]string{"-c", command}, req.Args...)
+		command = "sh"
 	}
 
 	var stdout strings.Builder
