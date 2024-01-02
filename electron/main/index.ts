@@ -12,17 +12,18 @@ let exec = util.promisify(child_process.exec);
 
 class Launcher {
     public m: WinManager
+    public api: LauncherApi
 
     constructor() {
         this.m = main()
+        this.api = new LauncherApi(this.m)
     }
 
     createWindow() {
         this.m.init()
-        const a = new LauncherApi(this.m)
-        registerApi(a)
-        handleChangeView(a)
-        initShortCut(a)
+        registerApi(this.api)
+        handleChangeView(this.api)
+        initShortCut(this.api)
         createView(preload, this.m.getWindow())
     }
 
