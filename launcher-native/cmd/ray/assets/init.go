@@ -5,10 +5,8 @@ import (
 	"github.com/fzdwx/infinite"
 	"github.com/fzdwx/infinite/components/input/text"
 	"github.com/fzdwx/launcher/launcher-native/cmd/ray/common"
-	"github.com/fzdwx/launcher/launcher-native/pkg/fileutil"
-	"github.com/fzdwx/launcher/launcher-native/pkg/json"
+	"github.com/fzdwx/launcher/launcher-native/pkg/assets"
 	"github.com/spf13/cobra"
-	"os"
 	"strings"
 )
 
@@ -38,13 +36,9 @@ func initCmd() *cobra.Command {
 				common.CheckIfError(errors.New("github token 不能为空"))
 			}
 
-			f, err := os.Create(fileutil.Assets())
-			common.CheckIfError(err)
-			defer f.Close()
-
-			common.CheckIfError(json.EncodeTo(f, &Config{
+			common.CheckIfError(assets.StoreConfig(&assets.Config{
 				Plat: plat,
-				Cfg: GithubConfig{
+				Cfg: assets.GithubConfig{
 					Repo:  repo,
 					Token: token,
 				},
@@ -53,14 +47,4 @@ func initCmd() *cobra.Command {
 	}
 
 	return init
-}
-
-type Config struct {
-	Plat string       `json:"plat"`
-	Cfg  GithubConfig `json:"cfg"`
-}
-
-type GithubConfig struct {
-	Repo  string `json:"repo"`
-	Token string `json:"token"`
 }
