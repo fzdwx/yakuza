@@ -4,11 +4,12 @@ build:
   rm -rf dist-electron
   mkdir bin
   cd launcher-native && go build . && mv launcher-native ../bin/launcher-native
+  pnpm install
   pnpm run build
 
 i: install
 
-install: build
+install: build ray
     sudo rm -rf /usr/local/bin/launcher
     sudo mv ./release/0.1.0/launcher-0.1.0.AppImage /usr/local/bin/launcher
 
