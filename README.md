@@ -25,11 +25,48 @@ pnpm run build
 ls release
 ```
 
-## Install ctrl cli
+## Launcher ctrl cli
+
+install:
 
 ```shell
 go install github.com/fzdwx/launcher/launcher-native/cmd/ray@main
 ```
+
+### main window
+
+show/hide main window
+
+```shell
+ray bridge toggle
+```
+
+### extension
+
+upgrade extension
+
+```shell
+ray ext local upgrade
+```
+
+install extension
+
+```shell
+ray ext local install -i '{
+    "name": "Notes",
+    "description": "A markdown note extension",
+    "author": "fzdwx",
+    "icon": "https://raw.githubusercontent.com/fzdwx/launcher-notes/main/public/logo.svg",
+    "github": "https://github.com/fzdwx/launcher-notes",
+    "actions": [
+      {
+        "name": "New note",
+        "command": "newNote"
+      }
+    ]
+  }'
+```
+
 
 ## Related
 

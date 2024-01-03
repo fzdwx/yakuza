@@ -7,6 +7,7 @@ import path from "node:path";
 import {createView} from "./extension";
 import {initShortCut} from "./shortcut";
 import {handleChangeView} from "./handleChangeView";
+import WebSocket from 'ws';
 
 let exec = util.promisify(child_process.exec);
 
@@ -39,11 +40,37 @@ class Launcher {
             console.log('stdout:', stdout);
         }
     }
+
+    connectBackend() {
+        setTimeout(() => {
+            const webSocket = new WebSocket("ws://localhost:35677/api/bridge");
+            webSocket.on('message', (data) => {
+                const {op} = JSON.parse(data.toString())
+                switch (op) {
+                    case 'hide':
+                        this.api.hide()
+                        return
+                    case 'show':
+                        this.api.show()
+                        return
+                    case 'toggle':
+                        this.api.toggle()
+                        return;
+                }
+            })
+            webSocket.onclose = (e) => {
+                console.log("bridge close", e)
+                this.connectBackend()
+            }
+
+        }, 500)
+    }
 }
 
 const launcher = new Launcher()
 app.whenReady().then(async () => {
     launcher.createWindow()
+    launcher.connectBackend()
     await launcher.startBackend()
 })
 

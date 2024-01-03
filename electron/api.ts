@@ -63,6 +63,14 @@ class LauncherApi {
         this.getMain().webContents.focus()
     }
 
+    public toggle = ()=>{
+        if (this.getMain().isVisible()) {
+            this.hide()
+        } else {
+            this.show()
+        }
+    }
+
     public openUrl = async ({data}: { data: any }) => {
         const {url} = data
         return await shell.openExternal(url)

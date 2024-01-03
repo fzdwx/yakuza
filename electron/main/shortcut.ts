@@ -4,13 +4,13 @@ import {getShortcut, Shortcut} from "../../src/native";
 import {sleep} from "ahooks/es/utils/testingHelpers";
 
 const initShortCut = (api: LauncherApi) => {
-    globalShortcut.register('Alt+Space', () => {
-        if (api.getMain().isVisible()) {
-            api.hide()
-        } else {
-            api.show()
-        }
-    })
+    // globalShortcut.register('Alt+Space', () => {
+    //     if (api.getMain().isVisible()) {
+    //         api.hide()
+    //     } else {
+    //         api.show()
+    //     }
+    // })
 
     async function registerShortcut() {
         const shortcut = (await getShortcut()) as Shortcut[]
