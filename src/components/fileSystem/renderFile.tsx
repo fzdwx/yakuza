@@ -4,6 +4,7 @@ import {sort} from "@/components/fileSystem/sort";
 import {getIcon} from "./icons";
 import {nanoid} from "nanoid";
 import {convertToHtml, getLang} from "@/components/fileSystem/hliglight";
+import {shell} from "electron";
 
 interface Props {
     path: string
@@ -34,7 +35,9 @@ const RenderDir = ({file, path}: Props) => {
     const [files, setFiles] = useState<File[]>([])
     useEffect(() => {
         listFs(path).then((resp) => {
-            setFiles(sort(resp.files.slice(0, 200)))
+            if (resp.files && resp.files.length > 0) {
+                setFiles(sort(resp.files.slice(0, 200)))
+            }
         })
     }, [path])
 
@@ -52,8 +55,11 @@ const imgInclude = ["png", "jpg", "jpeg", "gif", "webp", "svg", "ico"]
 const videoInclude = ["mp4", "mp3"]
 const DispatchRender = ({file, path}: Props) => {
     if (imgInclude.includes(file?.name.split(".").pop() || "")) {
+        const src = `file://${path}`
         return <div className=''>
-            <img className='w-[calc(73vh)]' src={`file://${path}`} alt={file?.name}/>
+            <img className='w-[calc(73vh)]' src={src} onClick={() => {
+                shell.openExternal(src)
+            }} alt={file?.name}/>
         </div>
     }
 
