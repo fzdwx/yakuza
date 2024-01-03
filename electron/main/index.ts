@@ -63,7 +63,7 @@ class Launcher {
                 this.connectBackend()
             }
 
-        }, 500)
+        }, 1500)
     }
 }
 
