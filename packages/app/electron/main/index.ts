@@ -23,7 +23,7 @@ class Launcher {
 
     createWindow() {
         this.m.init()
-        this.tray = new Tray(path.join(process.env.VITE_PUBLIC, 'logo.png'));
+        // this.tray = new Tray(path.join(process.env.VITE_PUBLIC, 'logo.png'));
         registerApi(this.api)
         handleChangeView(this.api)
         initShortCut(this.api)

@@ -13,7 +13,8 @@
     "url": "https://github.com/fzdwx/launcher/tree/main/packages/launcher-api"
   },
   "files": [
-    "dist"
+    "dist",
+    "index.scss"
   ],
   "scripts": {
     "build": "tsup src",
