@@ -3,7 +3,7 @@ import {Action, UseRegisterActions} from "@/lib/command";
 import fs from "node:fs";
 import {Application, execCommand} from "@/native";
 
-export const ApplicationKind  ="Application"
+export const ApplicationKind = "Application"
 
 export const useRegisterApps = (useRegisterActions: UseRegisterActions) => {
     const [apps, setApps] = useState<Application[]>([])
@@ -50,9 +50,8 @@ const runApplication = (app: Application) => {
         .replace("%u", "").replace("%U", "")
         .replace("%f", "").replace("%F", "")
         .trim()
-        .split(" ")
 
-    execCommand(commands[0], commands.slice(1), app.terminal)
+    execCommand(commands, [], app.terminal)
     window.launcher.hide()
     addAppRunCount(app)
 }

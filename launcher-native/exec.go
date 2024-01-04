@@ -1,7 +1,7 @@
 package main
 
 import (
-	"encoding/json"
+	"github.com/fzdwx/launcher/launcher-native/pkg/json"
 	"net/http"
 	"os/exec"
 	"strings"
@@ -39,27 +39,35 @@ func has(name string) bool {
 }
 
 func (s *Server) ExecCommand(w http.ResponseWriter, r *http.Request) {
-	var req = ExecCommandReq{}
-	_ = json.NewDecoder(r.Body).Decode(&req)
+	var (
+		req, err = json.DecodeFrom2[ExecCommandReq](r.Body)
+		args     []string
+		stdout   strings.Builder
+		command  = ""
+	)
+	if err != nil {
+		_, _ = w.Write([]byte(err.Error()))
+		return
+	}
 
-	command := strings.TrimSpace(req.Command)
-	args := req.Args
+	command = strings.TrimSpace(req.Command)
+
 	if req.Terminal {
-		args = append([]string{"-e", command}, req.Args...)
+		args = append([]string{"-e"}, command)
 		command = terminal
 	} else {
-		args = append([]string{"-c", command}, req.Args...)
+		args = append([]string{"-c"}, command)
 		command = "sh"
 	}
 
-	var stdout strings.Builder
+	args = append(args, req.Args...)
 	cmd := exec.Command(command, args...)
 	if req.Stdin != "" {
 		cmd.Stdin = strings.NewReader(req.Stdin)
 	}
 	cmd.Stdout = &stdout
 
-	err := cmd.Run()
+	err = cmd.Run()
 	if err != nil {
 		_, _ = w.Write([]byte(err.Error()))
 		return
