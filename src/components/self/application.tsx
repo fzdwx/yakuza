@@ -51,7 +51,7 @@ const runApplication = (app: Application) => {
         .replace("%f", "").replace("%F", "")
         .trim()
 
-    execCommand(commands, app.terminal)
+    execCommand("code",["~/.zshrc"], false)
     window.launcher.hide()
     addAppRunCount(app)
 }

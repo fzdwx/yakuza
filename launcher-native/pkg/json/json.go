@@ -20,3 +20,15 @@ func EncodeTo[T any](write io.Writer, v T) error {
 func DecodeFrom[T any](read io.Reader, v T) error {
 	return json.NewDecoder(read).Decode(v)
 }
+
+func DecodeFrom2[T any](read io.Reader) (*T, error) {
+	var (
+		v   T
+		err = DecodeFrom(read, &v)
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return &v, nil
+}
