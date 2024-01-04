@@ -6,6 +6,9 @@ build:
   node-sass ./index.scss ./dist/index.css
   pnpm run build
 
+css:
+    node-sass ./index.scss ./src/index.css
+
 pub: build
     npm version patch
     pnpm publish --access public

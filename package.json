@@ -27,7 +27,7 @@
   "scripts": {
     "dev:pre": "cd packages/launcher-api && just css",
     "build:api": "cd packages/launcher-api && pnpm run build",
-    "dev": "pnpm run dev:pre && pnpm run build:api && cd packages/app && pnpm run dev",
+    "dev": "cd packages/app && pnpm run dev",
     "build": "pnpm run build:api && cd packages/app && pnpm run build"
   },
   "packages": [
