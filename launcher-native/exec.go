@@ -40,10 +40,10 @@ func has(name string) bool {
 
 func (s *Server) ExecCommand(w http.ResponseWriter, r *http.Request) {
 	var (
-		req, err   = json.DecodeFrom2[ExecCommandReq](r.Body)
-		cmdPreArgs []string
-		stdout     strings.Builder
-		command    = ""
+		req, err = json.DecodeFrom2[ExecCommandReq](r.Body)
+		args     []string
+		stdout   strings.Builder
+		command  = ""
 	)
 	if err != nil {
 		_, _ = w.Write([]byte(err.Error()))
@@ -53,14 +53,14 @@ func (s *Server) ExecCommand(w http.ResponseWriter, r *http.Request) {
 	command = strings.TrimSpace(req.Command)
 
 	if req.Terminal {
-		cmdPreArgs = append([]string{"-e"}, command)
+		args = append([]string{"-e"}, command)
 		command = terminal
 	} else {
-		cmdPreArgs = append([]string{"-c"}, command)
+		args = append([]string{"-c"}, command)
 		command = "sh"
 	}
 
-	args := append(cmdPreArgs, req.Args...)
+	args = append(args, req.Args...)
 	cmd := exec.Command(command, args...)
 	if req.Stdin != "" {
 		cmd.Stdin = strings.NewReader(req.Stdin)
