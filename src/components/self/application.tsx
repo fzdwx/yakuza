@@ -50,9 +50,8 @@ const runApplication = (app: Application) => {
         .replace("%u", "").replace("%U", "")
         .replace("%f", "").replace("%F", "")
         .trim()
-        .split(" ")
 
-    execCommand(commands[0], commands.slice(1), app.terminal)
+    execCommand(commands, app.terminal)
     window.launcher.hide()
     addAppRunCount(app)
 }

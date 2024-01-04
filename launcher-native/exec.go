@@ -43,16 +43,17 @@ func (s *Server) ExecCommand(w http.ResponseWriter, r *http.Request) {
 	_ = json.NewDecoder(r.Body).Decode(&req)
 
 	command := strings.TrimSpace(req.Command)
-	args := req.Args
+  var args []string
 	if req.Terminal {
-		args = append([]string{"-e", command}, req.Args...)
+		args = append([]string{"-e"}, command)
 		command = terminal
 	} else {
-		args = append([]string{"-c", command}, req.Args...)
+		args = append([]string{"-c"}, command)
 		command = "sh"
 	}
 
 	var stdout strings.Builder
+  
 	cmd := exec.Command(command, args...)
 	if req.Stdin != "" {
 		cmd.Stdin = strings.NewReader(req.Stdin)
