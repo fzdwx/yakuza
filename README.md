@@ -4,19 +4,20 @@
 
 ## Run the project
 
-requires [go 1.21.4+](https://golang.org/) and [pnpm](https://pnpm.io/)
+Requires [go 1.21.4+](https://golang.org/) and [pnpm](https://pnpm.io/)
 
 ```shell
+# start backend first
+go install github.com/cosmtrek/air@latest
+cd launcher-native && air
+
 # start frontend
 pnpm install
 pnpm run dev
-
-# start backend
-go install github.com/cosmtrek/air@latest
-cd launcher-native && air
 ```
 
 ## Build the project
+
 
 ```shell
 mkdir bin
@@ -25,9 +26,15 @@ pnpm run build
 ls release
 ```
 
+Or use [just](https://github.com/casey/just)
+
+```
+just install
+```
+
 ## Launcher ctrl cli
 
-install:
+Install:
 
 ```shell
 go install github.com/fzdwx/launcher/launcher-native/cmd/ray@main
@@ -35,7 +42,7 @@ go install github.com/fzdwx/launcher/launcher-native/cmd/ray@main
 
 ### main window
 
-show/hide main window
+Show/hide main window
 
 ```shell
 ray bridge toggle
@@ -43,13 +50,13 @@ ray bridge toggle
 
 ### extension
 
-upgrade extension
+Upgrade extension
 
 ```shell
 ray ext local upgrade
 ```
 
-install extension
+Install extension
 
 ```shell
 ray ext local install -i '{
@@ -66,7 +73,6 @@ ray ext local install -i '{
     ]
   }'
 ```
-
 
 ## Related
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env just --justfile
 export PATH := "./node_modules/.bin:" + env_var('PATH')
 
-build:
+build: css
   rm -rf dist
   node-sass ./index.scss ./dist/index.css
   pnpm run build
