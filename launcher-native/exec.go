@@ -51,7 +51,6 @@ func (s *Server) ExecCommand(w http.ResponseWriter, r *http.Request) {
 	}
 
 	command = strings.TrimSpace(req.Command)
-
 	if req.Terminal {
 		args = append([]string{"-e"}, command)
 		command = terminal

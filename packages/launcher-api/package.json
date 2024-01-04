@@ -9,6 +9,9 @@
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "repository": {
+    "url": "https://github.com/fzdwx/launcher/tree/main/packages/launcher-api"
+  },
   "files": [
     "dist"
   ],
@@ -21,19 +24,9 @@
     "react-dom": "^18.0.0"
   },
   "dependencies": {
-    "@radix-ui/react-dialog": "1.0.5",
-    "@radix-ui/react-popover": "^1.0.7",
-    "@tanstack/react-virtual": "^3.0.1",
-    "ahooks": "^3.7.8",
-    "fuse.js": "^7.0.0",
-    "jotai": "^2.6.1",
-    "mitt": "^3.0.1",
-    "sass": "^1.69.6",
-    "tiny-invariant": "^1.3.1",
-    "typescript": "^5.3.3"
+    "tiny-invariant": "^1.3.1"
   },
   "devDependencies": {
-    "@types/react": "18.2.46",
     "node-sass": "^9.0.0",
     "tsup": "^8.0.1"
   },
