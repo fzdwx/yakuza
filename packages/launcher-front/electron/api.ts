@@ -63,7 +63,7 @@ class LauncherApi {
         this.getMain().webContents.focus()
     }
 
-    public toggle = ()=>{
+    public toggle = () => {
         if (this.getMain().isVisible()) {
             this.hide()
         } else {
@@ -83,7 +83,7 @@ class LauncherApi {
 
     public async execCommand({data}: { data: any }) {
         const {command, args, terminal, stdin} = data
-        return await execCommand(command, args ? args : [], terminal, stdin)
+        return await execCommand(command, args, terminal, stdin)
     }
 
     public async spawn({data}: { data: any }) {
