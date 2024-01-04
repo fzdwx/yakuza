@@ -17,10 +17,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@iconify-json/tabler": "^1.1.102",
+    "launcher-api": "workspace:^",
     "bufferutil": "^4.0.8",
     "electron-updater": "^6.1.7",
-    "launcher-api": "workspace:^",
     "ws": "^8.16.0",
     "vite": "^5.0.7"
   },

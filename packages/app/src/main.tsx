@@ -6,7 +6,7 @@ import '@radix-ui/themes/styles.css';
 import {Theme} from '@radix-ui/themes'
 import './native/handleEvent'
 import './assets/global.scss'
-import 'launcher-api/dist/index.css'
+import 'launcher-api/index.css'
 import {Provider} from "jotai";
 
 

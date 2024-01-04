@@ -6,6 +6,10 @@ import electron from 'vite-plugin-electron'
 import renderer from 'vite-plugin-electron-renderer'
 import pkg from './package.json'
 import UnoCSS from 'unocss/vite'
+import {resolve} from 'path'
+
+const __dirname = resolve(import.meta.url.replace('file://', ''), '..')
+console.log(__dirname)
 
 // https://vitejs.dev/config/
 export default defineConfig(({command}) => {
@@ -18,7 +22,8 @@ export default defineConfig(({command}) => {
     return {
         resolve: {
             alias: {
-                '@': path.join(__dirname, 'src')
+                '@': path.join(__dirname, 'src'),
+                'launcher-api': resolve(__dirname, '../launcher-api/src'),
             },
         },
         build: {
