@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/lxzan/gws"
 	"net/http"
 )
@@ -11,6 +12,7 @@ type BridgeHandler struct {
 
 func (b *BridgeHandler) OnOpen(socket *gws.Conn) {
 	b.currentSocket = socket
+	fmt.Println("1123123")
 }
 
 func (b *BridgeHandler) ShowMainWindow() {

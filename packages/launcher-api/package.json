@@ -1,0 +1,35 @@
+{
+  "name": "launcher-api",
+  "version": "0.8.27",
+  "author": {
+    "name": "fzdwx",
+    "email": "likelovec@gmail.com"
+  },
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "repository": {
+    "url": "https://github.com/fzdwx/launcher/tree/main/packages/launcher-api"
+  },
+  "files": [
+    "dist",
+    "index.scss"
+  ],
+  "scripts": {
+    "build": "tsup src",
+    "dev": "tsup src --watch"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "dependencies": {
+    "tiny-invariant": "^1.3.1"
+  },
+  "devDependencies": {
+    "node-sass": "^9.0.0",
+    "tsup": "^8.0.1"
+  },
+  "sideEffects": false
+}

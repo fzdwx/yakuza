@@ -71,7 +71,7 @@ ray ext local install -i '{
 ## Related
 
 - [build your own extension](https://github.com/fzdwx/launcher-extension-sample)
-- [launcher api](https://github.com/fzdwx/launcher-api)
+- [launcher api](../packages/launcher-api)
 - [share your extension](https://github.com/fzdwx/launcher-extension)
 - [为 launcher 开发插件](https://fzdwx.vercel.app/blog/2023-12-24-wei-kai-fa-cha-jian)
 
