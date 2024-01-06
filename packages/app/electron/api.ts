@@ -7,6 +7,7 @@ import {getView} from "./main/extension";
 import {sleep} from "ahooks/es/utils/testingHelpers";
 import {ViewName} from "@/hooks/useView";
 import {WinManager} from "./main/mainWin";
+import {Theme} from "@/hooks/useTheme";
 
 const spawn = util.promisify(cmd.spawn)
 
@@ -155,6 +156,10 @@ class LauncherApi {
                 this.openExtension({data: {ext: shortcut.item}})
             }
         })
+    }
+
+    public changeTheme(theme:Theme){
+        this.getMain().webContents.send('changeTheme', theme)
     }
 
     private loadView(url: string) {

@@ -1,4 +1,4 @@
-import {app, Tray, nativeImage} from "electron";
+import {app, Tray, nativeImage, Menu} from "electron";
 import main, {preload, WinManager} from "./mainWin";
 import {LauncherApi, registerApi} from "../api";
 import * as child_process from "child_process";
@@ -25,6 +25,17 @@ class Launcher {
     createWindow() {
         this.m.init()
         this.tray = new Tray(path.join(process.env.VITE_PUBLIC, 'logo.png'));
+        this.tray.setContextMenu(Menu.buildFromTemplate([
+            {
+                label: '切换主题',
+                click: () => {
+                   this.api.changeTheme("toggle")
+                }
+            }
+        ]))
+        this.tray.on('click', () => {
+            this.api.toggle()
+        })
         registerApi(this.api)
         handleChangeView(this.api)
         initShortCut(this.api)
