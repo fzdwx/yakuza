@@ -5,8 +5,11 @@ import Store from "@/components/store";
 import ExtensionView from "@/components/extensionView";
 import Settings from "@/components/settings";
 import FileSystem from "@/components/fileSystem";
+import {dark, light, Theme, useTheme} from "@/hooks/useTheme";
+import {useLocalStorageState} from "ahooks";
 
 const {emitter, changeView} = useViewEvent();
+const {themeEvent, changeTheme} = useTheme();
 
 function switchView(view: ViewName) {
     switch (view) {
@@ -29,14 +32,27 @@ function switchView(view: ViewName) {
 
 function App() {
     const [view, setView] = useState<ViewName>('self')
+    const [theme, setTheme] = useLocalStorageState<string>('launcher-theme', {defaultValue: light,},);
     emitter.on('changeView', (view: ViewName) => {
         setView(view)
     })
 
+    themeEvent.on('changeTheme', (newTheme: Theme) => {
+        if (newTheme === 'toggle') {
+            if (theme === dark) {
+                setTheme(light)
+            } else {
+                setTheme(dark)
+            }
+        } else {
+            setTheme(newTheme)
+        }
+    })
+
     return (
-            <div id='top' className=''>
-                {switchView(view)}
-            </div>
+        <div className={theme}>
+            {switchView(view)}
+        </div>
     )
 }
 

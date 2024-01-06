@@ -90,4 +90,7 @@ func (s *Server) registerHandlers() {
 	s.handlers["/api/bridge/toggle"] = func(writer http.ResponseWriter, request *http.Request) {
 		s.BridgeHandler.ToggleMainWindow()
 	}
+	s.handlers["/api/bridge/toggleTheme"] = func(writer http.ResponseWriter, request *http.Request) {
+		s.BridgeHandler.ToggleTheme()
+	}
 }

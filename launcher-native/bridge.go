@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/lxzan/gws"
 	"net/http"
 )
@@ -12,7 +11,6 @@ type BridgeHandler struct {
 
 func (b *BridgeHandler) OnOpen(socket *gws.Conn) {
 	b.currentSocket = socket
-	fmt.Println("1123123")
 }
 
 func (b *BridgeHandler) ShowMainWindow() {
@@ -27,6 +25,10 @@ func (b *BridgeHandler) ToggleMainWindow() {
 	b.send(toggle)
 }
 
+func (b *BridgeHandler) ToggleTheme() {
+	b.send(toggleTheme)
+}
+
 func (b *BridgeHandler) send(message string) {
 	if b.currentSocket != nil {
 		b.currentSocket.WriteString(message)
@@ -34,9 +36,10 @@ func (b *BridgeHandler) send(message string) {
 }
 
 var (
-	show   = BridgeMessage{Op: "show"}.String()
-	hide   = BridgeMessage{Op: "hide"}.String()
-	toggle = BridgeMessage{Op: "toggle"}.String()
+	show        = BridgeMessage{Op: "show"}.String()
+	hide        = BridgeMessage{Op: "hide"}.String()
+	toggle      = BridgeMessage{Op: "toggle"}.String()
+	toggleTheme = BridgeMessage{Op: "toggleTheme"}.String()
 )
 
 type BridgeMessage struct {

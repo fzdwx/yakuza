@@ -17,11 +17,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "launcher-api": "workspace:^",
+    "@types/ws": "^8.5.10",
     "bufferutil": "^4.0.8",
     "electron-updater": "^6.1.7",
-    "ws": "^8.16.0",
-    "vite": "^5.0.7"
+    "launcher-api": "workspace:^",
+    "vite": "^5.0.7",
+    "ws": "^8.16.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",

@@ -11,11 +11,9 @@ import {Provider} from "jotai";
 
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-    <Theme className=''>
-       <Provider>
-           <App/>
-       </Provider>
-    </Theme>
+    <Provider>
+        <App/>
+    </Provider>
 )
 
 postMessage({payload: 'removeLoading'}, '*')
