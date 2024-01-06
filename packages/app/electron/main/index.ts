@@ -8,6 +8,7 @@ import {createView} from "./extension";
 import {initShortCut} from "./shortcut";
 import {handleChangeView} from "./handleChangeView";
 import WebSocket from 'ws';
+import {sleep} from "ahooks/es/utils/testingHelpers";
 
 let exec = util.promisify(child_process.exec);
 
@@ -58,11 +59,12 @@ class Launcher {
                         return;
                 }
             })
-            webSocket.onclose = (e) => {
-                console.log("bridge close", e)
-                this.connectBackend()
-            }
-
+            webSocket.on('error', (e) => {
+                setTimeout(() => {
+                    console.log("try to connect backend")
+                    this.connectBackend()
+                }, 1000)
+            });
         }, 1500)
     }
 }
