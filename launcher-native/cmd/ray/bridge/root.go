@@ -13,6 +13,7 @@ func RootCmd() *cobra.Command {
 	}
 
 	root.AddCommand(toggleCmd())
+	root.AddCommand(toggleThemeCmd())
 
 	return root
 }
@@ -24,6 +25,19 @@ func toggleCmd() *cobra.Command {
 		Short:   "Toggle electron window",
 		Run: func(cmd *cobra.Command, args []string) {
 			http.Get("http://localhost:35677/api/bridge/toggle")
+		},
+	}
+
+	return toggle
+}
+
+func toggleThemeCmd() *cobra.Command {
+	var toggle = &cobra.Command{
+		Use:     "toggle-theme",
+		Aliases: []string{"tt"},
+		Short:   "Toggle electron window theme",
+		Run: func(cmd *cobra.Command, args []string) {
+			http.Get("http://localhost:35677/api/bridge/toggleTheme")
 		},
 	}
 

@@ -1,4 +1,4 @@
-import {app, Tray, nativeImage, Menu} from "electron";
+import {app, Tray, Menu} from "electron";
 import main, {preload, WinManager} from "./mainWin";
 import {LauncherApi, registerApi} from "../api";
 import * as child_process from "child_process";
@@ -6,9 +6,8 @@ import util from "node:util";
 import path from "node:path";
 import {createView} from "./extension";
 import {initShortCut} from "./shortcut";
-import {handleChangeView} from "./handleChangeView";
 import WebSocket from 'ws';
-import {sleep} from "ahooks/es/utils/testingHelpers";
+import {handleBridge} from "./handleBridge";
 
 let exec = util.promisify(child_process.exec);
 
@@ -29,7 +28,7 @@ class Launcher {
             {
                 label: '切换主题',
                 click: () => {
-                   this.api.changeTheme("toggle")
+                    this.api.changeTheme("toggle")
                 }
             }
         ]))
@@ -37,7 +36,6 @@ class Launcher {
             this.api.toggle()
         })
         registerApi(this.api)
-        handleChangeView(this.api)
         initShortCut(this.api)
         createView(preload, this.m.getWindow())
     }
@@ -56,26 +54,19 @@ class Launcher {
     connectBackend() {
         setTimeout(() => {
             const webSocket = new WebSocket("ws://localhost:35677/api/bridge");
-            webSocket.on('message', (data) => {
-                const {op} = JSON.parse(data.toString())
-                switch (op) {
-                    case 'hide':
-                        this.api.hide()
-                        return
-                    case 'show':
-                        this.api.show()
-                        return
-                    case 'toggle':
-                        this.api.toggle()
-                        return;
-                }
-            })
+            webSocket.on('message', handleBridge(this.api))
             webSocket.on('error', (e) => {
                 setTimeout(() => {
                     console.log("try to connect backend")
                     this.connectBackend()
                 }, 1000)
             });
+            webSocket.on('close', (e) => {
+                setTimeout(() => {
+                    console.log("try to connect backend")
+                    this.connectBackend()
+                }, 1000)
+            })
         }, 1500)
     }
 }
