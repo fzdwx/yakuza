@@ -11,4 +11,4 @@ css:
 
 pub: build
     npm version patch
-    pnpm publish --access public
+    pnpm publish --access public --no-git-checks
