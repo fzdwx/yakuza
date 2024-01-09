@@ -1,10 +1,9 @@
-import {app, Tray, Menu} from "electron";
-import main, {preload, WinManager} from "./mainWin";
+import {app, Menu, Tray} from "electron";
+import main, {WinManager} from "./win-manager";
 import {LauncherApi, registerApi} from "../api";
 import * as child_process from "child_process";
 import util from "node:util";
 import path from "node:path";
-import {createView} from "./extension";
 import {initShortCut} from "./shortcut";
 import WebSocket from 'ws';
 import {handleBridge} from "./handleBridge";
@@ -37,7 +36,6 @@ class Launcher {
         })
         registerApi(this.api)
         initShortCut(this.api)
-        createView(preload, this.m.getWindow())
     }
 
     async startBackend() {

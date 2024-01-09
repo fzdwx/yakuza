@@ -1,9 +1,9 @@
-import {app, BrowserWindow} from "electron"
+import {app, BrowserView, BrowserWindow} from "electron"
 import {Height, Width} from "../cons"
 import {join} from 'node:path'
 import {release} from 'node:os'
 import {update} from "./update"
-import {toCenter} from "./screen"
+import {toCenter} from "./utils/screen"
 
 process.env.DIST_ELECTRON = join(__dirname, '../')
 process.env.DIST = join(process.env.DIST_ELECTRON, '../dist')
@@ -27,9 +27,11 @@ const indexHtml = join(process.env.DIST, 'index.html')
 
 export default (): WinManager => {
     let mainWin: BrowserWindow
+    let view: BrowserView
 
     const init = () => {
         createWindow()
+        createExtensionView()
     }
 
     const createWindow = () => {
@@ -93,10 +95,40 @@ export default (): WinManager => {
         }
     }
 
+    const createExtensionView = () => {
+        view = new BrowserView(
+            {
+                webPreferences: {
+                    preload,
+                    webSecurity: false,
+                    experimentalFeatures: true,
+                    nodeIntegration: true,
+                    contextIsolation: false,
+                    devTools: true,
+                    webviewTag: true,
+                }
+            }
+        )
+
+        mainWin.on('resize', () => {
+            if (view) {
+                const b = mainWin.getBounds();
+                view.setBounds({x: 0, y: 0, width: b.width, height: b.height})
+            }
+        })
+    }
+
+
+    const getExtensionView = () => {
+        return view
+    }
+
+
     return {
         init,
         getWindow,
         loadMainView,
+        getExtensionView
     }
 }
 
@@ -105,6 +137,7 @@ interface WinManager {
     init: () => void;
     loadMainView: () => void;
     getWindow: () => Electron.CrossProcessExports.BrowserWindow;
+    getExtensionView: () => BrowserView;
 }
 
 export type {WinManager}

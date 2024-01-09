@@ -1,4 +1,3 @@
-import {globalShortcut} from "electron";
 import {LauncherApi} from "../api";
 import {getShortcut, Shortcut} from "../../src/native";
 import {sleep} from "ahooks/es/utils/testingHelpers";

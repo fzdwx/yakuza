@@ -1,12 +1,11 @@
 import {app, BrowserWindow, clipboard, globalShortcut, ipcMain, shell} from "electron"
-import {toCenter} from "./main/screen";
+import {toCenter} from "./main/utils/screen";
 import * as cmd from 'node:child_process'
 import util from 'node:util'
 import {execCommand, exitExt, getConfig, setConfig, setShortcut, Shortcut} from "../src/native";
-import {getView} from "./main/extension";
 import {sleep} from "ahooks/es/utils/testingHelpers";
 import {ViewName} from "@/hooks/useView";
-import {WinManager} from "./main/mainWin";
+import {WinManager} from "./main/win-manager";
 import {Theme} from "@/hooks/useTheme";
 
 const spawn = util.promisify(cmd.spawn)
@@ -37,7 +36,7 @@ class LauncherApi {
 
     public loadDevView() {
         this.loadView(`http://localhost:35678`);
-        getView().webContents.openDevTools()
+        this.m.getExtensionView().webContents.openDevTools()
     }
 
     public openExtension({data}: { data: any }) {
@@ -47,7 +46,7 @@ class LauncherApi {
 
     public exitExtension() {
         exitExt()
-        getView().webContents.loadURL('about:blank')
+        this.m.getExtensionView().webContents.loadURL('about:blank')
         this.getMain().setBrowserView(null)
         this.getMain().webContents.focus()
     }
@@ -158,12 +157,12 @@ class LauncherApi {
         })
     }
 
-    public changeTheme(theme:Theme){
+    public changeTheme(theme: Theme) {
         this.getMain().webContents.send('changeTheme', theme)
     }
 
     private loadView(url: string) {
-        const view = getView();
+        const view = this.m.getExtensionView();
         const b = this.getMain().getBounds();
         view.setBounds({
             x: 0,
