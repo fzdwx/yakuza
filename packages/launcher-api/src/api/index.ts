@@ -12,8 +12,8 @@ export const getActionCommand = () => {
 
 interface Clipboard {
     set: (text: string) => void,
-    get: () => string,
-    getSelection: () => string
+    get: () => Promise<string>,
+    getSelection: () => Promise<string>
 }
 
 /**
