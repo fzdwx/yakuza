@@ -57,9 +57,14 @@ window.launcher = {
 
 
     //@ts-ignore
-    openExtension(ext: LocalExtension) {
+    openExtension(ext: LocalExtension,
+                  ops: {
+                      theme: string,
+                  }
+    ) {
         callApi('openExtension', {
-            ext
+            ext,
+            ops
         })
     },
 
@@ -89,8 +94,12 @@ window.launcher = {
         callApi('show', {})
     },
 
-    loadDevView() {
-        callApi('loadDevView', {})
+    loadDevView(ops:{
+        theme: string,
+    }) {
+        callApi('loadDevView', {
+            ops
+        })
     },
 
     loadMainView() {

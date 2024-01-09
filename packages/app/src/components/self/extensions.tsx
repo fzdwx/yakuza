@@ -4,12 +4,14 @@ import {Action} from "@/lib/command";
 import {UseRegisterActions} from "@/lib/command";
 import {shell} from "electron";
 import {LocalExtension, RemoteExtension, RemoteExtensionResp, SearchItem, SearchWrapper} from "@/native";
+import {useTheme} from "@/hooks/useTheme";
 
 const {changeView} = useViewEvent()
 
 export const ExtensionKind = "Extension"
 export const useRegisterExtensions = (useRegisterActions: UseRegisterActions) => {
     const [extensions, setExtensions] = useState<LocalExtension[]>([])
+    const {theme} = useTheme();
     const actions = useMemo(() => {
         return extensions?.map(
             (ext): Action => ({
@@ -21,13 +23,15 @@ export const useRegisterExtensions = (useRegisterActions: UseRegisterActions) =>
                 icon: <img className="w-4" alt='img' src={ext.icon}/>,
                 perform: () => {
                     // @ts-ignore
-                    window.launcher.openExtension(ext)
+                    window.launcher.openExtension(ext, {
+                        theme: theme
+                    })
                     changeView('extView')
                     addExtRunCount(ext)
                 }
             }),
         );
-    }, [extensions]);
+    }, [extensions, theme]);
 
     useRegisterActions(actions, [actions]);
     useEffect(() => {

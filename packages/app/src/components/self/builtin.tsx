@@ -4,6 +4,7 @@ import StoreIcon from "@/components/store/storeIcon";
 import {FileSystemIcon} from "@/components/icons";
 import {Action, UseRegisterActions} from "@/lib/command";
 import {LocalExtension} from "@/native";
+import {useTheme} from "@/hooks/useTheme";
 
 const storeName = "Store"
 const devModeName = "Dev Mode"
@@ -49,6 +50,7 @@ const {changeView} = useViewEvent();
 export const BuiltinKind = "Builtin"
 export const useRegisterBuiltin = (useRegisterActions: UseRegisterActions) => {
     const {builtins} = useBuiltin()
+    const {theme} = useTheme();
 
     const actions = useMemo(() => {
         return builtins?.map(
@@ -63,13 +65,15 @@ export const useRegisterBuiltin = (useRegisterActions: UseRegisterActions) => {
                     changeView(b.name as ViewName)
                     if (b.name === devModeName) {
                         //@ts-ignore
-                        window.launcher.loadDevView()
+                        window.launcher.loadDevView({
+                            theme:theme
+                        })
                     }
                     addBuiltinRunCount(b)
                 }
             }),
         );
-    }, [builtins]);
+    }, [builtins,theme]);
 
     useRegisterActions(actions, [actions]);
 }

@@ -13,6 +13,7 @@ import {extensionActions, ExtensionKind, useRegisterExtensions} from "@/componen
 import {builtinActions, BuiltinKind, useRegisterBuiltin} from "@/components/self/builtin";
 import {applicationActions, ApplicationKind, useRegisterApps} from "@/components/self/application";
 import {useSettingsStore} from "@/hooks/useSettingsStore";
+import {useTheme} from "@/hooks/useTheme";
 
 export default function Self() {
     const [value, setValue] = React.useState("");

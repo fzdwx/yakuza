@@ -6,10 +6,8 @@ import ExtensionView from "@/components/extensionView";
 import Settings from "@/components/settings";
 import FileSystem from "@/components/fileSystem";
 import {dark, light, Theme, useTheme} from "@/hooks/useTheme";
-import {useLocalStorageState} from "ahooks";
 
 const {emitter, changeView} = useViewEvent();
-const {themeEvent, changeTheme} = useTheme();
 
 function switchView(view: ViewName) {
     switch (view) {
@@ -32,7 +30,7 @@ function switchView(view: ViewName) {
 
 function App() {
     const [view, setView] = useState<ViewName>('self')
-    const [theme, setTheme] = useLocalStorageState<string>('launcher-theme', {defaultValue: light,},);
+    const {themeEvent, setTheme, theme, changeTheme} = useTheme();
     emitter.on('changeView', (view: ViewName) => {
         setView(view)
     })

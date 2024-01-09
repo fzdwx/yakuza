@@ -10,6 +10,14 @@ export const getActionCommand = () => {
     return url.searchParams.get('command')
 };
 
+/**
+ * @description 获取进入当前插件的主题
+ */
+export const getTheme = ()=>{
+    const url = new URL(window.location.href)
+    return url.searchParams.get('theme')
+}
+
 interface Clipboard {
     set: (text: string) => void,
     get: () => Promise<string>,

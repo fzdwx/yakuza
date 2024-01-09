@@ -34,14 +34,15 @@ class LauncherApi {
         this.getMain().webContents.reload()
     }
 
-    public loadDevView() {
-        this.loadView(`http://localhost:35678`);
+    public loadDevView({data}: { data: any }) {
+        const { ops} = data
+        this.loadView(`http://localhost:35678?ts=${Date.now()}&theme=${ops.theme}`);
         this.m.getExtensionView().webContents.openDevTools()
     }
 
     public openExtension({data}: { data: any }) {
-        const {ext} = data
-        this.loadView(`http://localhost:35677?ext=${ext.fullPath}&ts=${Date.now()}&command=${ext.action?.command}`);
+        const {ext, ops} = data
+        this.loadView(`http://localhost:35677?ext=${ext.fullPath}&ts=${Date.now()}&command=${ext.action?.command}&theme=${ops.theme}`);
     }
 
     public exitExtension() {
