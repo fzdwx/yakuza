@@ -50,21 +50,18 @@ class Launcher {
     }
 
     connectBackend() {
+        const reconnect = () => {
+            setTimeout(() => {
+                console.log("try to connect backend")
+                this.connectBackend()
+            }, 1000)
+        }
+
         setTimeout(() => {
             const webSocket = new WebSocket("ws://localhost:35677/api/bridge");
             webSocket.on('message', handleBridge(this.api))
-            webSocket.on('error', (e) => {
-                setTimeout(() => {
-                    console.log("try to connect backend")
-                    this.connectBackend()
-                }, 1000)
-            });
-            webSocket.on('close', (e) => {
-                setTimeout(() => {
-                    console.log("try to connect backend")
-                    this.connectBackend()
-                }, 1000)
-            })
+            webSocket.on('error', reconnect);
+            webSocket.on('close', reconnect)
         }, 1500)
     }
 }
