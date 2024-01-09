@@ -61,8 +61,6 @@ export default (): WinManager => {
 
         if (url) { // electron-vite-vue#298
             mainWin.loadURL(url)
-            // Open devTool if the app is not packaged
-            mainWin.webContents.openDevTools()
         } else {
             mainWin.loadFile(indexHtml)
         }

@@ -1,4 +1,4 @@
-import {app, Menu, Tray} from "electron";
+import {app} from "electron";
 import main, {WinManager} from "./win-manager";
 import {LauncherApi, registerApi} from "../api";
 import * as child_process from "child_process";
@@ -7,13 +7,13 @@ import path from "node:path";
 import {initShortCut} from "./shortcut";
 import WebSocket from 'ws';
 import {handleBridge} from "./handleBridge";
+import {attachTray} from "./tray";
 
 let exec = util.promisify(child_process.exec);
 
 class Launcher {
     public m: WinManager
     public api: LauncherApi
-    private tray?: Electron.CrossProcessExports.Tray;
 
     constructor() {
         this.m = main()
@@ -22,18 +22,7 @@ class Launcher {
 
     createWindow() {
         this.m.init()
-        this.tray = new Tray(path.join(process.env.VITE_PUBLIC, 'logo.png'));
-        this.tray.setContextMenu(Menu.buildFromTemplate([
-            {
-                label: '切换主题',
-                click: () => {
-                    this.api.changeTheme("toggle")
-                }
-            }
-        ]))
-        this.tray.on('click', () => {
-            this.api.toggle()
-        })
+        attachTray(this.api)
         registerApi(this.api)
         initShortCut(this.api)
     }

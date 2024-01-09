@@ -161,6 +161,10 @@ class LauncherApi {
         this.getMain().webContents.send('changeTheme', theme)
     }
 
+    public toggleDevTools() {
+        this.getMain().webContents.toggleDevTools()
+    }
+
     private loadView(url: string) {
         const view = this.m.getExtensionView();
         const b = this.getMain().getBounds();
