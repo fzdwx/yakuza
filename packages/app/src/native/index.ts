@@ -7,10 +7,10 @@ const execCommand = async (command: string, args?: string[], terminal?: boolean,
     })).text()
 }
 
-const setConfig = async (key: string, value: string) => {
+const setConfig = async (key: string, value: string, launcherSelf?: boolean) => {
     return (await fetch("http://localhost:35677/api/config/set", {
         method: "POST",
-        body: JSON.stringify({key, value: value})
+        body: JSON.stringify({key, value: value, launcherSelf: launcherSelf})
     })).text()
 }
 
@@ -18,10 +18,10 @@ export const exitExt = async () => {
     return await fetch("http://localhost:35677/api/extension/exit")
 }
 
-const getConfig = async (key: string) => {
+const getConfig = async (key: string,launcherSelf?:boolean) => {
     return (await fetch("http://localhost:35677/api/config/get", {
         method: "POST",
-        body: JSON.stringify({key})
+        body: JSON.stringify({key,launcherSelf})
     })).text()
 }
 

@@ -10,18 +10,24 @@ import (
 )
 
 type SetConfigReq struct {
-	Key   string `json:"key"`
-	Value string `json:"value"`
+	Key          string `json:"key"`
+	Value        string `json:"value"`
+	LauncherSelf bool   `json:"launcherSelf"`
 }
 
 func (s *Server) Set(w http.ResponseWriter, r *http.Request) {
-	var req SetConfigReq
+	var (
+		req      SetConfigReq
+		fullPath = "dev"
+	)
 	_ = json.NewDecoder(r.Body).Decode(&req)
 
-	fullPath := "dev"
-	if s.extManager.CurrentExt() != nil {
+	if req.LauncherSelf {
+		fullPath = "launcher"
+	} else if s.extManager.CurrentExt() != nil {
 		fullPath = filepath.Base(s.extManager.CurrentExt().FullPath)
 	}
+
 	destDir := filepath.Join(fileutil.Config(), fullPath)
 	err := os.MkdirAll(destDir, os.ModePerm)
 	if err != nil {
@@ -39,17 +45,23 @@ func (s *Server) Set(w http.ResponseWriter, r *http.Request) {
 }
 
 type ConfigGetReq struct {
-	Key string `json:"key"`
+	Key          string `json:"key"`
+	LauncherSelf bool   `json:"launcherSelf"`
 }
 
 func (s *Server) Get(w http.ResponseWriter, r *http.Request) {
-	var req ConfigGetReq
+	var (
+		req      ConfigGetReq
+		fullPath = "dev"
+	)
 	_ = json.NewDecoder(r.Body).Decode(&req)
 
-	fullPath := "dev"
-	if s.extManager.CurrentExt() != nil {
+	if req.LauncherSelf {
+		fullPath = "launcher"
+	} else if s.extManager.CurrentExt() != nil {
 		fullPath = filepath.Base(s.extManager.CurrentExt().FullPath)
 	}
+
 	destDir := filepath.Join(fileutil.Config(), fullPath)
 	value, err := os.ReadFile(filepath.Join(destDir, req.Key))
 	if err != nil {

@@ -35,7 +35,7 @@ class LauncherApi {
     }
 
     public loadDevView({data}: { data: any }) {
-        const { ops} = data
+        const {ops} = data
         this.loadView(`http://localhost:35678?ts=${Date.now()}&theme=${ops.theme}`);
         this.m.getExtensionView().webContents.openDevTools()
     }
@@ -112,12 +112,12 @@ class LauncherApi {
 
     public set({data}: { data: any }): Promise<string> {
         const {key, value} = data
-        return setConfig(key, value)
+        return setConfig(key, value, false)
     }
 
     public get({data}: { data: any }): Promise<string> {
         const {key} = data
-        return getConfig(key)
+        return getConfig(key, false)
     }
 
     public executeJs({data}: { data: any }) {
@@ -146,14 +146,21 @@ class LauncherApi {
     }
 
     public registerShortcut(shortcut: Shortcut) {
-        globalShortcut.register(shortcut.shortcut, () => {
+        globalShortcut.register(shortcut.shortcut, async () => {
             if (shortcut.kind == 'Extension') {
                 if (!this.getMain().isVisible()) {
                     this.show()
                 } else {
                     this.getMain().focus()
                 }
-                this.openExtension({data: {ext: shortcut.item}})
+                const theme = await getConfig("theme", true)
+                this.openExtension({
+                    data: {
+                        ext: shortcut.item, ops: {
+                            theme: theme
+                        }
+                    }
+                })
             }
         })
     }

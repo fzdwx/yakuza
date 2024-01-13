@@ -1,5 +1,8 @@
 import mitt from "mitt";
 import {useLocalStorageState} from "ahooks";
+import {useEffect, useState} from "react";
+import {config} from "launcher-api";
+import {setConfig} from "@/native";
 
 export const light = 'light';
 export const dark = 'dark';
@@ -19,6 +22,10 @@ export function useTheme() {
     const changeTheme = (theme: Theme) => {
         emitter.emit('changeTheme', theme);
     };
+
+    useEffect(()=>{
+        setConfig("theme", theme || light,true)
+    },[theme])
 
     return {
         changeTheme,
