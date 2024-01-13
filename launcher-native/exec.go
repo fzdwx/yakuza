@@ -2,7 +2,9 @@ package main
 
 import (
 	"github.com/fzdwx/launcher/launcher-native/pkg/json"
+	"github.com/samber/lo"
 	"net/http"
+	"os"
 	"os/exec"
 	"strings"
 )
@@ -55,10 +57,12 @@ func (s *Server) ExecCommand(w http.ResponseWriter, r *http.Request) {
 		args = append([]string{"-e"}, command)
 		command = terminal
 	} else {
-		command, err = exec.LookPath(command)
+		execute, err := exec.LookPath(command)
 		if err != nil {
 			args = append([]string{"-c"}, command)
-			command = "sh"
+			command = "/bin/sh"
+		} else {
+			command = execute
 		}
 	}
 
@@ -68,6 +72,7 @@ func (s *Server) ExecCommand(w http.ResponseWriter, r *http.Request) {
 		cmd.Stdin = strings.NewReader(req.Stdin)
 	}
 	cmd.Stdout = &stdout
+	cmd.Env = clean(os.Environ())
 
 	err = cmd.Run()
 	if err != nil {
@@ -76,4 +81,14 @@ func (s *Server) ExecCommand(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Write([]byte(stdout.String()))
+}
+
+var exclude = map[string]bool{
+	"ARGV0": true,
+}
+
+func clean(environ []string) []string {
+	return lo.Filter(environ, func(item string, index int) bool {
+		return !exclude[strings.Split(item, "=")[0]]
+	})
 }
