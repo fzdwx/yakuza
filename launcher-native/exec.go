@@ -55,8 +55,11 @@ func (s *Server) ExecCommand(w http.ResponseWriter, r *http.Request) {
 		args = append([]string{"-e"}, command)
 		command = terminal
 	} else {
-		args = append([]string{"-c"}, command)
-		command = "sh"
+		command, err = exec.LookPath(command)
+		if err != nil {
+			args = append([]string{"-c"}, command)
+			command = "sh"
+		}
 	}
 
 	args = append(args, req.Args...)
