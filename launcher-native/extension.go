@@ -46,7 +46,7 @@ func (s *Server) InstallExtension(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = s.extManager.InstallExtension(remoteExtension)
+	err = s.extManager.InstallExtension(remoteExtension, false)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Fprintf(w, "install extension:%v", err)

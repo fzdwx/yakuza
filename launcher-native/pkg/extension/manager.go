@@ -80,12 +80,16 @@ func (e *Manager) ChangeExtension(path string) {
 	e.currentExtension = find
 }
 
-func (e *Manager) InstallExtension(extension RemoteExtension) error {
+func (e *Manager) InstallExtension(extension RemoteExtension, override bool) error {
 	defer func() {
 		go e.Refresh()
 	}()
 	sum := md5.Sum([]byte(extension.Github + extension.Author + extension.Name))
 	dest := filepath.Join(fileutil.Extensions(), hex.EncodeToString(sum[:]))
+	if override {
+		_ = os.RemoveAll(dest)
+	}
+
 	err := func() error {
 		_, err := git.PlainClone(dest, false, &git.CloneOptions{
 			URL: extension.Github,

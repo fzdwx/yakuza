@@ -29,7 +29,7 @@ ls release
 Or use [just](https://github.com/casey/just)
 
 ```
-just install
+just install && launcher
 ```
 
 ## Launcher ctrl cli

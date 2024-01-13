@@ -12,8 +12,9 @@ import (
 
 func localInstallCmd() *cobra.Command {
 	var (
-		input string
-		cmd   = &cobra.Command{
+		input    string
+		override bool
+		cmd      = &cobra.Command{
 			Use:     "install",
 			Aliases: []string{"i"},
 			Run: func(cmd *cobra.Command, args []string) {
@@ -28,7 +29,7 @@ func localInstallCmd() *cobra.Command {
 					ext extension.RemoteExtension
 				)
 				common.CheckIfError(json.DecodeFrom(strings.NewReader(input), &ext))
-				common.CheckIfError(e.InstallExtension(ext))
+				common.CheckIfError(e.InstallExtension(ext, override))
 			},
 		}
 	)
@@ -46,6 +47,7 @@ if input - or is empty then read from stdin
 
 eg: xclip -o | ray extension local install
 `)
+	cmd.Flags().BoolVarP(&override, "override", "o", false, "override the extension if it exists")
 
 	return cmd
 }
