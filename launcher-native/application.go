@@ -24,7 +24,12 @@ type Application struct {
 var applications []*Application
 
 func (s *Server) ListApplication(w http.ResponseWriter, r *http.Request) {
-	_ = json.NewEncoder(w).Encode(applications)
+	var items = applications
+	if items == nil {
+		items = []*Application{}
+	}
+
+	_ = json.NewEncoder(w).Encode(items)
 }
 
 func (s *Server) refreshApplication() {
