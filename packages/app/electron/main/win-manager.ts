@@ -39,7 +39,7 @@ export default (): WinManager => {
             title: 'launcher',
             focusable: true,
             resizable: true,
-            show: false,
+            // show: false,
             width: Width,
             height: Height,
             titleBarStyle: 'hiddenInset',
@@ -59,6 +59,8 @@ export default (): WinManager => {
                 preload
             },
         })
+
+        mainWin.hide()
 
         if (url) { // electron-vite-vue#298
             mainWin.loadURL(url)
