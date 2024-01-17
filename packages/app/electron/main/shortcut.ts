@@ -13,7 +13,7 @@ const initShortCut = (api: LauncherApi) => {
 
     async function registerShortcut() {
         const shortcut = (await getShortcut()) as Shortcut[]
-        shortcut.forEach((s) => {
+        shortcut?.forEach((s) => {
             api.registerShortcut(s)
         })
     }
