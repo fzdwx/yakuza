@@ -15,6 +15,8 @@ require (
 	github.com/tidwall/pretty v1.2.1
 )
 
+replace github.com/eric-song-nop/desktop v0.1.0 => github.com/fzdwx/desktop v0.0.0-20240117042114-6ecffad69d89
+
 require (
 	dario.cat/mergo v1.0.0 // indirect
 	github.com/Microsoft/go-winio v0.6.1 // indirect
