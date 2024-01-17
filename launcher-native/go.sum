@@ -37,8 +37,8 @@ github.com/elazarl/goproxy v0.0.0-20230808193330-2592e75ae04a h1:mATvB/9r/3gvcej
 github.com/elazarl/goproxy v0.0.0-20230808193330-2592e75ae04a/go.mod h1:Ro8st/ElPeALwNFlcTpWmkr6IoMFfkjXAvTHpevnDsM=
 github.com/emirpasic/gods v1.18.1 h1:FXtiHYKDGKCW2KzwZKx0iC0PQmdlorYgdFG9jPXJ1Bc=
 github.com/emirpasic/gods v1.18.1/go.mod h1:8tpGGwCnJ5H4r6BWwaV6OrWmMoPhUl5jm/FMNAnJvWQ=
-github.com/fzdwx/desktop v0.0.0-20240117042114-6ecffad69d89 h1:32QSZzon2rvWQ8FS6FVfmbkV4tXl6k2S4k7OhvAyu7M=
-github.com/fzdwx/desktop v0.0.0-20240117042114-6ecffad69d89/go.mod h1:3vrU5FqeOSbaMIMog3zdz7b4RISxz9PGFU3c63woM7A=
+github.com/eric-song-nop/desktop v0.1.0 h1:pFQgQ0wuBfpEBKxxRZKUGhmrcIxwLtvWtpUYRwYG2Yo=
+github.com/eric-song-nop/desktop v0.1.0/go.mod h1:3vrU5FqeOSbaMIMog3zdz7b4RISxz9PGFU3c63woM7A=
 github.com/fzdwx/infinite v0.12.2-0.20231223022636-5382ebed1b02 h1:z9xgwJFQcMQefpfdJcbJi3ZcTTeFsg/X6qXjRJNFiaU=
 github.com/fzdwx/infinite v0.12.2-0.20231223022636-5382ebed1b02/go.mod h1:u4PALmM5lkOXI9xiTZ5tATtdQQM1FcZ7ufYWDNTNxmA=
 github.com/fzdwx/iter v0.0.0-20230929014346-be73f708fd5a h1:3fcXq+rtAYZf3ZeFrfB3v64/3IgkF5zTgfdd5ghpiug=

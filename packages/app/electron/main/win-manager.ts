@@ -39,6 +39,7 @@ export default (): WinManager => {
             title: 'launcher',
             focusable: true,
             resizable: true,
+            show: false,
             width: Width,
             height: Height,
             titleBarStyle: 'hiddenInset',
