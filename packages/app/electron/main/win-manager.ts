@@ -52,6 +52,7 @@ export default (): WinManager => {
                 webSecurity: false,
                 backgroundThrottling: false,
                 experimentalFeatures: true,
+                sandbox: false,
                 contextIsolation: false,
                 webviewTag: true,
                 nodeIntegration: true,
@@ -107,6 +108,7 @@ export default (): WinManager => {
                     contextIsolation: false,
                     devTools: true,
                     webviewTag: true,
+                    sandbox: false,
                 }
             }
         )
