@@ -21,6 +21,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: latest
+      - name: Install go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.21.4
 
       - name: Install just
         uses: extractions/setup-just@v1
