@@ -11,7 +11,7 @@
     "dist-electron",
     "dist"
   ],
-  "extraResources":[
+  "extraResources": [
     {
       "from": "../../bin",
       "to": "./bin",
