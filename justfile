@@ -7,6 +7,9 @@ build:
   pnpm install
   pnpm run build
 
+install-action: build
+    cd launcher-native/cmd/ray && go build .  && mv ray ../../../bin/
+
 i: install
 
 install: build ray
