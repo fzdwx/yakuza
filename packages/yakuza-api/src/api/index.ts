@@ -90,11 +90,11 @@ export interface Assets {
 
 export const assets: Assets = {
     upload: async (contentByes64: string) => {
-        const resp = await shell.exec('ray', ['assets', 'upload'], false, contentByes64)
+        const resp = await shell.exec('yactrl', ['assets', 'upload'], false, contentByes64)
         return JSON.parse(resp) as AssetsUploadResponse
     },
     config: async () => {
-        return await shell.exec('ray', ['assets', 'check'])
+        return await shell.exec('yactrl', ['assets', 'check'])
     }
 }
 
