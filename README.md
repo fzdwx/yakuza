@@ -82,7 +82,7 @@ yactrl ext local install -i '{
     - [react](https://github.com/fzdwx/yakuza-extension-template-react)
     - [vue](https://github.com/fzdwx/yakuza-extension-template-vue)
     - [blog, step by step](https://fzdwx.vercel.app/blog/2023-12-24-wei-kai-fa-cha-jian)
-- [yakuza api](../packages/yakuza-api)
+- [yakuza api](https://github.com/fzdwx/yakuza/tree/main/packages/yakuza-api)
 - [share your extension](https://github.com/fzdwx/yakuza-extension)
 
 or https://github.com/topics/yakuza-extension
