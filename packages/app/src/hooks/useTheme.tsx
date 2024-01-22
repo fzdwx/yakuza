@@ -1,7 +1,7 @@
 import mitt from "mitt";
 import {useLocalStorageState} from "ahooks";
 import {useEffect, useState} from "react";
-import {config} from "launcher-api";
+import {config} from "yakuza-api";
 import {setConfig} from "@/native";
 
 export const light = 'light';

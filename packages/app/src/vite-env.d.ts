@@ -1,5 +1,5 @@
 /// <reference types="vite/client" />
-import {LauncherApi} from "launcher-api";
+import {LauncherApi} from "yakuza-api";
 
 declare global {
     interface Window {

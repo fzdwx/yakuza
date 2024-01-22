@@ -2,7 +2,7 @@
  * @see https://www.electron.build/configuration/configuration
  */
 {
-  "appId": "Launcher",
+  "appId": "yakuza",
   "asar": true,
   "directories": {
     "output": "../../release/${version}"

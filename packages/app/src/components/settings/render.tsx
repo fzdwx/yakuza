@@ -11,7 +11,7 @@ import {shell} from "electron";
 import React, {useEffect, useState} from "react";
 import {useRecordHotkeys} from "react-hotkeys-hook";
 import {IoCloseCircle} from "react-icons/io5";
-import {Background, Container} from "launcher-api";
+import {Background, Container} from "yakuza-api";
 
 export function Render({currentItem}: { currentItem: SearchWrapper<SearchItem> | null }) {
     if (currentItem == null) {

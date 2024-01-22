@@ -3,28 +3,29 @@ build:
   rm -rf dist
   rm -rf dist-electron
   mkdir bin
-  cd launcher-native && go build . && mv launcher-native ../bin/launcher-native
+  cd yakuza-native && go build . && mv yakuza-native ../bin/yakuza-native
   pnpm install
+  pnpm run dev:pre
   pnpm run build
 
 install-action: build
-    cd launcher-native/cmd/ray && go build .  && mv ray ../../../bin/
+    cd yakuza-native/cmd/yactrl && go build .  && mv yactrl ../../../bin/
 
 i: install
 
-install: build ray
-    sudo rm -rf /usr/local/bin/launcher
-    sudo mv ./release/0.1.0/launcher-0.1.0.AppImage /usr/local/bin/launcher
+install: build yactrl
+    sudo rm -rf /usr/local/bin/yakuza
+    sudo mv ./release/0.1.0/yakuza-0.1.0.AppImage /usr/local/bin/yakuza
 
-pub-launcher-api:
+pub-yakuza-api:
     ni
-    cd packages/launcher-api && just pub
+    cd packages/yakuza-api && just pub
 
 air:
-    cd launcher-native && air
+    cd yakuza-native && air
 
-ray:
-    cd launcher-native/cmd/ray && go install .
+yactrl:
+    cd yakuza-native/cmd/yactrl && go install .
 
 clean:
     rm -rf bin

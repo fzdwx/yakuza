@@ -25,8 +25,8 @@
     "typescript": "^5.3.3"
   },
   "scripts": {
-    "dev:pre": "cd packages/launcher-api && just css",
-    "build:api": "cd packages/launcher-api && pnpm run build",
+    "dev:pre": "cd packages/yakuza-api && just css",
+    "build:api": "cd packages/yakuza-api && pnpm run build",
     "dev": "cd packages/app && pnpm run dev",
     "build": "pnpm run build:api && cd packages/app && pnpm run build"
   },

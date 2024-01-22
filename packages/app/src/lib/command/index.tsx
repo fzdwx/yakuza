@@ -1,1 +1,1 @@
-export * from 'launcher-api'
+export * from 'yakuza-api'

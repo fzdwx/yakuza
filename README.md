@@ -1,27 +1,29 @@
-# Launcher
+# Yakuza
 
 ![img.png](.github/img.png)
 
-## Run the project
+## Run
 
 Requires [go 1.21.4+](https://golang.org/) and [pnpm](https://pnpm.io/)
 
 ```shell
 # start backend first
 go install github.com/cosmtrek/air@latest
-cd launcher-native && air
+go install github.com/fzdwx/yakuza/yakuza-native/cmd/yactrl@main
+cd yakuza-native && air
 
 # start frontend
 pnpm install
+pnpm run dev:pre
 pnpm run dev
 ```
 
-## Build the project
-
+## Build
 
 ```shell
 mkdir bin
-cd launcher-native && go build . && mv launcher-native ../bin/launcher-native
+cd yakuza-native && go build . && mv yakuza-native ../bin/yakuza-native
+cd ..
 pnpm run build
 ls release
 ```
@@ -29,15 +31,15 @@ ls release
 Or use [just](https://github.com/casey/just)
 
 ```
-just install && launcher
+just install && yakuza
 ```
 
-## Launcher ctrl cli
+## Yakuza ctrl cli
 
 Install:
 
 ```shell
-go install github.com/fzdwx/launcher/launcher-native/cmd/ray@main
+go install github.com/fzdwx/yakuza/yakuza-native/cmd/yactrl@main
 ```
 
 ### main window

@@ -58,7 +58,7 @@ jobs:
         with:
           draft: false
           files: |
-            release/0.1.0/launcher-0.1.0.AppImage
-            bin/ray
+            release/0.1.0/yakuza-0.1.0.AppImage
+            bin/yactrl
         env:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}

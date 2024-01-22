@@ -33,7 +33,7 @@ class Launcher {
             console.log("please start backend manually :)")
         } else {
             const dir = path.dirname(app.getAppPath())
-            const {stdout} = await exec(`sh -c ${dir}/bin/launcher-native`)
+            const {stdout} = await exec(`sh -c ${dir}/bin/yakuza-native`)
             console.log('stdout:', stdout);
         }
     }

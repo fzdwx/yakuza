@@ -1,5 +1,5 @@
 {
-  "name": "launcher",
+  "name": "yakuza",
   "version": "0.1.0",
   "main": "dist-electron/main/index.js",
   "description": "Application launcher",
@@ -21,7 +21,7 @@
     "bufferutil": "^4.0.8",
     "electron-updater": "^6.1.7",
     "ioredis": "^5.3.2",
-    "launcher-api": "workspace:^",
+    "yakuza-api": "workspace:^",
     "vite": "^5.0.11",
     "ws": "^8.16.0"
   },
