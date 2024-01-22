@@ -47,7 +47,7 @@ go install github.com/fzdwx/yakuza/yakuza-native/cmd/yactrl@main
 Show/hide main window
 
 ```shell
-ray bridge toggle
+yactrl bridge toggle
 ```
 
 ### extension
@@ -55,13 +55,13 @@ ray bridge toggle
 Upgrade extension
 
 ```shell
-ray ext local upgrade
+yactrl ext local upgrade
 ```
 
 Install extension
 
 ```shell
-ray ext local install -i '{
+yactrl ext local install -i '{
     "name": "Notes",
     "description": "A markdown note extension",
     "author": "fzdwx",
@@ -79,10 +79,10 @@ ray ext local install -i '{
 ## Related
 
 - extension template
-    - [react](https://github.com/fzdwx/launcher-extension-sample)
-    - [vue](https://github.com/fzdwx/launcher-extension-template-vue)
+    - [react](https://github.com/fzdwx/yakuza-extension-sample)
+    - [vue](https://github.com/fzdwx/yakuza-extension-template-vue)
     - [blog, step by step](https://fzdwx.vercel.app/blog/2023-12-24-wei-kai-fa-cha-jian)
-- [launcher api](../packages/launcher-api)
-- [share your extension](https://github.com/fzdwx/launcher-extension)
+- [yakuza api](../packages/yakuza-api)
+- [share your extension](https://github.com/fzdwx/yakuza-extension)
 
-or https://github.com/topics/launcher-extension
+or https://github.com/topics/yakuza-extension
