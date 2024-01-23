@@ -2,7 +2,15 @@
 
 ![img.png](.github/img.png)
 
-## Run
+## Install 
+
+```shell
+yay -S yakuza-bin
+``` 
+
+## Development
+
+### Run
 
 Requires [go 1.21.4+](https://golang.org/) and [pnpm](https://pnpm.io/)
 
@@ -18,7 +26,7 @@ pnpm run dev:pre
 pnpm run dev
 ```
 
-## Build
+### Build
 
 ```shell
 mkdir bin
