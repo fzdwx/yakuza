@@ -197,7 +197,7 @@ func (e *Manager) Refresh() {
 }
 
 func (e *Manager) doRefreshRemote() {
-	resp, err := http.Get("https://raw.githubusercontent.com/fzdwx/launcher-extension/main/extensions.json")
+	resp, err := http.Get("https://raw.githubusercontent.com/fzdwx/yakuza-extension/main/extensions.json")
 	if err != nil {
 		fmt.Println(err)
 		return
