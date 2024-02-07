@@ -36,7 +36,7 @@ export default (): WinManager => {
 
     const createWindow = () => {
         mainWin = new BrowserWindow({
-            title: 'launcher',
+            title: 'yakuza',
             focusable: true,
             resizable: true,
             // show: false,

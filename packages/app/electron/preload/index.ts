@@ -2,14 +2,14 @@ import {ipcRenderer} from "electron"
 import {LocalExtension, SearchItem, Shortcut} from "@/native";
 
 const callApi = (type: string, data: any) => {
-    ipcRenderer.send('launcher-api', {
+    ipcRenderer.send('yakuza-api', {
         type,
         data
     })
 }
 
 const callApiWithRes = <I, O>(type: string, data: I) => {
-    return ipcRenderer.invoke('launcher-api', {
+    return ipcRenderer.invoke('yakuza-api', {
         type,
         data
     }) as O

@@ -1,4 +1,4 @@
-name: Release Launcher
+name: Release Yakuza
 
 on:
   push:

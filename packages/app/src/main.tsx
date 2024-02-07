@@ -5,7 +5,7 @@ import 'virtual:uno.css'
 import '@radix-ui/themes/styles.css';
 import './native/handleEvent'
 import './assets/global.scss'
-import 'yakuza-api/dist/index.css'
+import 'yakuza-api/index.css'
 import {Provider} from "jotai";
 
 
