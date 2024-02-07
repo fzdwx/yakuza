@@ -23,7 +23,7 @@ export default defineConfig(({command}) => {
         resolve: {
             alias: {
                 '@': path.join(__dirname, 'src'),
-                'launcher-api': resolve(__dirname, '../launcher-api/src'),
+                'yakuza-api': resolve(__dirname, '../yakuza-api/src'),
             },
         },
         build: {

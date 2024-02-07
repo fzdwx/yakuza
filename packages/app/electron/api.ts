@@ -206,13 +206,13 @@ class LauncherApi {
 
 const registerApi = (a: LauncherApi) => {
 
-    ipcMain.handle('launcher-api', async (event, arg) => {
+    ipcMain.handle('yakuza-api', async (event, arg) => {
         const window = arg.winId ? BrowserWindow.fromId(arg.winId) : a.getMain();
         //@ts-ignore
         return await a[arg.type](arg, window, event);
     })
 
-    ipcMain.on('launcher-api', async (event, arg) => {
+    ipcMain.on('yakuza-api', async (event, arg) => {
         const window = arg.winId ? BrowserWindow.fromId(arg.winId) : a.getMain();
         //@ts-ignore
         const data = await a[arg.type](arg, window, event);
