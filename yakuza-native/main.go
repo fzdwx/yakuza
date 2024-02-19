@@ -74,6 +74,8 @@ func (s *Server) registerHandlers() {
 	s.handlers["/api/exec/command"] = s.ExecCommand
 	s.handlers["/api/config/set"] = s.Set
 	s.handlers["/api/config/get"] = s.Get
+	s.handlers["/api/settings/set"] = s.SetSettings
+	s.handlers["/api/settings/get"] = s.GetSettings
 	s.handlers["/api/shortcut/set"] = s.SetShortCut
 	s.handlers["/api/shortcut/get"] = s.GetShortCuts
 	s.handlers["/api/fs/search"] = s.SearchFs

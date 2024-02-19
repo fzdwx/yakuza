@@ -47,6 +47,10 @@ export interface Shortcut {
     item: SearchItem
 }
 
+export interface Settings {
+    proxy: string
+}
+
 export const newShortcut = (shortcut: string, item: LocalExtension) => {
     return {
         kind: 'Extension',
