@@ -12,10 +12,12 @@ func Client() *http.Client {
 		return http.DefaultClient
 	}
 
-	http.DefaultClient.Transport = &http.Transport{
+	client := http.DefaultClient
+	client.Transport = &http.Transport{
 		Proxy: func(req *http.Request) (*url.URL, error) {
-			return proxy.ProxyFunc()(req.URL)
+			proxyFunc := proxy.ProxyFunc()
+			return proxyFunc(req.URL)
 		},
 	}
-	return nil
+	return client
 }
