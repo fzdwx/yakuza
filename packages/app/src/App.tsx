@@ -3,9 +3,9 @@ import {useViewEvent, ViewName} from "@/hooks/useView";
 import React, {useState} from "react";
 import Store from "@/components/store";
 import ExtensionView from "@/components/extensionView";
-import Settings from "@/components/settings";
 import FileSystem from "@/components/fileSystem";
 import {dark, light, Theme, useTheme} from "@/hooks/useTheme";
+import ExtensionSettings from "@/components/extensionSettings";
 
 const {emitter, changeView} = useViewEvent();
 
@@ -19,8 +19,8 @@ function switchView(view: ViewName) {
             return <ExtensionView transport={false}/>
         case "extViewTransport":
             return <ExtensionView transport={true}/>
-        case "Settings":
-            return <Settings/>
+        case "Extension Settings":
+            return <ExtensionSettings/>
         case 'File System':
             return <FileSystem/>
         default:

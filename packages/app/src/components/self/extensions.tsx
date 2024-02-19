@@ -86,7 +86,7 @@ export const extensionActions = (ext: LocalExtension, setCurrentItem: (item: Sea
                     kind: ExtensionKind,
                     item: ext
                 })
-                changeView("Settings")
+                changeView("Extension Settings")
             }
         },
         {
