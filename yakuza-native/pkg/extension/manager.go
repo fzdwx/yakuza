@@ -7,12 +7,14 @@ import (
 	"errors"
 	"fmt"
 	"github.com/fzdwx/yakuza/yakuza-native/pkg/fileutil"
+	"github.com/fzdwx/yakuza/yakuza-native/pkg/httpx"
 	"github.com/fzdwx/yakuza/yakuza-native/pkg/runhistory"
+	"github.com/fzdwx/yakuza/yakuza-native/pkg/settings"
 	"github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing/object"
+	"github.com/go-git/go-git/v5/plumbing/transport"
 	"github.com/samber/lo"
 	"io/fs"
-	"net/http"
 	"os"
 	"path/filepath"
 	"time"
@@ -93,6 +95,9 @@ func (e *Manager) InstallExtension(extension RemoteExtension, override bool) err
 	err := func() error {
 		_, err := git.PlainClone(dest, false, &git.CloneOptions{
 			URL: extension.Github,
+			ProxyOptions: transport.ProxyOptions{
+				URL: settings.Get().Proxy,
+			},
 		})
 		if err != nil {
 			if errors.Is(err, git.ErrRepositoryAlreadyExists) {
@@ -139,7 +144,11 @@ func (e *Manager) Upgrade(ext *LocalExtension) (*object.Commit, error) {
 		return nil, err
 	}
 
-	err = w.Pull(&git.PullOptions{RemoteName: "origin"})
+	err = w.Pull(&git.PullOptions{
+		RemoteName: "origin",
+		ProxyOptions: transport.ProxyOptions{
+			URL: settings.Get().Proxy,
+		}})
 	if err != nil {
 		return nil, err
 	}
@@ -197,7 +206,7 @@ func (e *Manager) Refresh() {
 }
 
 func (e *Manager) doRefreshRemote() {
-	resp, err := http.Get("https://raw.githubusercontent.com/fzdwx/yakuza-extension/main/extensions.json")
+	resp, err := httpx.Client().Get("https://raw.githubusercontent.com/fzdwx/yakuza-extension/main/extensions.json")
 	if err != nil {
 		fmt.Println(err)
 		return
