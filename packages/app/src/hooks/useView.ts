@@ -6,7 +6,7 @@ type ViewEvent = {
     changeView: ViewName
 }
 
-type ViewName = 'self' | 'Store' | 'extView' | 'extViewTransport' | 'Extension Settings' | 'File System'
+type ViewName = 'self' | 'Store' | 'extView' | 'extViewTransport' | 'Extension Settings' | 'File System' | 'Settings'
 const emitter = mitt<ViewEvent>()
 
 const useViewEvent = () => {

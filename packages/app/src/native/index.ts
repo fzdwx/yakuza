@@ -1,4 +1,4 @@
-import {Shortcut} from "@/native/types";
+import {Settings, Shortcut} from "@/native/types";
 
 const execCommand = async (command: string, args?: string[], terminal?: boolean, stdin?: string) => {
     return (await fetch("http://localhost:35677/api/exec/command", {
@@ -14,16 +14,28 @@ const setConfig = async (key: string, value: string, launcherSelf?: boolean) => 
     })).text()
 }
 
+const getConfig = async (key: string, launcherSelf?: boolean) => {
+    return (await fetch("http://localhost:35677/api/config/get", {
+        method: "POST",
+        body: JSON.stringify({key, launcherSelf})
+    })).text()
+}
+
+const getSettings = async () => {
+    return await (await fetch("http://localhost:35677/api/settings/get")).json() as Promise<Settings>
+}
+
+const setSettings = async (settings: Settings) => {
+    return await fetch("http://localhost:35677/api/settings/set", {
+        method: "POST",
+        body: JSON.stringify(settings)
+    })
+}
+
 export const exitExt = async () => {
     return await fetch("http://localhost:35677/api/extension/exit")
 }
 
-const getConfig = async (key: string,launcherSelf?:boolean) => {
-    return (await fetch("http://localhost:35677/api/config/get", {
-        method: "POST",
-        body: JSON.stringify({key,launcherSelf})
-    })).text()
-}
 
 export const setShortcut = async (shortcut: Shortcut) => {
     return (await fetch("http://localhost:35677/api/shortcut/set", {
@@ -38,7 +50,8 @@ export const getShortcut = async () => {
 
 export {
     setConfig, getConfig,
-    execCommand
+    execCommand,
+    setSettings, getSettings
 }
 
 

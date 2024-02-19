@@ -6,6 +6,7 @@ import ExtensionView from "@/components/extensionView";
 import FileSystem from "@/components/fileSystem";
 import {dark, light, Theme, useTheme} from "@/hooks/useTheme";
 import ExtensionSettings from "@/components/extensionSettings";
+import Settings from "@/components/settings";
 
 const {emitter, changeView} = useViewEvent();
 
@@ -23,6 +24,8 @@ function switchView(view: ViewName) {
             return <ExtensionSettings/>
         case 'File System':
             return <FileSystem/>
+        case 'Settings':
+            return <Settings/>
         default:
             return <Self/>
     }

@@ -33,6 +33,10 @@ func Shortcuts() string {
 	return filepath.Join(base, "shortcuts.json")
 }
 
+func Settings() string {
+	return filepath.Join(base, "settings.json")
+}
+
 func ExtensionsDir() string {
 	return filepath.Join(base, "extensions")
 }

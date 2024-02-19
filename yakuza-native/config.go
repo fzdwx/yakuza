@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/fzdwx/yakuza/yakuza-native/pkg/fileutil"
+	"github.com/fzdwx/yakuza/yakuza-native/pkg/settings"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -70,4 +71,20 @@ func (s *Server) Get(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Fprint(w, string(value))
+}
+
+func (s *Server) SetSettings(w http.ResponseWriter, r *http.Request) {
+	var st settings.Settings
+	_ = json.NewDecoder(r.Body).Decode(&st)
+	err := settings.Set(st)
+	if err != nil {
+		s.writeErr(w, err)
+		return
+	}
+	fmt.Fprint(w, "ok")
+}
+
+func (s *Server) GetSettings(w http.ResponseWriter, r *http.Request) {
+	st := settings.Get()
+	_ = json.NewEncoder(w).Encode(st)
 }
