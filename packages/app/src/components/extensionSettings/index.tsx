@@ -1,7 +1,7 @@
 import {useKeyPress} from "ahooks";
 import {useViewEvent} from "@/hooks/useView";
 import {useSettingsStore} from "@/hooks/useSettingsStore";
-import {Render} from "@/components/settings/render";
+import {Render} from "@/components/extensionSettings/render";
 
 export default () => {
     const {changeView} = useViewEvent()
