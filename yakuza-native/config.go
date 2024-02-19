@@ -28,7 +28,7 @@ func (s *Server) Set(w http.ResponseWriter, r *http.Request) {
 		fullPath = filepath.Base(s.extManager.CurrentExt().FullPath)
 	}
 
-	destDir := filepath.Join(fileutil.Config(), fullPath)
+	destDir := filepath.Join(fileutil.ConfigDir(), fullPath)
 	err := os.MkdirAll(destDir, os.ModePerm)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -62,7 +62,7 @@ func (s *Server) Get(w http.ResponseWriter, r *http.Request) {
 		fullPath = filepath.Base(s.extManager.CurrentExt().FullPath)
 	}
 
-	destDir := filepath.Join(fileutil.Config(), fullPath)
+	destDir := filepath.Join(fileutil.ConfigDir(), fullPath)
 	value, err := os.ReadFile(filepath.Join(destDir, req.Key))
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)

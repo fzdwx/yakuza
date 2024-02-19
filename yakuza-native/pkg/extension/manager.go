@@ -85,7 +85,7 @@ func (e *Manager) InstallExtension(extension RemoteExtension, override bool) err
 		go e.Refresh()
 	}()
 	sum := md5.Sum([]byte(extension.Github + extension.Author + extension.Name))
-	dest := filepath.Join(fileutil.Extensions(), hex.EncodeToString(sum[:]))
+	dest := filepath.Join(fileutil.ExtensionsDir(), hex.EncodeToString(sum[:]))
 	if override {
 		_ = os.RemoveAll(dest)
 	}
@@ -218,7 +218,7 @@ func (e *Manager) doRefreshRemote() {
 }
 
 func (e *Manager) RefreshLocal() {
-	dir := fileutil.Extensions()
+	dir := fileutil.ExtensionsDir()
 	entries, err := fs.ReadDir(os.DirFS(dir), ".")
 	if err != nil {
 		fmt.Println(err)

@@ -8,20 +8,20 @@ import (
 )
 
 var (
-	base = filepath.Join(os.Getenv("HOME"), ".config", "launcher")
+	base = filepath.Join(os.Getenv("HOME"), ".config", "yakuza")
 )
 
 func init() {
 	_ = os.MkdirAll(base, os.ModePerm)
-	_ = os.MkdirAll(Extensions(), os.ModePerm)
-	_ = os.MkdirAll(Config(), os.ModePerm)
+	_ = os.MkdirAll(ExtensionsDir(), os.ModePerm)
+	_ = os.MkdirAll(ConfigDir(), os.ModePerm)
 }
 
 func RunHistory() string {
 	return filepath.Join(base, "run_history.json")
 }
 
-func Config() string {
+func ConfigDir() string {
 	return filepath.Join(base, "config")
 }
 
@@ -33,6 +33,6 @@ func Shortcuts() string {
 	return filepath.Join(base, "shortcuts.json")
 }
 
-func Extensions() string {
+func ExtensionsDir() string {
 	return filepath.Join(base, "extensions")
 }
