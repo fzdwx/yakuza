@@ -48,8 +48,12 @@ class Launcher {
 
         setTimeout(() => {
             const webSocket = new WebSocket("ws://localhost:35677/api/bridge");
+            setInterval(() => {
+                webSocket.ping()
+            }, 1000 * 60 * 5)
+
             webSocket.on('message', handleBridge(this.api))
-            webSocket.on('error', err=>{
+            webSocket.on('error', err => {
                 webSocket.close()
                 console.error('Socket encountered error: ', err.message, 'Closing socket');
             });
