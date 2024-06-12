@@ -42,6 +42,7 @@ class Launcher {
         const reconnect = () => {
             setTimeout(() => {
                 console.log("try to connect backend")
+                this.startBackend()
                 this.connectBackend()
             }, 1000)
         }
