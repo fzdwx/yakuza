@@ -68,7 +68,7 @@ const RenderItem = React.forwardRef(
                             <span>{action.name}</span>
                         </div>
                         {action.subtitle && (
-                            <span style={{fontSize: 12}}>{action.subtitle}</span>
+                            <span style={{fontSize: 9, color: 'var(--gray11)'}}>{action.subtitle}</span>
                         )}
                     </div>
                 </div>

@@ -7,14 +7,16 @@ export function getActions(file: File, fullPath: string, changeVisible: () => vo
         {
             id: `OpenInIdea:${file.name}`,
             name: 'Open in IntelliJ IDEA',
+            subtitle: `idea ${file.name}`,
             perform: () => {
                 window.launcher.execCommand("idea", [fullPath])
                 changeVisible()
             }
-        },
+        } as Action,
         {
             id: `OpenInFileManager:${file.name}`,
             name: `Open in File Manager`,
+            subtitle: fullPath,
             perform: () => {
                 shell.showItemInFolder(fullPath)
                 changeVisible()
@@ -23,6 +25,7 @@ export function getActions(file: File, fullPath: string, changeVisible: () => vo
         {
             id: `OpenInVSCode:${file.name}`,
             name: 'Open in VSCode',
+            subtitle: `code ${file.name}`,
             perform: () => {
                 window.launcher.execCommand("code", [fullPath])
                 changeVisible()
